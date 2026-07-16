@@ -21,7 +21,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Transcendent is the final rarity.
 - Waves continue infinitely and increase in difficulty. Every completed wave rewards exactly 50 supplies.
 - Every defeated regular invader rewards 10 supplies; elite invaders reward 25 supplies.
-- Six regular enemy types and three elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
+- Twelve regular enemy types and six elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Use **INDEX** on the board to browse every tower and enemy, including their core damage, range, speed, and keep-damage stats.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.

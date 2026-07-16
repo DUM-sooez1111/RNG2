@@ -25,12 +25,21 @@ const enemyTypes = [
   {name:'Iron Brute', hp:1.75, speed:.72, damage:3, r:16, body:'#65727f', top:'#aebfca'},
   {name:'Moss Swarm', hp:.48, speed:1.26, damage:1, r:8, body:'#547a42', top:'#91c564'},
   {name:'Crystal Bug', hp:.86, speed:1.08, damage:2, r:11, body:'#615798', top:'#aa93ed'},
-  {name:'Ash Hound', hp:1.18, speed:.94, damage:2, r:13, body:'#7c493f', top:'#da765c'}
+  {name:'Ash Hound', hp:1.18, speed:.94, damage:2, r:13, body:'#7c493f', top:'#da765c'},
+  {name:'Tide Skipper', hp:.7, speed:1.66, damage:1, r:9, body:'#2d6e8c', top:'#71d8ee'},
+  {name:'Bramble Boar', hp:1.52, speed:.84, damage:3, r:15, body:'#52673b', top:'#a6cf67'},
+  {name:'Dune Scarab', hp:1.08, speed:1.16, damage:2, r:12, body:'#8d6839', top:'#f0c96b'},
+  {name:'Gloom Moth', hp:.58, speed:1.38, damage:2, r:8, body:'#3e3b68', top:'#b4a6ff'},
+  {name:'Frost Ram', hp:1.95, speed:.68, damage:4, r:17, body:'#4b7280', top:'#b9f2fa'},
+  {name:'Cinder Imp', hp:.82, speed:1.31, damage:2, r:10, body:'#8b3f35', top:'#ff9367'}
 ];
 const eliteTypes = [
   {name:'Iron Colossus', hp:2.45, speed:.62, damage:5, r:22, body:'#6d617b', top:'#e49dff'},
   {name:'Void Warden', hp:1.9, speed:.82, damage:4, r:20, body:'#3c496c', top:'#75baff'},
-  {name:'Ember Juggernaut', hp:2.15, speed:.74, damage:5, r:21, body:'#813e3d', top:'#ff9d65'}
+  {name:'Ember Juggernaut', hp:2.15, speed:.74, damage:5, r:21, body:'#813e3d', top:'#ff9d65'},
+  {name:'Glacier Sentinel', hp:2.7, speed:.56, damage:6, r:23, body:'#457687', top:'#b7fbff'},
+  {name:'Thorn Matriarch', hp:2.18, speed:.7, damage:5, r:21, body:'#556f42', top:'#ccf27c'},
+  {name:'Storm Reaver', hp:1.72, speed:.98, damage:5, r:19, body:'#45486d', top:'#98c8ff'}
 ];
 const wave30Boss = {name:'Ancient Bastion', hp:1, speed:.48, damage:12, r:34, body:'#5e3946', top:'#ffd66e'};
 const grades = [
@@ -96,7 +105,7 @@ function renderInventory() {
     return `<button class="inventory-slot ${selected === id ? 'selected' : ''}" data-tower="${id}" ${amount ? '' : 'disabled'}><span class="inventory-icon ${type.kind}">${type.icon}</span><span class="inventory-name">${type.name}</span><span class="inventory-grade grade-${type.grade}">${type.gradeLabel}</span><span class="inventory-count">OWNED <b>${amount}</b>${highest > 1 ? ` | MAX L${highest}` : ''}</span></button>`;
   }).join('');
 }
-function renderIndex() { if(!ui.indexPanel) return; const towerCards=Object.values(types).map(type=>`<article class="index-card"><span class="index-icon ${type.kind}" style="--index-color:${type.color}">${type.icon}</span><span><b>${type.name}</b><small>${getAbilityText({type,level:1})}</small></span></article>`).join(''); const enemyCards=[...enemyTypes.map(type=>({...type,group:'NORMAL'})),...eliteTypes.map(type=>({...type,group:'ELITE'})),{...wave30Boss,group:'BOSS'}].map(type=>`<article class="index-card enemy"><span class="index-enemy-dot" style="--enemy-color:${type.top}"></span><span><b>${type.name} <em>${type.group}</em></b><small>KEEP DMG ${type.damage} | SPD ${type.speed}</small></span></article>`).join(''); ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div><div class="index-scroll"><h3>TOWERS · ${Object.keys(types).length}</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · 10</h3><div class="index-grid">${enemyCards}</div></div>`; }
+function renderIndex() { if(!ui.indexPanel) return; const towerCards=Object.values(types).map(type=>`<article class="index-card"><span class="index-icon ${type.kind}" style="--index-color:${type.color}">${type.icon}</span><span><b>${type.name}</b><small>${getAbilityText({type,level:1})}</small></span></article>`).join(''); const enemyCards=[...enemyTypes.map(type=>({...type,group:'NORMAL'})),...eliteTypes.map(type=>({...type,group:'ELITE'})),{...wave30Boss,group:'BOSS'}].map(type=>`<article class="index-card enemy"><span class="index-enemy-dot" style="--enemy-color:${type.top}"></span><span><b>${type.name} <em>${type.group}</em></b><small>KEEP DMG ${type.damage} | SPD ${type.speed}</small></span></article>`).join(''); ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div><div class="index-scroll"><h3>TOWERS · ${Object.keys(types).length}</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · ${enemyTypes.length+eliteTypes.length+1}</h3><div class="index-grid">${enemyCards}</div></div>`; }
 function upgradeCost(tower) { return tower.level * 90; }
 function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === tower.type.grade); }
 function getNextGradeType(tower) { const currentGrade=grades.findIndex(grade=>grade.id===tower.type.grade), archetype=archetypes.find(entry=>entry.id===tower.type.id.slice(tower.type.grade.length+1)); return currentGrade<grades.length-1&&archetype?types[`${grades[currentGrade+1].id}-${archetype.id}`]:null; }
