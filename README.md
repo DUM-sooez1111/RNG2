@@ -52,6 +52,9 @@ Open `index.html` in a browser. No installation or local server is required.
 - Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
 - Press `Space` or **Start Wave** to begin the next wave.
 - Use **Auto Wave** to automatically launch the next wave 1.2 seconds after the previous wave is defeated. It turns off after defeat or a fresh game.
+- The opening three-page Field Manual teaches building, rewards, tower growth, gems, and controls. Open **Guidebook** on the board any time to review the full rules.
+- From Stage 2 onward, the Gem Forge also offers the original permanent base upgrades in exchange for gems.
+- Enemy health and keep damage scale upward with every wave, in addition to each map stage's difficulty bonus.
 - Use **Speed** beside the board controls to cycle between 1×, 2×, and 3× game speed. It accelerates monster movement, attacks, status effects, shots, and wave progress.
 - Use **Auto Draw** to keep spinning the tower roulette while supplies are available. It stops automatically when the next draw cannot be afforded, and it turns off after defeat or a new game.
 - Use **Save Game** at any time to store progress in the current browser. During a wave it also saves active monsters, their health and positions, pending portal spawns, and the wave state so the defense continues when reopened.

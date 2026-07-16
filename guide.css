@@ -1,0 +1,64 @@
+.guide-button {
+  position: absolute;
+  top: 200px;
+  left: 18px;
+  z-index: 3;
+  padding: 7px 10px;
+  color: #ffefae;
+  font-size: 10px;
+  font-weight: 900;
+  background: #5b4931e8;
+  border: 1px solid #e8c96d;
+  border-radius: 7px;
+  box-shadow: 0 3px 0 #312514;
+}
+
+.guide-button:hover { filter: brightness(1.18); }
+
+.guide-panel {
+  position: absolute;
+  z-index: 4;
+  top: 237px;
+  left: 18px;
+  width: min(392px, calc(100% - 36px));
+  max-height: min(390px, calc(100% - 251px));
+  overflow: hidden;
+  background: linear-gradient(145deg, #3b3020f7, #1b292dF7);
+  border: 2px solid #e1c170;
+  border-radius: 11px;
+  box-shadow: 0 9px 22px #02090cbb;
+}
+
+.guide-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  color: #fff0b2;
+  font-size: 10px;
+  letter-spacing: .07em;
+  background: #635033;
+  border-bottom: 1px solid #b49350;
+}
+
+.guide-head button {
+  padding: 4px 6px;
+  color: #fff7de;
+  font-size: 8px;
+  font-weight: 900;
+  background: #7a6240;
+  border: 1px solid #f0d68c;
+  border-radius: 4px;
+}
+
+.guide-scroll { max-height: 335px; overflow-y: auto; padding: 9px; scrollbar-color: #dfbd65 #263235; }
+.guide-scroll section { margin: 0 0 7px; padding: 7px 8px; background: #263d40; border: 1px solid #536e66; border-radius: 6px; }
+.guide-scroll section:last-child { margin-bottom: 0; }
+.guide-scroll b { color: #ffe58e; font-size: 9px; letter-spacing: .05em; }
+.guide-scroll p { margin: 4px 0 0; color: #d3e0d3; font-size: 8px; line-height: 1.42; }
+
+@media (max-width: 720px) {
+  .guide-button { top: 147px; left: 8px; padding: 5px 6px; font-size: 8px; }
+  .guide-panel { top: 174px; left: 8px; width: calc(100% - 16px); max-height: calc(100% - 184px); }
+  .guide-scroll { max-height: 300px; }
+}

@@ -28,6 +28,8 @@
   border: 2px solid #c783f1;
   border-radius: 11px;
   box-shadow: 0 9px 22px #02090cbb;
+  max-height: calc(100% - 219px);
+  overflow-y: auto;
 }
 
 .gem-head { display: flex; align-items: center; justify-content: space-between; margin: -9px -9px 8px; padding: 9px 10px; color: #f5d9ff; font-size: 11px; letter-spacing: .08em; background: #513465; border-bottom: 1px solid #a76ed1; }
@@ -41,6 +43,10 @@
 .gem-upgrade-name { color: #f6eaff; font-size: 8px; font-weight: 900; }
 .gem-upgrade-detail { color: #d8c1df; font-size: 7px; line-height: 1.25; }
 .gem-upgrade-level { color: #ffe58b; font-size: 8px; font-weight: 900; }
+.gem-section-title { margin: 11px 1px 4px; color: #f6dcff; font-size: 9px; letter-spacing: .08em; }
+.gem-panel .legacy { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.gem-panel .legacy button { min-height: 102px; }
+.gem-locked { padding: 7px; color: #dfc4ef !important; text-align: center; background: #3c2b51; border: 1px dashed #a982c8; border-radius: 6px; }
 
 @media (max-width: 720px) {
   .gem-button { top: 120px; left: 8px; padding: 5px 6px; font-size: 8px; }

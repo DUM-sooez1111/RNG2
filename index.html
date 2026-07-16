@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="fusion.css" />
     <link rel="stylesheet" href="speed.css" />
     <link rel="stylesheet" href="gems.css" />
+    <link rel="stylesheet" href="guide.css" />
   </head>
   <body>
     <main class="game-shell">
@@ -39,9 +40,11 @@
         <button id="indexButton" class="index-button" title="View tower and enemy index">INDEX</button>
         <button id="gemButton" class="gem-button" title="Spend boss gems on permanent upgrades">GEM FORGE</button>
         <button id="statsButton" class="stats-button" title="View all-time play statistics">STATS</button>
+        <button id="guideButton" class="guide-button">GUIDEBOOK</button>
         <aside id="indexPanel" class="index-panel" hidden aria-label="Tower and enemy index"></aside>
         <aside id="gemPanel" class="gem-panel" hidden aria-label="Gem upgrades"></aside>
         <aside id="statsPanel" class="stats-panel" hidden aria-label="Overall play statistics"></aside>
+        <aside id="guidePanel" class="guide-panel" hidden aria-label="Game guidebook"></aside>
         <aside class="legend" aria-label="Map legend">
           <span class="legend-item"><i class="dot enemy"></i>INVADERS</span>
           <span class="legend-item"><i class="dot path"></i>PATH</span>
@@ -71,6 +74,6 @@
         <small>Choose inventory: 1, 2, 3 | Start wave: Space | Wheel: Zoom | WASD: Move view</small>
       </div>
     </div>
-    <script src="game.js?v=20260717-collect-all"></script>
+    <script src="game.js?v=20260717-guidebook"></script>
   </body>
 </html>
