@@ -43,7 +43,8 @@ const addedUpgradePads = [
 ];
 const MAP_SCALE = 1.2;
 const scalePoints = points => points.map(point=>({x:point.x*MAP_SCALE,y:point.y*MAP_SCALE}));
-maps.forEach((map,index)=>{map.pads.push(...addedBasePads[index]);map.path=scalePoints(map.path);map.pads=scalePoints(map.pads);});
+const lengthenPath = path => { const extended=[path[0]];for(let index=1;index<path.length;index++){const from=path[index-1],to=path[index],dx=to.x-from.x,dy=to.y-from.y,distance=Math.hypot(dx,dy);if(distance<210){extended.push(to);continue;}const offset=Math.min(105,distance*.32),direction=index%2?1:-1,normalX=-dy/distance*offset*direction,normalY=dx/distance*offset*direction,first={x:Math.max(-30,Math.min(W+30,from.x+dx*.34+normalX)),y:Math.max(85,Math.min(H-45,from.y+dy*.34+normalY))},second={x:Math.max(-30,Math.min(W+30,from.x+dx*.66+normalX)),y:Math.max(85,Math.min(H-45,from.y+dy*.66+normalY))};extended.push(first,second,to);}return extended; };
+maps.forEach((map,index)=>{map.pads.push(...addedBasePads[index]);map.path=lengthenPath(scalePoints(map.path));map.pads=scalePoints(map.pads);});
 extraBuildPads.forEach((pads,index)=>{pads.push(...addedUpgradePads[index]);extraBuildPads[index]=scalePoints(pads);});
 const mapUnlockGrades = ['', 'Mythic and Ancient grades.', 'Celestial, Divine, and Transcendent grades.', 'Eternal grade.', 'Apex grade.'];
 let currentMapIndex=0;
