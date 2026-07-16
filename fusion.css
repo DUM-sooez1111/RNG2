@@ -4,3 +4,10 @@
   border-color: #ffb49d;
   box-shadow: 0 2px 0 #5b2b2b;
 }
+
+.upgrade-panel button.collect-all {
+  color: #eaffdc;
+  background: linear-gradient(#579d7c, #2d6957);
+  border-color: #b9f4c1;
+  box-shadow: 0 2px 0 #1c4d40;
+}
