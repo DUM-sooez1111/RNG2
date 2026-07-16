@@ -21,6 +21,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Click an installed tower to select it, then use **Upgrade**. Each level increases damage, range, and attack speed. Upgrade costs are 90 supplies per current level.
 - Higher grades have higher level caps, from Common level 3 to Transcendent level 12. The same cap applies to fusion.
 - Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Transcendent is the final rarity.
+- While fusion is armed, use **Cancel Fusion** in the upgrade panel to return to normal play without consuming either tower or any supplies.
 - Waves continue infinitely and increase in difficulty. A cleared wave rewards 50 supplies on wave 1, then the clear reward increases by 10 supplies every wave (wave 2: 60, wave 3: 70, and so on).
 - Every defeated regular invader rewards 10 supplies; elite invaders reward 25 supplies.
 - Twelve regular enemy types and six elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.

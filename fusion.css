@@ -1,0 +1,6 @@
+.upgrade-panel button.cancel-fuse {
+  color: #ffe9de;
+  background: linear-gradient(#bd6a50, #843d35);
+  border-color: #ffb49d;
+  box-shadow: 0 2px 0 #5b2b2b;
+}
