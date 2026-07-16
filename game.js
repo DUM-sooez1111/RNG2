@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 const ui = {
   gold: document.querySelector('#gold'), lives: document.querySelector('#lives'), wave: document.querySelector('#wave'), difficulty: document.querySelector('#difficulty'),
   toast: document.querySelector('#toast'), waveButton: document.querySelector('#waveButton'), autoWaveButton: document.querySelector('#autoWaveButton'), rollButton: document.querySelector('#rollButton'), rouletteTower: document.querySelector('#rouletteTower') || document.querySelector('#diceFace'),
-  inventory: document.querySelector('#inventory'), upgradePanel: document.querySelector('#upgradePanel'), resetViewButton: document.querySelector('#resetViewButton'), mapButton: document.querySelector('#mapButton'), previousMapButton: document.querySelector('#previousMapButton'), saveButton: document.querySelector('#saveButton'), drawCost: document.querySelector('#drawCost') || document.querySelector('#rollButton small'), modal: document.querySelector('#modal'), modalTitle: document.querySelector('#modalTitle'), modalText: document.querySelector('#modalText'), baseUpgradeChoices: document.querySelector('#baseUpgradeChoices'), startButton: document.querySelector('#startButton')
+  inventory: document.querySelector('#inventory'), upgradePanel: document.querySelector('#upgradePanel'), resetViewButton: document.querySelector('#resetViewButton'), mapButton: document.querySelector('#mapButton'), previousMapButton: document.querySelector('#previousMapButton'), saveButton: document.querySelector('#saveButton'), indexButton: document.querySelector('#indexButton'), indexPanel: document.querySelector('#indexPanel'), drawCost: document.querySelector('#drawCost') || document.querySelector('#rollButton small'), modal: document.querySelector('#modal'), modalTitle: document.querySelector('#modalTitle'), modalText: document.querySelector('#modalText'), baseUpgradeChoices: document.querySelector('#baseUpgradeChoices'), startButton: document.querySelector('#startButton')
 };
 
 const W = canvas.width, H = canvas.height;
@@ -89,6 +89,7 @@ function renderInventory() {
     return `<button class="inventory-slot ${selected === id ? 'selected' : ''}" data-tower="${id}" ${amount ? '' : 'disabled'}><span class="inventory-icon ${type.kind}">${type.icon}</span><span class="inventory-name">${type.name}</span><span class="inventory-grade grade-${type.grade}">${type.gradeLabel}</span><span class="inventory-count">OWNED <b>${amount}</b>${highest > 1 ? ` | MAX L${highest}` : ''}</span></button>`;
   }).join('');
 }
+function renderIndex() { if(!ui.indexPanel) return; const towerCards=Object.values(types).map(type=>`<article class="index-card"><span class="index-icon ${type.kind}" style="--index-color:${type.color}">${type.icon}</span><span><b>${type.name}</b><small>DMG ${type.damage} | RNG ${type.range}</small></span></article>`).join(''); const enemyCards=[...enemyTypes.map(type=>({...type,group:'NORMAL'})),...eliteTypes.map(type=>({...type,group:'ELITE'})),{...wave30Boss,group:'BOSS'}].map(type=>`<article class="index-card enemy"><span class="index-enemy-dot" style="--enemy-color:${type.top}"></span><span><b>${type.name} <em>${type.group}</em></b><small>KEEP DMG ${type.damage} | SPD ${type.speed}</small></span></article>`).join(''); ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div><div class="index-scroll"><h3>TOWERS · 50</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · 10</h3><div class="index-grid">${enemyCards}</div></div>`; }
 function upgradeCost(tower) { return tower.level * 90; }
 function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === tower.type.grade); }
 function getStartingLives() { return 20 + baseUpgrades.fortify * 5; }
@@ -146,6 +147,8 @@ ui.resetViewButton.addEventListener('click', () => { resetView(); say('View rese
 ui.mapButton.addEventListener('click', () => { setMap((currentMapIndex+1)%maps.length); });
 if(ui.previousMapButton) ui.previousMapButton.addEventListener('click', () => { setMap((currentMapIndex-1+maps.length)%maps.length); });
 ui.saveButton.addEventListener('click', saveGame);
+if(ui.indexButton) ui.indexButton.addEventListener('click', () => { const opening=ui.indexPanel.hidden; ui.indexPanel.hidden=!opening; if(opening) renderIndex(); });
+if(ui.indexPanel) ui.indexPanel.addEventListener('click', event => { if(event.target.closest('[data-close-index]')) ui.indexPanel.hidden=true; });
 ui.autoWaveButton.addEventListener('click', () => { autoWave=!autoWave; clearTimeout(autoWaveTimer); updateAutoWaveButton(); say(`Auto wave ${autoWave?'enabled':'disabled'}.`); if(autoWave&&!running&&!gameOver) startWave(); });
 ui.waveButton.addEventListener('click', startWave); ui.rollButton.addEventListener('click', drawTower);
 ui.startButton.addEventListener('click', () => { if(gameOver) reset(); ui.baseUpgradeChoices.hidden=true; ui.modal.classList.remove('open'); });
