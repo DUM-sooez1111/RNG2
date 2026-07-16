@@ -17,11 +17,11 @@ const DEATH_DRAW_COST_INCREASE = 50;
 const PORTAL_PROGRESS = 74;
 const PATH_LANE_OFFSET = 12;
 const maps = [
-  {stage:1, name:'VERDANT COAST', theme:{grass:'#2c8754', grassAlt:'#338e58', water:'#4ba1b7', shore:'#d9c889'}, path:[{x:-40,y:125},{x:225,y:125},{x:225,y:425},{x:560,y:425},{x:560,y:238},{x:870,y:238},{x:870,y:510},{x:1140,y:510}], pads:[{x:150,y:230},{x:300,y:215},{x:390,y:335},{x:470,y:520},{x:665,y:330},{x:755,y:145},{x:760,y:430},{x:955,y:365},{x:985,y:565}]},
-  {stage:2, name:'EMBER CANYON', theme:{grass:'#806241', grassAlt:'#916f47', water:'#a75e3e', shore:'#e0ae62'}, path:[{x:-40,y:540},{x:160,y:540},{x:160,y:610},{x:330,y:610},{x:330,y:170},{x:530,y:170},{x:530,y:500},{x:790,y:500},{x:790,y:110},{x:1140,y:110}], pads:[{x:78,y:395},{x:245,y:450},{x:260,y:565},{x:425,y:300},{x:440,y:580},{x:635,y:315},{x:670,y:605},{x:665,y:410},{x:900,y:300},{x:925,y:585},{x:1040,y:260}]},
-  {stage:3, name:'FROSTWIND PASS', theme:{grass:'#497f77', grassAlt:'#5d938b', water:'#65a6c2', shore:'#d8e6dd'}, path:[{x:-40,y:245},{x:170,y:245},{x:170,y:100},{x:400,y:100},{x:400,y:570},{x:640,y:570},{x:640,y:145},{x:850,y:145},{x:850,y:550},{x:1030,y:550},{x:1030,y:350},{x:1140,y:350}], pads:[{x:78,y:405},{x:285,y:310},{x:285,y:55},{x:300,y:450},{x:505,y:315},{x:520,y:630},{x:540,y:430},{x:745,y:300},{x:750,y:620},{x:950,y:320},{x:945,y:620},{x:1080,y:470}]},
-  {stage:4, name:'THUNDERCROWN RIDGE', theme:{grass:'#594a78', grassAlt:'#6d5b91', water:'#3b4e83', shore:'#b7a6d8'}, path:[{x:-40,y:110},{x:135,y:110},{x:135,y:570},{x:325,y:570},{x:325,y:180},{x:505,y:180},{x:505,y:510},{x:690,y:510},{x:690,y:115},{x:865,y:115},{x:865,y:570},{x:1035,y:570},{x:1035,y:250},{x:1140,y:250}], pads:[{x:60,y:330},{x:225,y:300},{x:250,y:620},{x:425,y:100},{x:430,y:365},{x:590,y:360},{x:600,y:620},{x:785,y:290},{x:780,y:620},{x:950,y:330},{x:960,y:80},{x:1090,y:450},{x:1090,y:610}]},
-  {stage:5, name:'OBSIDIAN ECLIPSE', theme:{grass:'#332a48', grassAlt:'#46385e', water:'#222744', shore:'#a68ac2'}, path:[{x:-40,y:585},{x:115,y:585},{x:115,y:120},{x:280,y:120},{x:280,y:520},{x:445,y:520},{x:445,y:95},{x:610,y:95},{x:610,y:565},{x:775,y:565},{x:775,y:150},{x:940,y:150},{x:940,y:500},{x:1060,y:500},{x:1060,y:300},{x:1140,y:300}], pads:[{x:62,y:385},{x:200,y:350},{x:210,y:55},{x:375,y:305},{x:370,y:620},{x:525,y:300},{x:540,y:625},{x:700,y:330},{x:700,y:610},{x:860,y:330},{x:865,y:620},{x:1010,y:180},{x:1025,y:395},{x:1090,y:600}]}
+  {stage:1, name:'푸른 해안', theme:{grass:'#2c8754', grassAlt:'#338e58', water:'#4ba1b7', shore:'#d9c889'}, path:[{x:-40,y:125},{x:225,y:125},{x:225,y:425},{x:560,y:425},{x:560,y:238},{x:870,y:238},{x:870,y:510},{x:1140,y:510}], pads:[{x:150,y:230},{x:300,y:215},{x:390,y:335},{x:470,y:520},{x:665,y:330},{x:755,y:145},{x:760,y:430},{x:955,y:365},{x:985,y:565}]},
+  {stage:2, name:'잿불 협곡', theme:{grass:'#806241', grassAlt:'#916f47', water:'#a75e3e', shore:'#e0ae62'}, path:[{x:-40,y:540},{x:160,y:540},{x:160,y:610},{x:330,y:610},{x:330,y:170},{x:530,y:170},{x:530,y:500},{x:790,y:500},{x:790,y:110},{x:1140,y:110}], pads:[{x:78,y:395},{x:245,y:450},{x:260,y:565},{x:425,y:300},{x:440,y:580},{x:635,y:315},{x:670,y:605},{x:665,y:410},{x:900,y:300},{x:925,y:585},{x:1040,y:260}]},
+  {stage:3, name:'서리바람 고개', theme:{grass:'#497f77', grassAlt:'#5d938b', water:'#65a6c2', shore:'#d8e6dd'}, path:[{x:-40,y:245},{x:170,y:245},{x:170,y:100},{x:400,y:100},{x:400,y:570},{x:640,y:570},{x:640,y:145},{x:850,y:145},{x:850,y:550},{x:1030,y:550},{x:1030,y:350},{x:1140,y:350}], pads:[{x:78,y:405},{x:285,y:310},{x:285,y:55},{x:300,y:450},{x:505,y:315},{x:520,y:630},{x:540,y:430},{x:745,y:300},{x:750,y:620},{x:950,y:320},{x:945,y:620},{x:1080,y:470}]},
+  {stage:4, name:'천둥왕관 능선', theme:{grass:'#594a78', grassAlt:'#6d5b91', water:'#3b4e83', shore:'#b7a6d8'}, path:[{x:-40,y:110},{x:135,y:110},{x:135,y:570},{x:325,y:570},{x:325,y:180},{x:505,y:180},{x:505,y:510},{x:690,y:510},{x:690,y:115},{x:865,y:115},{x:865,y:570},{x:1035,y:570},{x:1035,y:250},{x:1140,y:250}], pads:[{x:60,y:330},{x:225,y:300},{x:250,y:620},{x:425,y:100},{x:430,y:365},{x:590,y:360},{x:600,y:620},{x:785,y:290},{x:780,y:620},{x:950,y:330},{x:960,y:80},{x:1090,y:450},{x:1090,y:610}]},
+  {stage:5, name:'흑요석 일식', theme:{grass:'#332a48', grassAlt:'#46385e', water:'#222744', shore:'#a68ac2'}, path:[{x:-40,y:585},{x:115,y:585},{x:115,y:120},{x:280,y:120},{x:280,y:520},{x:445,y:520},{x:445,y:95},{x:610,y:95},{x:610,y:565},{x:775,y:565},{x:775,y:150},{x:940,y:150},{x:940,y:500},{x:1060,y:500},{x:1060,y:300},{x:1140,y:300}], pads:[{x:62,y:385},{x:200,y:350},{x:210,y:55},{x:375,y:305},{x:370,y:620},{x:525,y:300},{x:540,y:625},{x:700,y:330},{x:700,y:610},{x:860,y:330},{x:865,y:620},{x:1010,y:180},{x:1025,y:395},{x:1090,y:600}]}
 ];
 const extraBuildPads = [
   [{x:70,y:340},{x:340,y:560},{x:610,y:560},{x:1080,y:360}],
@@ -74,85 +74,85 @@ let currentMapIndex=0;
 let path=maps[0].path.map(point=>({...point}));
 let pads=maps[0].pads.map(point=>({...point}));
 const enemyTypes = [
-  {name:'Field Crawler', hp:1, speed:1, damage:1, r:12, body:'#b5474e', top:'#f36d59'},
-  {name:'Swift Runner', hp:.62, speed:1.48, damage:1, r:9, body:'#ce7541', top:'#ffad65'},
-  {name:'Iron Brute', hp:1.75, speed:.72, damage:3, r:16, body:'#65727f', top:'#aebfca'},
-  {name:'Moss Swarm', hp:.48, speed:1.26, damage:1, r:8, body:'#547a42', top:'#91c564'},
-  {name:'Crystal Bug', hp:.86, speed:1.08, damage:2, r:11, body:'#615798', top:'#aa93ed'},
-  {name:'Ash Hound', hp:1.18, speed:.94, damage:2, r:13, body:'#7c493f', top:'#da765c'},
-  {name:'Tide Skipper', hp:.7, speed:1.66, damage:1, r:9, body:'#2d6e8c', top:'#71d8ee'},
-  {name:'Bramble Boar', hp:1.52, speed:.84, damage:3, r:15, body:'#52673b', top:'#a6cf67'},
-  {name:'Dune Scarab', hp:1.08, speed:1.16, damage:2, r:12, body:'#8d6839', top:'#f0c96b'},
-  {name:'Gloom Moth', hp:.58, speed:1.38, damage:2, r:8, body:'#3e3b68', top:'#b4a6ff'},
-  {name:'Frost Ram', hp:1.95, speed:.68, damage:4, r:17, body:'#4b7280', top:'#b9f2fa'},
-  {name:'Cinder Imp', hp:.82, speed:1.31, damage:2, r:10, body:'#8b3f35', top:'#ff9367'},
-  {name:'Ember Wisp', hp:.5, speed:1.7, damage:1, r:8, body:'#a9493a', top:'#ffd16b'},
-  {name:'Granite Hopper', hp:1.65, speed:.77, damage:3, r:15, body:'#59636b', top:'#a9afb3'},
-  {name:'Mire Slug', hp:1.38, speed:.63, damage:2, r:14, body:'#47674a', top:'#a3c06b'},
-  {name:'Cobalt Beetle', hp:1.12, speed:1.04, damage:2, r:12, body:'#315d87', top:'#80c7ef'},
-  {name:'Sable Raider', hp:.95, speed:1.42, damage:3, r:11, body:'#45394b', top:'#b58bc6'},
-  {name:'Lava Mite', hp:.72, speed:1.54, damage:2, r:9, body:'#8f392e', top:'#ff9448'},
-  {name:'Reef Stalker', hp:1.05, speed:1.21, damage:2, r:12, body:'#356d70', top:'#7be0d0'},
-  {name:'Dusk Stag', hp:1.42, speed:1.02, damage:3, r:14, body:'#51415b', top:'#d19dea'},
-  {name:'Iron Tortoise', hp:2.35, speed:.54, damage:4, r:18, body:'#4e5a5b', top:'#a6c5bd'},
-  {name:'Thornling', hp:.88, speed:1.34, damage:2, r:10, body:'#56713e', top:'#d4ef76'},
-  {name:'Prism Serpent', hp:.78, speed:1.5, damage:2, r:10, body:'#645184', top:'#e2b0ff'},
-  {name:'Sand Wyrm', hp:1.72, speed:.82, damage:3, r:16, body:'#8a693f', top:'#f2ca77'},
-  {name:'Steam Golem', hp:2.08, speed:.61, damage:4, r:17, body:'#59656b', top:'#d0e3e8'},
-  {name:'Night Prowler', hp:.64, speed:1.76, damage:2, r:9, body:'#30374f', top:'#8d9ee8'}
+  {name:'들판 크롤러', hp:1, speed:1, damage:1, r:12, body:'#b5474e', top:'#f36d59'},
+  {name:'질주 주자', hp:.62, speed:1.48, damage:1, r:9, body:'#ce7541', top:'#ffad65'},
+  {name:'철갑 브루트', hp:1.75, speed:.72, damage:3, r:16, body:'#65727f', top:'#aebfca'},
+  {name:'이끼 군집', hp:.48, speed:1.26, damage:1, r:8, body:'#547a42', top:'#91c564'},
+  {name:'수정 벌레', hp:.86, speed:1.08, damage:2, r:11, body:'#615798', top:'#aa93ed'},
+  {name:'재 하운드', hp:1.18, speed:.94, damage:2, r:13, body:'#7c493f', top:'#da765c'},
+  {name:'파도 스키퍼', hp:.7, speed:1.66, damage:1, r:9, body:'#2d6e8c', top:'#71d8ee'},
+  {name:'덤불 멧돼지', hp:1.52, speed:.84, damage:3, r:15, body:'#52673b', top:'#a6cf67'},
+  {name:'사막 풍뎅이', hp:1.08, speed:1.16, damage:2, r:12, body:'#8d6839', top:'#f0c96b'},
+  {name:'암흑 나방', hp:.58, speed:1.38, damage:2, r:8, body:'#3e3b68', top:'#b4a6ff'},
+  {name:'서리 숫양', hp:1.95, speed:.68, damage:4, r:17, body:'#4b7280', top:'#b9f2fa'},
+  {name:'불씨 임프', hp:.82, speed:1.31, damage:2, r:10, body:'#8b3f35', top:'#ff9367'},
+  {name:'잿불 정령', hp:.5, speed:1.7, damage:1, r:8, body:'#a9493a', top:'#ffd16b'},
+  {name:'화강암 도약자', hp:1.65, speed:.77, damage:3, r:15, body:'#59636b', top:'#a9afb3'},
+  {name:'늪지 민달팽이', hp:1.38, speed:.63, damage:2, r:14, body:'#47674a', top:'#a3c06b'},
+  {name:'코발트 딱정벌레', hp:1.12, speed:1.04, damage:2, r:12, body:'#315d87', top:'#80c7ef'},
+  {name:'검은 약탈자', hp:.95, speed:1.42, damage:3, r:11, body:'#45394b', top:'#b58bc6'},
+  {name:'용암 진드기', hp:.72, speed:1.54, damage:2, r:9, body:'#8f392e', top:'#ff9448'},
+  {name:'암초 추적자', hp:1.05, speed:1.21, damage:2, r:12, body:'#356d70', top:'#7be0d0'},
+  {name:'황혼 사슴', hp:1.42, speed:1.02, damage:3, r:14, body:'#51415b', top:'#d19dea'},
+  {name:'철갑 거북', hp:2.35, speed:.54, damage:4, r:18, body:'#4e5a5b', top:'#a6c5bd'},
+  {name:'가시 새끼', hp:.88, speed:1.34, damage:2, r:10, body:'#56713e', top:'#d4ef76'},
+  {name:'프리즘 뱀', hp:.78, speed:1.5, damage:2, r:10, body:'#645184', top:'#e2b0ff'},
+  {name:'모래 지렁이', hp:1.72, speed:.82, damage:3, r:16, body:'#8a693f', top:'#f2ca77'},
+  {name:'증기 골렘', hp:2.08, speed:.61, damage:4, r:17, body:'#59656b', top:'#d0e3e8'},
+  {name:'밤의 추적자', hp:.64, speed:1.76, damage:2, r:9, body:'#30374f', top:'#8d9ee8'}
 ];
 const eliteTypes = [
-  {name:'Iron Colossus', hp:2.45, speed:.62, damage:5, r:22, body:'#6d617b', top:'#e49dff'},
-  {name:'Void Warden', hp:1.9, speed:.82, damage:4, r:20, body:'#3c496c', top:'#75baff'},
-  {name:'Ember Juggernaut', hp:2.15, speed:.74, damage:5, r:21, body:'#813e3d', top:'#ff9d65'},
-  {name:'Glacier Sentinel', hp:2.7, speed:.56, damage:6, r:23, body:'#457687', top:'#b7fbff'},
-  {name:'Thorn Matriarch', hp:2.18, speed:.7, damage:5, r:21, body:'#556f42', top:'#ccf27c'},
-  {name:'Storm Reaver', hp:1.72, speed:.98, damage:5, r:19, body:'#45486d', top:'#98c8ff'},
-  {name:'Magma Tyrant', hp:2.62, speed:.65, damage:6, r:23, body:'#7a3c35', top:'#ff9650'},
-  {name:'Abyssal Herald', hp:2.15, speed:.86, damage:6, r:21, body:'#303d68', top:'#7da7ff'},
-  {name:'Obsidian Warlord', hp:3.05, speed:.55, damage:7, r:25, body:'#403846', top:'#d09eea'},
-  {name:'Sunflare Champion', hp:2.32, speed:.9, damage:6, r:22, body:'#8a6130', top:'#ffe47a'},
-  {name:'Bog Behemoth', hp:3.28, speed:.5, damage:7, r:26, body:'#405b43', top:'#a7d96c'},
-  {name:'Crystal Sovereign', hp:2.48, speed:.76, damage:7, r:23, body:'#5d4d80', top:'#ddaaff'}
+  {name:'철갑 거상', hp:2.45, speed:.62, damage:5, r:22, body:'#6d617b', top:'#e49dff'},
+  {name:'공허 감시자', hp:1.9, speed:.82, damage:4, r:20, body:'#3c496c', top:'#75baff'},
+  {name:'잿불 저거넛', hp:2.15, speed:.74, damage:5, r:21, body:'#813e3d', top:'#ff9d65'},
+  {name:'빙하 파수꾼', hp:2.7, speed:.56, damage:6, r:23, body:'#457687', top:'#b7fbff'},
+  {name:'가시 여왕', hp:2.18, speed:.7, damage:5, r:21, body:'#556f42', top:'#ccf27c'},
+  {name:'폭풍 약탈자', hp:1.72, speed:.98, damage:5, r:19, body:'#45486d', top:'#98c8ff'},
+  {name:'마그마 폭군', hp:2.62, speed:.65, damage:6, r:23, body:'#7a3c35', top:'#ff9650'},
+  {name:'심연의 전령', hp:2.15, speed:.86, damage:6, r:21, body:'#303d68', top:'#7da7ff'},
+  {name:'흑요석 장군', hp:3.05, speed:.55, damage:7, r:25, body:'#403846', top:'#d09eea'},
+  {name:'태양불꽃 용사', hp:2.32, speed:.9, damage:6, r:22, body:'#8a6130', top:'#ffe47a'},
+  {name:'늪 거수', hp:3.28, speed:.5, damage:7, r:26, body:'#405b43', top:'#a7d96c'},
+  {name:'수정 군주', hp:2.48, speed:.76, damage:7, r:23, body:'#5d4d80', top:'#ddaaff'}
 ];
-const wave30Boss = {name:'Ancient Bastion', hp:1, speed:.48, damage:12, r:34, body:'#5e3946', top:'#ffd66e'};
+const wave30Boss = {name:'고대 바스티온', hp:1, speed:.48, damage:12, r:34, body:'#5e3946', top:'#ffd66e'};
 const bossTypes = [
   wave30Boss,
-  {name:'Inferno Sovereign', hp:1.16, speed:.54, damage:14, r:36, body:'#7d3935', top:'#ff9b4e'},
-  {name:'Tide Leviathan', hp:.98, speed:.62, damage:13, r:35, body:'#315a78', top:'#80dded'},
-  {name:'Crystal Cataclysm', hp:1.28, speed:.46, damage:16, r:39, body:'#5a4b82', top:'#e1a8ff'},
-  {name:'Dread Citadel', hp:1.42, speed:.4, damage:18, r:42, body:'#42394d', top:'#cf9ee3'},
-  {name:'Solar Colossus', hp:1.65, speed:.38, damage:20, r:45, body:'#80613a', top:'#ffe77a'}
+  {name:'지옥불 군주', hp:1.16, speed:.54, damage:14, r:36, body:'#7d3935', top:'#ff9b4e'},
+  {name:'조수 레비아탄', hp:.98, speed:.62, damage:13, r:35, body:'#315a78', top:'#80dded'},
+  {name:'수정 대재앙', hp:1.28, speed:.46, damage:16, r:39, body:'#5a4b82', top:'#e1a8ff'},
+  {name:'공포의 성채', hp:1.42, speed:.4, damage:18, r:42, body:'#42394d', top:'#cf9ee3'},
+  {name:'태양 거상', hp:1.65, speed:.38, damage:20, r:45, body:'#80613a', top:'#ffe77a'}
 ];
 const grades = [
-  {id:'common', label:'COMMON', multiplier:.72, chance:50, color:'#b8c8c5'},
-  {id:'uncommon', label:'UNCOMMON', multiplier:.9, chance:26, color:'#85eb87'},
-  {id:'rare', label:'RARE', multiplier:1.12, chance:14, color:'#78c8ff'},
-  {id:'epic', label:'EPIC', multiplier:1.42, chance:7, color:'#db8dff'},
-  {id:'legendary', label:'LEGENDARY', multiplier:1.8, chance:3, color:'#ffd360'},
-  {id:'mythic', label:'MYTHIC', multiplier:2.2, chance:1.6, color:'#ff83ce'},
-  {id:'ancient', label:'ANCIENT', multiplier:2.65, chance:1.1, color:'#ff9b61'},
-  {id:'celestial', label:'CELESTIAL', multiplier:3.15, chance:.75, color:'#80f6ff'},
-  {id:'divine', label:'DIVINE', multiplier:3.75, chance:.5, color:'#fff3a1'},
-  {id:'transcendent', label:'TRANSCENDENT', multiplier:4.45, chance:.3, color:'#ff6f9b'},
-  {id:'eternal', label:'ETERNAL', multiplier:5.25, chance:.18, color:'#a98cff'},
-  {id:'apex', label:'APEX', multiplier:6.2, chance:.1, color:'#ff8be7'}
+  {id:'common', label:'일반', multiplier:.72, chance:50, color:'#b8c8c5'},
+  {id:'uncommon', label:'고급', multiplier:.9, chance:26, color:'#85eb87'},
+  {id:'rare', label:'희귀', multiplier:1.12, chance:14, color:'#78c8ff'},
+  {id:'epic', label:'서사', multiplier:1.42, chance:7, color:'#db8dff'},
+  {id:'legendary', label:'전설', multiplier:1.8, chance:3, color:'#ffd360'},
+  {id:'mythic', label:'신화', multiplier:2.2, chance:1.6, color:'#ff83ce'},
+  {id:'ancient', label:'고대', multiplier:2.65, chance:1.1, color:'#ff9b61'},
+  {id:'celestial', label:'천상', multiplier:3.15, chance:.75, color:'#80f6ff'},
+  {id:'divine', label:'신성', multiplier:3.75, chance:.5, color:'#fff3a1'},
+  {id:'transcendent', label:'초월', multiplier:4.45, chance:.3, color:'#ff6f9b'},
+  {id:'eternal', label:'영원', multiplier:5.25, chance:.18, color:'#a98cff'},
+  {id:'apex', label:'정점', multiplier:6.2, chance:.1, color:'#ff8be7'}
 ];
 const archetypes = [
-  {id:'spark-coil', name:'Spark Coil', icon:'SPK', kind:'spark', ability:'chain', range:132, fireRate:.38, damage:14},
-  {id:'arc-beacon', name:'Arc Beacon', icon:'ARC', kind:'spark', ability:'shock', range:150, fireRate:.48, damage:18},
-  {id:'volt-prism', name:'Volt Prism', icon:'VLT', kind:'spark', ability:'prism', range:120, fireRate:.3, damage:12},
-  {id:'storm-pylon', name:'Storm Pylon', icon:'STM', kind:'spark', ability:'storm', range:160, fireRate:.58, damage:24},
-  {id:'root-cannon', name:'Root Cannon', icon:'CAN', kind:'cannon', ability:'splash', range:172, fireRate:1.08, damage:48},
-  {id:'bastion-mortar', name:'Bastion Mortar', icon:'MOR', kind:'cannon', ability:'mortar', range:205, fireRate:1.44, damage:68},
-  {id:'ember-howitzer', name:'Ember Howitzer', icon:'EMB', kind:'cannon', ability:'burn', range:148, fireRate:.82, damage:42},
-  {id:'flame-thrower', name:'Flame Thrower', icon:'FLM', kind:'cannon', ability:'flame', range:124, fireRate:.24, damage:20},
-  {id:'volcano-bastion', name:'Volcano Bastion', icon:'VLC', kind:'cannon', ability:'volcano', range:194, fireRate:1.72, damage:116},
-  {id:'barricade', name:'Barricade', icon:'WALL', kind:'cannon', ability:'barricade', range:82, fireRate:1.3, damage:82},
-  {id:'thorn-garden', name:'Thorn Garden', icon:'THN', kind:'thorns', ability:'root', range:42, fireRate:.42, damage:10},
-  {id:'frost-bramble', name:'Frost Bramble', icon:'FRS', kind:'thorns', ability:'freeze', range:55, fireRate:.58, damage:15},
-  {id:'venom-hedge', name:'Venom Hedge', icon:'VNM', kind:'thorns', ability:'poison', range:48, fireRate:.34, damage:9},
-  {id:'magma-thorn', name:'Magma Thorn', icon:'MAG', kind:'thorns', ability:'magma', range:64, fireRate:.48, damage:19}
+  {id:'spark-coil', name:'스파크 코일', icon:'SPK', kind:'spark', ability:'chain', range:132, fireRate:.38, damage:14},
+  {id:'arc-beacon', name:'아크 비콘', icon:'ARC', kind:'spark', ability:'shock', range:150, fireRate:.48, damage:18},
+  {id:'volt-prism', name:'볼트 프리즘', icon:'VLT', kind:'spark', ability:'prism', range:120, fireRate:.3, damage:12},
+  {id:'storm-pylon', name:'폭풍 파일런', icon:'STM', kind:'spark', ability:'storm', range:160, fireRate:.58, damage:24},
+  {id:'root-cannon', name:'루트 캐논', icon:'CAN', kind:'cannon', ability:'splash', range:172, fireRate:1.08, damage:48},
+  {id:'bastion-mortar', name:'바스티온 박격포', icon:'MOR', kind:'cannon', ability:'mortar', range:205, fireRate:1.44, damage:68},
+  {id:'ember-howitzer', name:'잿불 곡사포', icon:'EMB', kind:'cannon', ability:'burn', range:148, fireRate:.82, damage:42},
+  {id:'flame-thrower', name:'화염방사기', icon:'FLM', kind:'cannon', ability:'flame', range:124, fireRate:.24, damage:20},
+  {id:'volcano-bastion', name:'화산 바스티온', icon:'VLC', kind:'cannon', ability:'volcano', range:194, fireRate:1.72, damage:116},
+  {id:'barricade', name:'바리케이드', icon:'WALL', kind:'cannon', ability:'barricade', range:82, fireRate:1.3, damage:82},
+  {id:'thorn-garden', name:'가시 정원', icon:'THN', kind:'thorns', ability:'root', range:42, fireRate:.42, damage:10},
+  {id:'frost-bramble', name:'서리 덤불', icon:'FRS', kind:'thorns', ability:'freeze', range:55, fireRate:.58, damage:15},
+  {id:'venom-hedge', name:'맹독 울타리', icon:'VNM', kind:'thorns', ability:'poison', range:48, fireRate:.34, damage:9},
+  {id:'magma-thorn', name:'마그마 가시', icon:'MAG', kind:'thorns', ability:'magma', range:64, fireRate:.48, damage:19}
 ];
 const types = Object.fromEntries(grades.flatMap(grade => archetypes.map(archetype => {
   const id = `${grade.id}-${archetype.id}`;
@@ -194,19 +194,23 @@ function persistPermanentProgress() { try { localStorage.setItem(PROGRESS_KEY,JS
 function loadPermanentProgress() { try { const saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)); if(!saved) return false; if(Array.isArray(saved.unlockedMaps))saved.unlockedMaps.forEach((value,index)=>{if(index<unlockedMaps.length)unlockedMaps[index]=unlockedMaps[index]||!!value;}); Object.keys(baseUpgrades).forEach(id=>{if(Number.isFinite(saved.baseUpgrades?.[id]))baseUpgrades[id]=Math.max(baseUpgrades[id],Math.max(0,Math.min(getUpgradeMax(id),Math.floor(saved.baseUpgrades[id]))));}); gems=Math.max(0,Math.floor(saved.gems||0)); Object.keys(gemUpgrades).forEach(id=>{if(Number.isFinite(saved.gemUpgrades?.[id]))gemUpgrades[id]=Math.max(0,Math.min(getGemUpgradeMax(id),Math.floor(saved.gemUpgrades[id])));}); Object.keys(playerSkills).forEach(id=>{if(typeof saved.playerSkills?.[id]==='boolean')playerSkills[id]=saved.playerSkills[id];}); return true; } catch { return false; } }
 loadOverallStats();
 
+const koreanUiText = new Map([
+  ['ALL','전체'],['ELECTRIC','전기'],['CANNON','포격'],['THORNS','가시'],['FUSABLE','합성 가능'],['ALL GRADES','모든 등급'],['OWNED','보유'],['FUSION CANDIDATE','합성 후보'],['NO FUSABLE TOWERS','합성 가능한 타워 없음'],['UPGRADE','강화'],['MAX LEVEL','최대 레벨'],['STORE TOWER','보관'],['COLLECT ALL','모두 수집'],['YES','예'],['NO','아니오'],['CLOSE','닫기'],['GAME INDEX','게임 도감'],['OVERALL STATS','전체 통계'],['GEM FORGE','젬 포지'],['MAP UNLOCK','맵 해금'],['PLAYER SKILLS','플레이어 스킬'],['PLAYTIME REWARDS','플레이 시간 보상'],['REWARD CODE','보상 코드'],['BASE LEGACY','기지 영구 강화'],['AUTO WAVE: ON','자동 웨이브: 켬'],['AUTO WAVE: OFF','자동 웨이브: 끔'],['AUTO DRAW: ON','자동 뽑기: 켬'],['AUTO DRAW: OFF','자동 뽑기: 끔'],['START WAVE >','웨이브 시작 >'],['NEXT WAVE >','다음 웨이브 >'],['DEFENDING','방어 중'],['BOSS','보스'],['ELITE','엘리트'],['NORMAL','일반'],['TOWERS','타워'],['ENEMIES','적'],['BOSS APPROACHES','보스 출현'],['INVADER PORTAL','침입자 포탈'],['RIFT OPEN','균열 개방'],['STANDBY','대기 중'],['FORTUNE VILLAGE','포춘 마을'],['PROTECT THE TOWN','마을을 지키세요'],['CLAIM NOW','지금 수령'],['CLAIMED','수령 완료'],['ALL CLAIMED','모두 수령 완료'],['READY','준비 완료'],['HARD','어려움'],['EXTREME','극한'],['NIGHTMARE','악몽'],['APOCALYPSE','종말'],['TOTAL KILLS','총 처치'],['NORMAL KILLS','일반 처치'],['ELITE KILLS','엘리트 처치'],['BOSS KILLS','보스 처치'],['SUPPLIES EARNED','획득 코인'],['ROULETTE DRAWS','룰렛 횟수'],['WAVES CLEARED','클리어 웨이브'],['HIGHEST WAVE','최고 웨이브'],['DEFEATS','패배 횟수']
+]);
+function localizeVisibleText(root=document.body) { if(!root) return;const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){const text=node.nodeValue.trim(),translated=koreanUiText.get(text);if(translated)node.nodeValue=node.nodeValue.replace(text,translated);} }
 function resetView() { camera.x=W/2; camera.y=H/2; camera.zoom=.82; }
 const tutorialPages = [
-  {title:'FIELD MANUAL 1 / 3', text:'Draw towers with the Tower Roulette, then choose a tower in the inventory and place it on a glowing build zone. Thorn towers must be placed directly on the enemy path.'},
-  {title:'FIELD MANUAL 2 / 3', text:'Protect the keep through endless waves. Normal enemies reward 10 supplies, elites reward 25, and every cleared wave grants an increasing bonus. Enemies become tougher and deal more damage every wave.'},
-  {title:'FIELD MANUAL 3 / 3', text:'Upgrade and fuse matching towers for stronger grades. Bosses drop gems; use the Gem Forge to unlock the next map permanently and, from Stage 2 onward, improve your permanent base upgrades. Airstrike costs 5 gems: press 1, then click the map during a wave.'}
+  {title:'전투 매뉴얼 1 / 3', text:'타워 룰렛으로 타워를 뽑은 뒤 인벤토리에서 선택해 빛나는 설치 칸에 놓으세요. 가시 타워는 적 경로 위에 직접 설치해야 합니다.'},
+  {title:'전투 매뉴얼 2 / 3', text:'끝없이 이어지는 웨이브에서 기지를 지키세요. 일반 적은 코인 10, 엘리트는 25를 주며 웨이브를 클리어할수록 보상이 증가합니다. 적은 웨이브마다 더 강해집니다.'},
+  {title:'전투 매뉴얼 3 / 3', text:'같은 타워를 강화하고 합성해 더 높은 등급으로 키우세요. 보스는 젬을 떨어뜨립니다. 젬 포지에서 다음 맵과 영구 강화를 구매할 수 있습니다. 공습은 젬 5개로 구매하며 1번 키 후 맵을 클릭해 사용합니다.'}
 ];
-function renderTutorial() { const page=tutorialPages[tutorialStep]; if(!page) return; ui.modalTitle.textContent=page.title; ui.modalText.textContent=page.text; ui.baseUpgradeChoices.hidden=true; ui.startButton.hidden=false; ui.startButton.textContent=tutorialStep===tutorialPages.length-1?'BEGIN DEFENSE':'NEXT PAGE'; ui.modal.classList.add('open'); }
+function renderTutorial() { const page=tutorialPages[tutorialStep]; if(!page) return; ui.modalTitle.textContent=page.title; ui.modalText.textContent=page.text; ui.baseUpgradeChoices.hidden=true; ui.startButton.hidden=false; ui.startButton.textContent=tutorialStep===tutorialPages.length-1?'방어 시작':'다음 페이지'; ui.modal.classList.add('open'); }
 function advanceTutorial() { if(!tutorialActive) return false; if(tutorialStep<tutorialPages.length-1){tutorialStep++;renderTutorial();return true;} tutorialActive=false;ui.modal.classList.remove('open');return true; }
 function isMapUnlocked(index) { return unlockedMaps[index]; }
-function updateMapButton() { const next=(currentMapIndex+1)%maps.length,nextMap=maps[next];ui.mapButton.textContent=`NEXT: ${isMapUnlocked(next) ? `S${nextMap.stage} ${nextMap.name}` : `S${nextMap.stage} LOCKED`}`; }
-function updateAutoWaveButton() { ui.autoWaveButton.textContent=`AUTO WAVE: ${autoWave ? 'ON' : 'OFF'}`; ui.autoWaveButton.classList.toggle('on',autoWave); }
-function updateSpeedButton() { if(!ui.speedButton) return; ui.speedButton.textContent=`SPEED: ${gameSpeed}×`; ui.speedButton.classList.toggle('boosted',gameSpeed>1); }
-function updateAutoDrawButton() { if(!ui.autoDrawButton) return; ui.autoDrawButton.textContent=`AUTO DRAW: ${autoDraw?'ON':'OFF'}`; ui.autoDrawButton.classList.toggle('on',autoDraw); }
+function updateMapButton() { const next=(currentMapIndex+1)%maps.length,nextMap=maps[next];ui.mapButton.textContent=`다음: ${isMapUnlocked(next) ? `S${nextMap.stage} ${nextMap.name}` : `S${nextMap.stage} 잠김`}`; }
+function updateAutoWaveButton() { ui.autoWaveButton.textContent=`자동 웨이브: ${autoWave ? '켬' : '끔'}`; ui.autoWaveButton.classList.toggle('on',autoWave); }
+function updateSpeedButton() { if(!ui.speedButton) return; ui.speedButton.textContent=`속도: ${gameSpeed}×`; ui.speedButton.classList.toggle('boosted',gameSpeed>1); }
+function updateAutoDrawButton() { if(!ui.autoDrawButton) return; ui.autoDrawButton.textContent=`자동 뽑기: ${autoDraw?'켬':'끔'}`; ui.autoDrawButton.classList.toggle('on',autoDraw); }
 function queueAutoDraw() { clearTimeout(autoDrawTimer); if(!autoDraw) return; if(gold<drawCost){autoDraw=false;updateAutoDrawButton();return say(`Auto draw stopped. Need ${drawCost-gold} more supplies.`);} autoDrawTimer=setTimeout(()=>{if(autoDraw&&!isDrawing)drawTower();},250/gameSpeed); }
 function serializeTower(tower) { return {typeId:tower.type.id,level:tower.level,x:tower.x,y:tower.y,padIndex:tower.pad?pads.indexOf(tower.pad):-1,pathTrap:!!tower.pathTrap}; }
 function captureCurrentMapLayout() { mapTowerStates[currentMapIndex]=towers.map(serializeTower); }
@@ -248,14 +252,14 @@ function loadGame() { try { const state=JSON.parse(localStorage.getItem(SAVE_KEY
 function updateCamera(dt) { const left=cameraKeys.has('a'), right=cameraKeys.has('d'), up=cameraKeys.has('w'), down=cameraKeys.has('s'); if(!left&&!right&&!up&&!down) return; const length=Math.hypot((right?1:0)-(left?1:0),(down?1:0)-(up?1:0))||1, speed=460/camera.zoom; camera.x+=((right?1:0)-(left?1:0))/length*speed*dt; camera.y+=((down?1:0)-(up?1:0))/length*speed*dt; camera.x=Math.max(0,Math.min(W,camera.x)); camera.y=Math.max(0,Math.min(H,camera.y)); }
 
 function renderInventory() {
-  const fusableTypes=getFusableInventoryTypes(), categories=[['all','ALL'],['spark','ELECTRIC'],['cannon','CANNON'],['thorns','THORNS'],['fusable',`FUSABLE ${fusableTypes.size||''}`.trim()]];
-  if(ui.towerCategories)ui.towerCategories.innerHTML=`<div class="tower-kind-categories">${categories.map(([id,label])=>`<button data-category="${id}" class="${towerCategory===id?'active':''}" title="Show ${label.toLowerCase()} towers">${label}</button>`).join('')}</div><div class="tower-grade-categories" title="Use the mouse wheel here to browse grade categories"><button data-grade="all" class="${towerGrade==='all'?'active':''}">ALL GRADES</button>${grades.map(grade=>`<button data-grade="${grade.id}" class="grade-${grade.id} ${towerGrade===grade.id?'active':''}">${grade.label}</button>`).join('')}</div>`;
+  const fusableTypes=getFusableInventoryTypes(), categories=[['all','전체'],['spark','전기'],['cannon','포격'],['thorns','가시'],['fusable',`합성 가능 ${fusableTypes.size||''}`.trim()]];
+  if(ui.towerCategories)ui.towerCategories.innerHTML=`<div class="tower-kind-categories">${categories.map(([id,label])=>`<button data-category="${id}" class="${towerCategory===id?'active':''}" title="${label} 타워 보기">${label}</button>`).join('')}</div><div class="tower-grade-categories" title="마우스 휠로 등급을 둘러보세요"><button data-grade="all" class="${towerGrade==='all'?'active':''}">모든 등급</button>${grades.map(grade=>`<button data-grade="${grade.id}" class="grade-${grade.id} ${towerGrade===grade.id?'active':''}">${grade.label}</button>`).join('')}</div>`;
   const entries=Object.entries(types).filter(([id,type])=>(towerCategory==='all'||(towerCategory==='fusable'?fusableTypes.has(id):type.kind===towerCategory))&&(towerGrade==='all'||type.grade===towerGrade));
-  if(!entries.length&&towerCategory==='fusable') { ui.inventory.innerHTML='<div class="inventory-empty">NO FUSABLE TOWERS<br><small>Keep one copy in inventory and find another on the field or in inventory.</small></div>'; return; }
+  if(!entries.length&&towerCategory==='fusable') { ui.inventory.innerHTML='<div class="inventory-empty">합성 가능한 타워 없음<br><small>같은 타워를 전장 또는 인벤토리에서 하나 더 찾으세요.</small></div>'; return; }
   ui.inventory.innerHTML = entries.map(([id, type]) => {
     const levels = inventory[id], amount = levels.length, highest = amount ? Math.max(...levels) : 0;
-    const fusionInfo=fusableTypes.get(id), fusionDetail=fusionInfo?` | FIELD ${fusionInfo.fieldCount} | LEVELS ${fusionInfo.levels.join('/')}`:(highest > 1 ? ` | MAX L${highest}` : '');
-    return `<button class="inventory-slot ${selected === id ? 'selected' : ''} ${fusionInfo?'fusion-ready':''}" data-tower="${id}" ${amount ? '' : 'disabled'}><span class="inventory-icon ${type.kind}">${type.icon}</span><span class="inventory-name">${type.name}</span><span class="inventory-grade grade-${type.grade}">${fusionInfo?'FUSION CANDIDATE':type.gradeLabel}</span><span class="inventory-count">OWNED <b>${amount}</b>${fusionDetail}</span></button>`;
+    const fusionInfo=fusableTypes.get(id), fusionDetail=fusionInfo?` | 전장 ${fusionInfo.fieldCount} | 레벨 ${fusionInfo.levels.join('/')}`:(highest > 1 ? ` | 최대 L${highest}` : '');
+    return `<button class="inventory-slot ${selected === id ? 'selected' : ''} ${fusionInfo?'fusion-ready':''}" data-tower="${id}" ${amount ? '' : 'disabled'}><span class="inventory-icon ${type.kind}">${type.icon}</span><span class="inventory-name">${type.name}</span><span class="inventory-grade grade-${type.grade}">${fusionInfo?'합성 후보':type.gradeLabel}</span><span class="inventory-count">보유 <b>${amount}</b>${fusionDetail}</span></button>`;
   }).join('');
 }
 function getIndexEnemies() { return [...enemyTypes.map((type,index)=>({...type,group:'NORMAL',id:`normal-${index}`})),...eliteTypes.map((type,index)=>({...type,group:'ELITE',id:`elite-${index}`})),...bossTypes.map((type,index)=>({...type,group:'BOSS',id:`boss-${index}`}))]; }
@@ -276,9 +280,9 @@ function renderIndex() {
   if(!ui.indexPanel) return;
   const towerCards=Object.values(types).map(type=>`<button class="index-card ${indexSelection?.kind==='tower'&&indexSelection.id===type.id?'selected':''}" data-index-tower="${type.id}"><span class="index-icon ${type.kind}" style="--index-color:${type.color}">${type.icon}</span><span><b>${type.name}</b><small>${getAbilityText({type,level:1})}</small></span></button>`).join('');
   const enemyCards=getIndexEnemies().map(type=>{const mark=type.name.split(' ').map(word=>word[0]).join('').slice(0,3);return `<button class="index-card enemy ${indexSelection?.kind==='enemy'&&indexSelection.id===type.id?'selected':''}" data-index-enemy="${type.id}"><span class="index-enemy-avatar ${type.group.toLowerCase()}" style="--enemy-body:${type.body};--enemy-top:${type.top}"><i>${mark}</i></span><span><b>${type.name} <em>${type.group}</em></b><small>KEEP DMG ${type.damage} | SPD ${type.speed}</small></span></button>`;}).join('');
-  ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div>${renderIndexDetail()}<div class="index-scroll"><h3>TOWERS · ${Object.keys(types).length}</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · ${enemyTypes.length+eliteTypes.length+1}</h3><div class="index-grid">${enemyCards}</div></div>`;
+  ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div>${renderIndexDetail()}<div class="index-scroll"><h3>TOWERS · ${Object.keys(types).length}</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · ${enemyTypes.length+eliteTypes.length+1}</h3><div class="index-grid">${enemyCards}</div></div>`;localizeVisibleText(ui.indexPanel);
 }
-function renderStats() { if(!ui.statsPanel) return; const cards=[['TOTAL KILLS',overallStats.kills],['NORMAL KILLS',overallStats.normalKills],['ELITE KILLS',overallStats.eliteKills],['BOSS KILLS',overallStats.bossKills],['SUPPLIES EARNED',overallStats.suppliesEarned],['ROULETTE DRAWS',overallStats.draws],['WAVES CLEARED',overallStats.wavesCleared],['HIGHEST WAVE',overallStats.highestWave],['DEFEATS',overallStats.deaths]]; ui.statsPanel.innerHTML=`<div class="stats-head"><strong>OVERALL STATS</strong><button data-close-stats>CLOSE</button></div><div class="stats-grid">${cards.map(([label,value])=>`<article><small>${label}</small><b>${value.toLocaleString()}</b></article>`).join('')}</div><p>Saved automatically in this browser.</p>`; }
+function renderStats() { if(!ui.statsPanel) return; const cards=[['TOTAL KILLS',overallStats.kills],['NORMAL KILLS',overallStats.normalKills],['ELITE KILLS',overallStats.eliteKills],['BOSS KILLS',overallStats.bossKills],['SUPPLIES EARNED',overallStats.suppliesEarned],['ROULETTE DRAWS',overallStats.draws],['WAVES CLEARED',overallStats.wavesCleared],['HIGHEST WAVE',overallStats.highestWave],['DEFEATS',overallStats.deaths]]; ui.statsPanel.innerHTML=`<div class="stats-head"><strong>OVERALL STATS</strong><button data-close-stats>CLOSE</button></div><div class="stats-grid">${cards.map(([label,value])=>`<article><small>${label}</small><b>${value.toLocaleString()}</b></article>`).join('')}</div><p>Saved automatically in this browser.</p>`;localizeVisibleText(ui.statsPanel); }
 function getGemUpgradeMax(id) { return id==='bounty'?5:10; }
 function getGemUpgradeCost(id) { return gemUpgrades[id]+1; }
 function getBaseGemUpgradeCost(id) { const level=baseUpgrades[id]||0; return id==='roulette'?3+Math.floor(level/3):id==='slots'?2+level:2+Math.floor(level/2); }
@@ -302,7 +306,7 @@ function renderRewardCodeBox() { return `<h3 class="gem-section-title">REWARD CO
 function getNextLockedMapIndex() { return unlockedMaps.findIndex(unlocked=>!unlocked); }
 function getMapGemUnlockCost() { return 5; }
 function renderMapUnlockGemCard() { const nextMapIndex=getNextLockedMapIndex(); if(nextMapIndex===-1)return `<h3 class="gem-section-title">MAP UNLOCK</h3><p class="gem-locked">ALL MAPS UNLOCKED</p>`; const map=maps[nextMapIndex],cost=getMapGemUnlockCost(nextMapIndex);return `<h3 class="gem-section-title">MAP UNLOCK</h3><p>Unlock the next stage permanently with gems.</p><div class="gem-upgrades player-skills"><button class="map-unlock-skill" data-map-gem-unlock><span class="gem-upgrade-icon">MAP</span><span class="gem-upgrade-name">UNLOCK STAGE ${map.stage}</span><span class="gem-upgrade-detail">${map.name}. Also unlocks ${mapUnlockGrades[nextMapIndex]}</span><span class="gem-upgrade-level">${cost} GEMS</span></button></div>`; }
-function renderGemPanel() { renderGemPanelBase(); if(!ui.gemPanel)return; ui.gemPanel.querySelectorAll('[data-base-gem-upgrade]').forEach(button=>{const id=button.dataset.baseGemUpgrade;button.disabled=(baseUpgrades[id]||0)>=getBaseGemUpgradeMax(id);}); ui.gemPanel.insertAdjacentHTML('beforeend',`${renderMapUnlockGemCard()}${renderPlayerSkillCards()}${renderPlaytimeRewards()}${renderRewardCodeBox()}`); }
+function renderGemPanel() { renderGemPanelBase(); if(!ui.gemPanel)return; ui.gemPanel.querySelectorAll('[data-base-gem-upgrade]').forEach(button=>{const id=button.dataset.baseGemUpgrade;button.disabled=(baseUpgrades[id]||0)>=getBaseGemUpgradeMax(id);}); ui.gemPanel.insertAdjacentHTML('beforeend',`${renderMapUnlockGemCard()}${renderPlayerSkillCards()}${renderPlaytimeRewards()}${renderRewardCodeBox()}`);localizeVisibleText(ui.gemPanel); }
 function buyGemUpgrade(id) { if(!(id in gemUpgrades)) return; const max=getGemUpgradeMax(id), cost=getGemUpgradeCost(id); if(gemUpgrades[id]>=max) return say('This gem upgrade is already at max level.'); if(gems<cost) return say(`You need ${cost-gems} more gems.`); gems-=cost; gemUpgrades[id]++; persistPermanentProgress(); updateUI(); renderGemPanel(); say(`${id.toUpperCase()} gem upgrade is now level ${gemUpgrades[id]}.`); }
 function buyPlayerSkill(id) { if(id!=='airstrike') return; if(playerSkills[id]) return equipPlayerSkill(id); if(gems<5) return say(`You need ${5-gems} more gems for Airstrike.`); gems-=5;playerSkills[id]=true;persistPermanentProgress();updateUI();renderGemPanel();say('Airstrike unlocked. Press 1 to equip it.'); }
 function redeemRewardCode(value) { const code=String(value||'').trim().toUpperCase(),rewards={FORTUNE5:{gems:5,label:'5 gems'},VILLAGE500:{gold:500,label:'500 supplies'},LUCKY10:{gems:10,label:'10 gems'},GGG:{gems:40,label:'40 gems'}}; if(!code)return say('Enter a reward code first.');if(!rewards[code])return say('That reward code is invalid.');if(redeemedCodes.has(code))return say('That reward code has already been used.');const reward=rewards[code];if(reward.gems)gems+=reward.gems;if(reward.gold)gold+=reward.gold;redeemedCodes.add(code);persistRedeemedCodes();persistPermanentProgress();updateUI();renderGemPanel();say(`Reward code accepted: +${reward.label}.`); }
@@ -311,7 +315,7 @@ function equipPlayerSkill(id) { if(!playerSkills[id]) return say('Buy this playe
 function useActiveSkill(x,y) { const skill=activeSkill;activeSkill=null;if(skill!=='airstrike')return;const cooldown=getAirstrikeCooldown();if(cooldown)return say(`Airstrike is recharging for ${cooldown} more seconds.`);if(!running)return say('Airstrike can only be used during a wave.');const damage=520+wave*28;airstrikeReadyAt=performance.now()+12000;airstrikes.push({x,y,delay:.45,radius:122,damage});updateUI();say('Airstrike inbound. Target locked.'); }
 function buyBaseGemUpgrade(id) { if(!(id in baseUpgrades)) return; if(!canUseGemBaseUpgrades()) return say('Reach Stage 2 to unlock base upgrades with gems.'); const max=getBaseGemUpgradeMax(id),cost=getBaseGemUpgradeCost(id); if(baseUpgrades[id]>=max) return say('This permanent upgrade is already at its map limit.'); if(gems<cost) return say(`You need ${cost-gems} more gems.`); gems-=cost;baseUpgrades[id]++;if(id==='slots')refreshBuildPads();persistPermanentProgress();updateUI();renderGemPanel();say(`${id.toUpperCase()} permanent upgrade is now level ${baseUpgrades[id]}.`); }
 function buyNextMapWithGems() { const nextMapIndex=getNextLockedMapIndex(); if(nextMapIndex===-1)return say('Every map is already unlocked.'); const cost=getMapGemUnlockCost(nextMapIndex);if(gems<cost)return say(`You need ${cost-gems} more gems to unlock Stage ${maps[nextMapIndex].stage}.`);gems-=cost;unlockedMaps[nextMapIndex]=true;persistPermanentProgress();updateUI();renderGemPanel();say(`Stage ${maps[nextMapIndex].stage}: ${maps[nextMapIndex].name} unlocked permanently!`); }
-function renderGuidebook() { if(!ui.guidePanel) return; ui.guidePanel.innerHTML=`<div class="guide-head"><strong>FORTUNE BASTION GUIDEBOOK</strong><button data-close-guide>CLOSE</button></div><div class="guide-scroll"><section><b>1. DRAW AND BUILD</b><p>Spend supplies on the Tower Roulette, select an owned tower, and place it on a glowing build zone. Thorn towers go directly on the enemy path.</p></section><section><b>2. BATTLE REWARDS</b><p>Normal enemies give 10 supplies, elites give 25, and bosses give 500 supplies plus gems. Every clear gives a growing wave bonus.</p></section><section><b>3. GROWTH</b><p>Enemy health and keep damage increase every wave. Stage difficulty further increases health, speed, and damage. A boss appears every 30 waves.</p></section><section><b>4. TOWERS</b><p>Upgrade installed towers with supplies. Fuse two matching towers at their level cap to raise their level, or promote them to the next grade.</p></section><section><b>5. PERMANENT UPGRADES</b><p>After a defeat, choose a base upgrade. Bosses also improve permanent keep health. From Stage 2, the Gem Forge can buy these original upgrades with gems.</p></section><section><b>6. PLAYTIME REWARDS</b><p>Active foreground play time unlocks one-time rewards at 5, 10, 15, 20, 30, 50, and 60 minutes. Claim them from the Gem Forge.</p></section><section><b>7. CONTROLS</b><p>Mouse wheel: zoom or browse lists. WASD: move camera. Space: start wave. Auto Wave waits for the next clear; Auto Draw keeps rolling while supplies remain.</p></section></div>`; }
+function renderGuidebook() { if(!ui.guidePanel) return; ui.guidePanel.innerHTML=`<div class="guide-head"><strong>포춘 바스티온 가이드북</strong><button data-close-guide>닫기</button></div><div class="guide-scroll"><section><b>1. 뽑기와 설치</b><p>타워 룰렛에 코인을 사용하고 인벤토리에서 타워를 선택해 빛나는 설치 칸에 놓으세요. 가시 타워는 적 경로 위에 직접 설치합니다.</p></section><section><b>2. 전투 보상</b><p>일반 적은 코인 10, 엘리트는 25, 보스는 코인 500과 젬을 줍니다. 웨이브 클리어 보상은 계속 증가합니다.</p></section><section><b>3. 성장</b><p>적의 체력과 기지 피해는 웨이브마다 증가합니다. 맵 단계가 높을수록 적은 더 강하며, 30웨이브마다 보스가 등장합니다.</p></section><section><b>4. 타워</b><p>설치한 타워는 코인으로 강화할 수 있습니다. 같은 최대 레벨 타워 두 개를 합성하면 레벨 또는 등급이 올라갑니다.</p></section><section><b>5. 영구 강화</b><p>패배 후 기지 강화를 선택할 수 있습니다. 2맵부터는 젬 포지에서 기존 영구 강화를 젬으로 구매할 수 있습니다.</p></section><section><b>6. 플레이 시간 보상</b><p>화면을 보고 플레이한 시간이 5, 10, 15, 20, 30, 50, 60분에 도달하면 일회성 보상이 열립니다. 젬 포지에서 수령하세요.</p></section><section><b>7. 조작법</b><p>마우스 휠: 확대/축소 및 목록 탐색. WASD: 화면 이동. Space: 웨이브 시작. 자동 웨이브와 자동 뽑기도 사용할 수 있습니다.</p></section></div>`; }
 function upgradeCost(tower) { return tower.level * 90; }
 function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === tower.type.grade); }
 function getNextGradeType(tower) { const currentGrade=grades.findIndex(grade=>grade.id===tower.type.grade), archetype=archetypes.find(entry=>entry.id===tower.type.id.slice(tower.type.grade.length+1)); return currentGrade<grades.length-1&&archetype?types[`${grades[currentGrade+1].id}-${archetype.id}`]:null; }
@@ -324,13 +328,13 @@ function getOpenBuildPadCount(mapIndex=currentMapIndex) { return maps[mapIndex].
 function getPadsForMap(mapIndex, layout=mapTowerStates[mapIndex]) { const availablePads=[...maps[mapIndex].pads,...extraBuildPads[mapIndex].slice(0,Math.min(extraBuildPads[mapIndex].length,baseUpgrades.slots))], savedPadCount=(layout||[]).reduce((count,tower)=>Math.max(count,Number.isInteger(tower.padIndex)&&tower.padIndex>=0?tower.padIndex+1:0),0), allPads=[...maps[mapIndex].pads,...extraBuildPads[mapIndex]]; return allPads.slice(0,Math.max(availablePads.length,savedPadCount)).map(point=>({...point})); }
 function refreshBuildPads() { captureCurrentMapLayout(); pads=getPadsForMap(currentMapIndex); restoreTowerLayout(mapTowerStates[currentMapIndex]); }
 function getStageDifficulty() { return maps[currentMapIndex].stage; }
-function getDifficultyLabel() { return ['NORMAL','HARD','EXTREME','NIGHTMARE','APOCALYPSE'][getStageDifficulty()-1]||'APOCALYPSE'; }
+function getDifficultyLabel() { return ['보통','어려움','극한','악몽','종말'][getStageDifficulty()-1]||'종말'; }
 function getGradeChance(grade) { const luck=baseUpgrades.luck; if(grade.id==='common') return Math.max(10,50-luck*4); if(grade.id==='uncommon') return Math.max(8,26-luck); if(grade.id==='rare') return 14+luck*2; if(grade.id==='epic') return 7+luck*2; if(grade.id==='legendary') return 3+luck; return grade.chance+luck*.12; }
 function getTowerRange(tower) { return tower.type.range + (tower.level - 1) * 18; }
 function getTowerDamage(tower) { return Math.round(tower.type.damage * (1 + (tower.level - 1) * .55) * (1 + baseUpgrades.power * .1 + gemUpgrades.power * .05)); }
 function getTowerFireRate(tower) { return tower.type.fireRate * Math.pow(.86, tower.level - 1); }
 function getGradeTier(tower) { return grades.findIndex(grade=>grade.id===tower.type.grade); }
-function getAbilityText(tower) { const tier=getGradeTier(tower), bonus=tier+1; switch(tower.type.ability){case'chain':return `CHAIN ×${bonus}`;case'shock':return `SHOCK SLOW ${Math.round((.45+tier*.12)*100)/100}s`;case'prism':return `PRISM SPLIT ×${bonus}`;case'storm':return `STORM CHAIN ×${bonus+1}`;case'splash':return `ROOT SPLASH ${42+tier*10}`;case'mortar':return `MORTAR SPLASH ${68+tier*12}`;case'burn':return `BURN ${2+tier*.4}s`;case'flame':return `FLAME BURN ${2.4+tier*.35}s`;case'volcano':return `VOLCANO BLAST ${88+tier*12}`;case'barricade':return `BARRICADE BLAST ${62+tier*10}`;case'root':return `ROOT SLOW ${Math.round((.35+tier*.1)*100)/100}s`;case'freeze':return `FREEZE ${Math.round((.7+tier*.12)*100)/100}s`;case'poison':return `POISON ${2+tier*.35}s`;case'magma':return `MAGMA BURN ${2.5+tier*.35}s`;default:return 'TOWER SKILL';} }
+function getAbilityText(tower) { const tier=getGradeTier(tower), bonus=tier+1; switch(tower.type.ability){case'chain':return `연쇄 ×${bonus}`;case'shock':return `감전 둔화 ${Math.round((.45+tier*.12)*100)/100}초`;case'prism':return `프리즘 분열 ×${bonus}`;case'storm':return `폭풍 연쇄 ×${bonus+1}`;case'splash':return `뿌리 폭발 ${42+tier*10}`;case'mortar':return `박격 폭발 ${68+tier*12}`;case'burn':return `화상 ${2+tier*.4}초`;case'flame':return `화염 ${2.4+tier*.35}초`;case'volcano':return `화산 폭발 ${88+tier*12}`;case'barricade':return `바리케이드 폭발 ${62+tier*10}`;case'root':return `속박 둔화 ${Math.round((.35+tier*.1)*100)/100}초`;case'freeze':return `빙결 ${Math.round((.7+tier*.12)*100)/100}초`;case'poison':return `중독 ${2+tier*.35}초`;case'magma':return `마그마 화상 ${2.5+tier*.35}초`;default:return '타워 능력';} }
 function matchingTower(tower) { return towers.find(other => other !== tower && other.type.id === tower.type.id && other.level === tower.level); }
 function getFusableInventoryTypes() { const matches=new Map(); Object.entries(inventory).forEach(([id,levels])=>{const fieldLevels=towers.filter(tower=>tower.type.id===id).map(tower=>tower.level), allLevels=[...levels,...fieldLevels];if(levels.length&&allLevels.length>=2)matches.set(id,{levels:[...new Set(allLevels)].sort((a,b)=>a-b),fieldCount:fieldLevels.length});}); return matches; }
 function getUpgradeableTargets() { const field=towers.filter(tower=>tower.level<getMaxLevel(tower)).map(tower=>({source:'field',tower,type:tower.type,level:tower.level})), stored=[]; Object.entries(inventory).forEach(([id,levels])=>levels.forEach((level,index)=>{const type=types[id];if(type&&level<getMaxLevel({type}))stored.push({source:'inventory',id,index,type,level});})); return [...field,...stored]; }
@@ -354,7 +358,7 @@ function updateUI() {
   ui.rollButton.title=missingSupplies?`Tower roulette costs ${drawCost}. Need ${missingSupplies} more supplies.`:rouletteLevel<10?`Draw a random tower for ${drawCost} supplies. Epic and Legendary unlock at roulette level 10.`:rouletteLevel<20?`Draw a random tower for ${drawCost} supplies. Mythic and Ancient unlock at roulette level 20.`:rouletteLevel<40?`Draw a random tower for ${drawCost} supplies. Celestial through Transcendent unlock at roulette level 40.`:rouletteLevel<50?`Draw a random tower for ${drawCost} supplies. Eternal unlocks at roulette level 50.`:rouletteLevel<60?`Draw a random tower for ${drawCost} supplies. Apex unlocks at roulette level 60.`:`Draw a random tower for ${drawCost} supplies.`;
   ui.rollButton.classList.toggle('needs-supplies',!!missingSupplies&&!isDrawing);
   ui.difficulty.textContent=`S${getStageDifficulty()} ${getDifficultyLabel()}`;
-  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); updateSpeedButton(); updateAutoDrawButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats(); if(ui.gemPanel&&!ui.gemPanel.hidden)renderGemPanel(); scheduleAutoSave();
+  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); updateSpeedButton(); updateAutoDrawButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats(); if(ui.gemPanel&&!ui.gemPanel.hidden)renderGemPanel(); localizeVisibleText(); scheduleAutoSave();
 }
 function say(message) { ui.toast.textContent = message; ui.toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => ui.toast.classList.remove('show'), 1800); }
 function distance(a,b) { return Math.hypot(a.x-b.x, a.y-b.y); }
