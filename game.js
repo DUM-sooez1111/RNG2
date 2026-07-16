@@ -243,7 +243,7 @@ function drawPlacedTower(t) {
   } else {
     ctx.fillStyle='#294c58';ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#9fd3d6';ctx.lineWidth=3;ctx.stroke();ctx.rotate(t.angle);
     if(model==='spark-coil'){
-      ctx.strokeStyle='#fff17b';ctx.lineWidth=4;for(let x=3;x<23;x+=7){ctx.beginPath();ctx.arc(x,0,6,0,Math.PI*2);ctx.stroke();}ctx.fillStyle='#f8e55f';ctx.fillRect(17,-4,14,8);
+      ctx.fillStyle='#1a4652';ctx.fillRect(-5,-12,16,24);ctx.strokeStyle='#9fe9e7';ctx.lineWidth=2;ctx.strokeRect(-5,-12,16,24);ctx.fillStyle='#59c7d1';ctx.fillRect(-1,-8,8,16);ctx.strokeStyle='#fff17b';ctx.lineWidth=3;for(let y=-8;y<=8;y+=8){ctx.beginPath();ctx.moveTo(4,y);ctx.lineTo(13,y);ctx.lineTo(19,y+4);ctx.lineTo(24,y);ctx.stroke();}ctx.fillStyle='#fff2a6';ctx.beginPath();ctx.arc(25,0,5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#47d9e6';ctx.beginPath();ctx.arc(2,0,4,0,Math.PI*2);ctx.fill();
     } else if(model==='arc-beacon'){
       ctx.fillStyle='#6ce4ff';ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(23,-14);ctx.lineTo(23,14);ctx.closePath();ctx.fill();ctx.fillStyle='#e8ffff';ctx.fillRect(10,-3,19,6);
     } else if(model==='volt-prism'){
