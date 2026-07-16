@@ -12,6 +12,30 @@
   box-shadow: 0 2px 0 #1c4d40;
 }
 
+.upgrade-panel .collect-warning {
+  color: #ffd8ca;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.upgrade-panel button.collect-all.confirm {
+  color: #fff1d5;
+  background: linear-gradient(#d06a4d, #913d32);
+  border-color: #ffc09f;
+  box-shadow: 0 2px 0 #662b25;
+}
+
+.upgrade-panel .collect-confirm { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+
+.upgrade-panel button.collect-cancel {
+  color: #dcecf1;
+  background: linear-gradient(#58707a, #364b56);
+  border-color: #afcdd5;
+  box-shadow: 0 2px 0 #263943;
+}
+
 .upgrade-panel button.fuse-all {
   color: #fff0bf;
   background: linear-gradient(#c48742, #815026);

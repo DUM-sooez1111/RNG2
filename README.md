@@ -50,7 +50,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - The HUD displays the current map difficulty: Stage 1 Normal, Stage 2 Hard, Stage 3 Extreme, Stage 4 Nightmare, and Stage 5 Apocalypse.
 - Use the mouse wheel over the tower inventory to browse its 156 tower cards horizontally.
 - Click a placed tower to show its attack range as a colored circle; the circle updates when the tower is upgraded or fused.
-- A selected placed tower can be sent back to the inventory with **Store Tower**, or use **Collect All** to retrieve every installed tower on the current map. Their types and current levels are preserved when placed again.
+- A selected placed tower can be sent back to the inventory with **Store Tower**, or use **Collect All** to retrieve every installed tower on the current map. Their types and current levels are preserved when placed again. Collect All shows a persistent warning with **YES** and **NO** choices.
 - Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
 - Press `Space` or **Start Wave** to begin the next wave.
 - Use **Auto Wave** to automatically launch the next wave 1.2 seconds after the previous wave is defeated. It turns off after defeat or a fresh game.
