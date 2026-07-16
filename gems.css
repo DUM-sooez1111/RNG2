@@ -32,7 +32,7 @@
   overflow-y: auto;
 }
 
-.gem-head { display: flex; align-items: center; justify-content: space-between; margin: -9px -9px 8px; padding: 9px 10px; color: #f5d9ff; font-size: 11px; letter-spacing: .08em; background: #513465; border-bottom: 1px solid #a76ed1; }
+.gem-head { position: sticky; top: -9px; z-index: 2; display: flex; align-items: center; justify-content: space-between; margin: -9px -9px 8px; padding: 9px 10px; color: #f5d9ff; font-size: 11px; letter-spacing: .08em; background: #513465; border-bottom: 1px solid #a76ed1; }
 .gem-head button { padding: 4px 6px; color: #f3e7ff; font-size: 8px; font-weight: 900; background: #704a87; border: 1px solid #d4a6ef; border-radius: 4px; }
 .gem-panel > p { margin: 5px 1px 9px; color: #d7c2df; font-size: 8px; }
 .gem-upgrades { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
