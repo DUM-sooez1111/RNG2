@@ -36,6 +36,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, and poison. The current ability is shown in the upgrade panel and index.
 - Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Every boss defeat permanently raises Permanent Keep Health by 1 level (+5 starting health) with no level cap, and immediately restores 5 keep health. It also has a 50% chance to increase permanent Roulette Mastery by one level (up to level 60).
 - Every boss also drops 1 gem, plus 1 more per Emerald Bounty level. Open **GEM FORGE** to spend gems on permanent Ruby Strike tower damage, Sapphire Keep starting health, and Emerald Bounty boss-gem upgrades. Gems and their upgrades are retained after defeat and map changes.
+- The Gem Forge also sells permanent player skills. **Airstrike** costs 5 gems once; press `1` (or its owned card) to arm it, then click a map position during a wave to call a high-damage area bombardment. It has a 12-second cooldown after use.
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
 - Use **Reset View** beside the wave button to return the camera to the default position and zoom.

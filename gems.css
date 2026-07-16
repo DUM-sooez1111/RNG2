@@ -47,6 +47,10 @@
 .gem-panel .legacy { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .gem-panel .legacy button { min-height: 102px; }
 .gem-locked { padding: 7px; color: #dfc4ef !important; text-align: center; background: #3c2b51; border: 1px dashed #a982c8; border-radius: 6px; }
+.gem-panel .player-skills { grid-template-columns: 1fr; }
+.gem-panel .player-skills button { min-height: 94px; grid-template-columns: 36px 1fr; grid-template-rows: auto auto auto; column-gap: 8px; text-align: left; }
+.gem-panel .player-skills .gem-upgrade-icon { grid-row: 1 / 4; display: grid; place-items: center; width: 34px; height: 34px; color: #4a1d1d; background: #ffcf73; border-radius: 50%; }
+.gem-panel .player-skills .airstrike-skill { background: linear-gradient(145deg, #7c403d, #3b2939); border-color: #ffb56e; }
 
 @media (max-width: 720px) {
   .gem-button { top: 120px; left: 8px; padding: 5px 6px; font-size: 8px; }
