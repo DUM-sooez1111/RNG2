@@ -46,6 +46,22 @@ const scalePoints = points => points.map(point=>({x:point.x*MAP_SCALE,y:point.y*
 const lengthenPath = path => { const extended=[path[0]];for(let index=1;index<path.length;index++){const from=path[index-1],to=path[index],dx=to.x-from.x,dy=to.y-from.y,distance=Math.hypot(dx,dy);if(distance<210){extended.push(to);continue;}const offset=Math.min(105,distance*.32),direction=index%2?1:-1,normalX=-dy/distance*offset*direction,normalY=dx/distance*offset*direction,first={x:Math.max(-30,Math.min(W+30,from.x+dx*.34+normalX)),y:Math.max(85,Math.min(H-45,from.y+dy*.34+normalY))},second={x:Math.max(-30,Math.min(W+30,from.x+dx*.66+normalX)),y:Math.max(85,Math.min(H-45,from.y+dy*.66+normalY))};extended.push(first,second,to);}return extended; };
 maps.forEach((map,index)=>{map.pads.push(...addedBasePads[index]);map.path=lengthenPath(scalePoints(map.path));map.pads=scalePoints(map.pads);});
 extraBuildPads.forEach((pads,index)=>{pads.push(...addedUpgradePads[index]);extraBuildPads[index]=scalePoints(pads);});
+const moreBasePads = [
+  [{x:150,y:70},{x:275,y:640},{x:530,y:110},{x:690,y:640},{x:930,y:95},{x:1060,y:630}],
+  [{x:95,y:85},{x:185,y:675},{x:390,y:640},{x:580,y:85},{x:860,y:640},{x:1080,y:360}],
+  [{x:105,y:660},{x:360,y:650},{x:570,y:625},{x:820,y:80},{x:980,y:85},{x:1090,y:650}],
+  [{x:90,y:650},{x:335,y:640},{x:540,y:635},{x:670,y:70},{x:880,y:80},{x:1080,y:650}],
+  [{x:80,y:665},{x:270,y:650},{x:450,y:650},{x:650,y:650},{x:830,y:650},{x:1080,y:650}]
+];
+const moreUpgradePads = [
+  [{x:120,y:610},{x:455,y:650},{x:860,y:80},{x:1080,y:330},{x:1080,y:640}],
+  [{x:95,y:480},{x:390,y:660},{x:600,y:650},{x:880,y:85},{x:1080,y:640}],
+  [{x:100,y:470},{x:455,y:650},{x:660,y:655},{x:900,y:650},{x:1080,y:85}],
+  [{x:95,y:400},{x:380,y:650},{x:550,y:655},{x:825,y:650},{x:1080,y:85}],
+  [{x:75,y:430},{x:300,y:655},{x:560,y:650},{x:800,y:655},{x:1080,y:650}]
+];
+maps.forEach((map,index)=>map.pads.push(...scalePoints(moreBasePads[index])));
+extraBuildPads.forEach((pads,index)=>pads.push(...scalePoints(moreUpgradePads[index])));
 const mapUnlockGrades = ['', 'Mythic and Ancient grades.', 'Celestial, Divine, and Transcendent grades.', 'Eternal grade.', 'Apex grade.'];
 let currentMapIndex=0;
 let path=maps[0].path.map(point=>({...point}));
