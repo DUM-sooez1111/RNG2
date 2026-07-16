@@ -51,4 +51,5 @@ Open `index.html` in a browser. No installation or local server is required.
 - Press `Space` or **Start Wave** to begin the next wave.
 - Use **Auto Wave** to automatically launch the next wave 1.2 seconds after the previous wave is defeated. It turns off after defeat or a fresh game.
 - Use **Speed** beside the board controls to cycle between 1×, 2×, and 3× game speed. It accelerates monster movement, attacks, status effects, shots, and wave progress.
+- Use **Auto Draw** to keep spinning the tower roulette while supplies are available. It stops automatically when the next draw cannot be afforded, and it turns off after defeat or a new game.
 - Use **Save Game** at any time to store progress in the current browser. During a wave it also saves active monsters, their health and positions, pending portal spawns, and the wave state so the defense continues when reopened.

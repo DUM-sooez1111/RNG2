@@ -15,6 +15,24 @@
 .speed-button.boosted { color: #fff3aa; background: #73523dde; border-color: #ffd77d; }
 .speed-button:hover { filter: brightness(1.18); }
 
+.auto-draw-button {
+  position: absolute;
+  top: 190px;
+  right: 24px;
+  padding: 7px 10px;
+  color: #e9dcff;
+  font-size: 10px;
+  font-weight: 900;
+  background: #4a3569de;
+  border: 1px solid #c29aef;
+  border-radius: 7px;
+  box-shadow: 0 3px 0 #2b1e44;
+}
+
+.auto-draw-button.on { color: #fff3a9; background: #80533dde; border-color: #ffd37a; }
+.auto-draw-button:hover { filter: brightness(1.18); }
+
 @media (max-width: 720px) {
   .speed-button { top: 111px; right: 10px; padding: 5px 7px; font-size: 8px; }
+  .auto-draw-button { top: 144px; right: 10px; padding: 5px 7px; font-size: 8px; }
 }
