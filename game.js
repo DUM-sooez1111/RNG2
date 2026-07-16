@@ -134,7 +134,7 @@ function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === 
 function getNextGradeType(tower) { const currentGrade=grades.findIndex(grade=>grade.id===tower.type.grade), archetype=archetypes.find(entry=>entry.id===tower.type.id.slice(tower.type.grade.length+1)); return currentGrade<grades.length-1&&archetype?types[`${grades[currentGrade+1].id}-${archetype.id}`]:null; }
 function getStartingLives() { return 20 + baseUpgrades.fortify * 5 + baseUpgrades.bossVitality; }
 function getRouletteLevel() { return baseUpgrades.roulette + 1; }
-function getUpgradeMax(id) { return id==='roulette'?39:id==='slots'?Math.max(...extraBuildPads.map(pads=>pads.length)):id==='bossVitality'?Number.MAX_SAFE_INTEGER:10; }
+function getUpgradeMax(id) { return id==='roulette'?39:id==='slots'?Math.max(...extraBuildPads.map(pads=>pads.length)):id==='bossVitality'||id==='fortify'?Number.MAX_SAFE_INTEGER:10; }
 function getMapSlotUpgradeCap(mapIndex=currentMapIndex) { return extraBuildPads[mapIndex].length; }
 function getMapMaxBuildPadCount(mapIndex=currentMapIndex) { return maps[mapIndex].pads.length+extraBuildPads[mapIndex].length; }
 function getOpenBuildPadCount(mapIndex=currentMapIndex) { return maps[mapIndex].pads.length+Math.min(extraBuildPads[mapIndex].length,baseUpgrades.slots); }
@@ -172,7 +172,23 @@ function startWave() { if(running || gameOver) return; clearTimeout(autoWaveTime
 function getWaveClearBonus() { return 50 + Math.max(0,wave-1)*10; }
 function endWave() { running = false; const bonus = getWaveClearBonus(); gold += bonus; recordStats({suppliesEarned:bonus,wavesCleared:1}); ui.waveButton.disabled = false; ui.waveButton.textContent = 'NEXT WAVE >'; updateUI(); say(`Wave ${wave} defended. Supplies +${bonus}`); if(autoWave){ui.waveButton.disabled=true;autoWaveTimer=setTimeout(()=>{if(autoWave&&!running&&!gameOver)startWave();},1200);} }
 function showEnd(title, text) { ui.modalTitle.textContent = title; ui.modalText.textContent = text; document.querySelector('#startButton').textContent = 'NEW GAME'; ui.modal.classList.add('open'); }
-function renderBaseUpgradeChoices() { const cards=[{id:'luck',icon:'D6',name:'LUCKY DICE',detail:'Better draw odds for Rare and higher-grade towers.'},{id:'fortify',icon:'HP',name:'FORTIFIED KEEP',detail:'Start each new defense with +5 keep health.'},{id:'power',icon:'DMG',name:'BATTLE DOCTRINE',detail:'All tower damage increases by 10%.'},{id:'roulette',icon:'LV',name:'ROULETTE MASTERY',detail:'Epic/Legendary: LV 10. Mythic/Ancient: LV 20. Celestial+: LV 40.'},{id:'slots',icon:'PAD',name:'EXPAND BUILD SLOTS',detail:`Add one extra build zone. Stage ${getStageDifficulty()} max: ${getMapMaxBuildPadCount()}.`}]; const nextMap=unlockedMaps.findIndex(unlocked=>!unlocked); if(nextMap!==-1){const addedGrades=nextMap===1?'Mythic and Ancient grades.':'Celestial, Divine, and Transcendent grades.';cards.push({id:'map',icon:'MAP',name:`UNLOCK STAGE ${maps[nextMap].stage}`,detail:`Unlock ${maps[nextMap].name} and ${addedGrades}`,mapIndex:nextMap});} ui.baseUpgradeChoices.innerHTML=cards.map(card=>{const level=baseUpgrades[card.id],slotCap=getMapSlotUpgradeCap(),maxed=card.id==='roulette'?level>=getUpgradeMax('roulette'):card.id==='slots'?level>=slotCap:card.id!=='map'&&level>=10,slotTotal=getMapMaxBuildPadCount(),levelText=card.id==='map'?'UNLOCK':card.id==='roulette'?maxed?'LV 40 MAX':`LV ${getRouletteLevel()} -> ${getRouletteLevel()+1}`:card.id==='slots'?maxed?`S${getStageDifficulty()} ${getOpenBuildPadCount()}/${slotTotal} MAX`:`S${getStageDifficulty()} ${getOpenBuildPadCount()}/${slotTotal} -> ${getOpenBuildPadCount()+1}/${slotTotal}`:maxed?'MAX':`LV ${level} -> ${level+1}`;return `<button data-base-upgrade="${card.id}" ${maxed?'disabled':''}><span class="base-upgrade-icon">${card.icon}</span><span class="base-upgrade-name">${card.name}</span><span class="base-upgrade-detail">${card.detail}</span><span class="base-upgrade-level">${levelText}</span></button>`;}).join(''); }
+function renderBaseUpgradeChoices() {
+  const healthBonus=baseUpgrades.fortify*5;
+  const cards=[
+    {id:'luck',icon:'D6',name:'LUCKY DICE',detail:'Better draw odds for Rare and higher-grade towers.'},
+    {id:'fortify',icon:'HP',name:'PERMANENT KEEP HEALTH',detail:`After defeat, permanently add +5 starting keep health per level. Current bonus: +${healthBonus}.`},
+    {id:'power',icon:'DMG',name:'BATTLE DOCTRINE',detail:'All tower damage increases by 10%.'},
+    {id:'roulette',icon:'LV',name:'ROULETTE MASTERY',detail:'Epic/Legendary: LV 10. Mythic/Ancient: LV 20. Celestial+: LV 40.'},
+    {id:'slots',icon:'PAD',name:'EXPAND BUILD SLOTS',detail:`Add one extra build zone. Stage ${getStageDifficulty()} max: ${getMapMaxBuildPadCount()}.`}
+  ];
+  const nextMap=unlockedMaps.findIndex(unlocked=>!unlocked);
+  if(nextMap!==-1){const addedGrades=nextMap===1?'Mythic and Ancient grades.':'Celestial, Divine, and Transcendent grades.';cards.push({id:'map',icon:'MAP',name:`UNLOCK STAGE ${maps[nextMap].stage}`,detail:`Unlock ${maps[nextMap].name} and ${addedGrades}`,mapIndex:nextMap});}
+  ui.baseUpgradeChoices.innerHTML=cards.map(card=>{
+    const level=baseUpgrades[card.id]??0, slotCap=getMapSlotUpgradeCap(), maxed=card.id==='roulette'?level>=getUpgradeMax('roulette'):card.id==='slots'?level>=slotCap:card.id!=='map'&&card.id!=='fortify'&&level>=10, slotTotal=getMapMaxBuildPadCount();
+    const levelText=card.id==='map'?'UNLOCK':card.id==='fortify'?(maxed?`HP +${healthBonus} | LV ${level} MAX`:`HP +${healthBonus} -> +${healthBonus+5} | LV ${level} -> ${level+1}`):card.id==='roulette'?(maxed?'LV 40 MAX':`LV ${getRouletteLevel()} -> ${getRouletteLevel()+1}`):card.id==='slots'?(maxed?`S${getStageDifficulty()} ${getOpenBuildPadCount()}/${slotTotal} MAX`:`S${getStageDifficulty()} ${getOpenBuildPadCount()}/${slotTotal} -> ${getOpenBuildPadCount()+1}/${slotTotal}`):(maxed?'MAX':`LV ${level} -> ${level+1}`);
+    return `<button data-base-upgrade="${card.id}" ${maxed?'disabled':''}><span class="base-upgrade-icon">${card.icon}</span><span class="base-upgrade-name">${card.name}</span><span class="base-upgrade-detail">${card.detail}</span><span class="base-upgrade-level">${levelText}</span></button>`;
+  }).join('');
+}
 function showDeathUpgrades() { ui.modalTitle.textContent='KEEP FALLEN'; ui.modalText.textContent='Choose one base upgrade before your next defense.'; ui.startButton.hidden=true; renderBaseUpgradeChoices(); ui.baseUpgradeChoices.hidden=false; ui.modal.classList.add('open'); }
 function restartAfterDefeat() { clearTimeout(drawTimer); clearInterval(drawSpinTimer); clearTimeout(autoWaveTimer); autoWave=false; isDrawing=false; ui.rollButton.disabled=false; ui.rollButton.classList.remove('rolling'); setRouletteTower(); drawCost+=DEATH_DRAW_COST_INCREASE; gold=Math.max(gold,drawCost); lives=getStartingLives(); wave=0; running=false; gameOver=false; enemies=[]; shots=[]; particles=[]; spawnQueue=[]; towers.forEach(tower=>{tower.level=1;tower.cooldown=0;tower.pulse=0;}); mapTowerStates.forEach(layout=>layout.forEach(tower=>tower.level=1)); Object.keys(inventory).forEach(id=>{inventory[id]=inventory[id].map(()=>1);}); selected=Object.keys(inventory).find(id=>inventory[id].length)||selected; selectedTower=null; fusionMode=false; resetView(); ui.waveButton.disabled=false; ui.waveButton.textContent='START WAVE >'; updateUI(); }
 function chooseBaseUpgrade(id) { if(id==='map'){const nextMap=unlockedMaps.findIndex(unlocked=>!unlocked);if(nextMap===-1)return;unlockedMaps[nextMap]=true;persistPermanentProgress();ui.baseUpgradeChoices.hidden=true;ui.startButton.hidden=false;ui.startButton.textContent='BEGIN DEFENSE';restartAfterDefeat();ui.modal.classList.remove('open');say(`${maps[nextMap].name} unlocked. Towers retained at level 1.`);return;} const max=id==='slots'?getMapSlotUpgradeCap():getUpgradeMax(id); if(baseUpgrades[id]>=max) return; baseUpgrades[id]++; if(id==='slots')refreshBuildPads(); persistPermanentProgress(); ui.baseUpgradeChoices.hidden=true; ui.startButton.hidden=false; ui.startButton.textContent='BEGIN DEFENSE'; restartAfterDefeat(); ui.modal.classList.remove('open'); say(id==='roulette'?`Roulette Mastery is now level ${getRouletteLevel()}.`:id==='slots'?`Build slots expanded: ${getOpenBuildPadCount()}/${getMapMaxBuildPadCount()}.`:`${id.toUpperCase()} base upgrade applied. Towers retained at level 1.`); }
@@ -216,7 +232,25 @@ ui.startButton.addEventListener('click', () => { if(gameOver) reset(); ui.baseUp
 window.addEventListener('keydown', e => { const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.key === ' '){ e.preventDefault(); startWave(); } if(['1','2','3'].includes(e.key)) choose(['common-spark-coil','common-root-cannon','common-thorn-garden'][+e.key-1]); });
 window.addEventListener('keyup', e => { cameraKeys.delete(e.key.toLowerCase()); });
 
-function hurt(enemy, amount, color) { enemy.hp -= amount; enemy.hit = .12; for(let i=0;i<5;i++) particles.push({x:enemy.x,y:enemy.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*90,life:.35,size:2+Math.random()*3,color}); if(enemy.hp <= 0){ gold += enemy.reward; recordStats({kills:1,normalKills:enemy.boss||enemy.elite?0:1,eliteKills:enemy.elite?1:0,bossKills:enemy.boss?1:0,suppliesEarned:enemy.reward}); particles.push({x:enemy.x,y:enemy.y,vx:0,vy:0,life:.55,size:enemy.r*2.6,color:'#ffe779',burst:true}); enemies.splice(enemies.indexOf(enemy),1); if(enemy.boss){baseUpgrades.bossVitality++;lives++;const upgraded=baseUpgrades.roulette<getUpgradeMax('roulette')&&Math.random()<.5;if(upgraded)baseUpgrades.roulette++;persistPermanentProgress();say(`${upgraded?'BOSS DEFEATED! Roulette Mastery +1.':'BOSS DEFEATED! Roulette Mastery stayed the same.'} Permanent keep health +1 (total bonus ${baseUpgrades.bossVitality}).`);} updateUI(); } }
+function hurt(enemy, amount, color) {
+  enemy.hp -= amount;
+  enemy.hit = .12;
+  for(let i=0;i<5;i++) particles.push({x:enemy.x,y:enemy.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*90,life:.35,size:2+Math.random()*3,color});
+  if(enemy.hp > 0) return;
+  gold += enemy.reward;
+  recordStats({kills:1,normalKills:enemy.boss||enemy.elite?0:1,eliteKills:enemy.elite?1:0,bossKills:enemy.boss?1:0,suppliesEarned:enemy.reward});
+  particles.push({x:enemy.x,y:enemy.y,vx:0,vy:0,life:.55,size:enemy.r*2.6,color:'#ffe779',burst:true});
+  enemies.splice(enemies.indexOf(enemy),1);
+  if(enemy.boss){
+    baseUpgrades.fortify++;
+    lives+=5;
+    const rouletteUpgraded=baseUpgrades.roulette<getUpgradeMax('roulette')&&Math.random()<.5;
+    if(rouletteUpgraded) baseUpgrades.roulette++;
+    persistPermanentProgress();
+    say(`${rouletteUpgraded?'BOSS DEFEATED! Roulette Mastery +1.':'BOSS DEFEATED! Roulette Mastery stayed the same.'} Permanent keep health LV ${baseUpgrades.fortify} (+${baseUpgrades.fortify*5} starting HP).`);
+  }
+  updateUI();
+}
 function applySlow(enemy, duration, factor) { enemy.slow=Math.max(enemy.slow||0,duration); enemy.slowFactor=Math.min(enemy.slowFactor||1,factor); }
 function applyDot(enemy, kind, duration, damage) { enemy[kind]=Math.max(enemy[kind]||0,duration); enemy[`${kind}Damage`]=Math.max(enemy[`${kind}Damage`]||0,damage); enemy.statusTick=0; }
 function nearbyEnemies(target, radius, count) { return enemies.filter(enemy=>enemy!==target&&distance(enemy,target)<radius).sort((a,b)=>b.progress-a.progress).slice(0,count); }
