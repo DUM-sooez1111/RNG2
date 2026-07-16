@@ -9,7 +9,7 @@ Open `index.html` in a browser. No installation or local server is required.
 ## Current gameplay
 
 - Towers live in the inventory, not in the build dock. The inventory scrolls through a 100-tower catalog.
-- Use the **ALL**, **ELECTRIC**, **CANNON**, **THORNS**, and **FUSABLE** category tabs above the inventory to filter the catalog and find a tower quickly. **FUSABLE** gathers only towers from the other inventory categories that have at least two copies at the same level, marking the ready pair level. A roulette result automatically opens its matching category.
+- Use the **ALL**, **ELECTRIC**, **CANNON**, **THORNS**, and **FUSABLE** category tabs above the inventory to filter the catalog and find a tower quickly. **FUSABLE** gathers towers from the other inventory categories whenever you own two or more copies of the same tower, even at different levels; it displays every owned level. Fusion itself still requires matching levels. A roulette result automatically opens its matching category.
 - The catalog has 10 unique tower models across 10 grades: Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, and Transcendent.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat. Supplies are retained on defeat; if the retained amount is below the new draw cost, it is raised to that cost for one guaranteed draw.
