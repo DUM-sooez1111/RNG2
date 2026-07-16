@@ -85,7 +85,7 @@ let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false
 const unlockedMaps = [true, false, false];
 const mapTowerStates = maps.map(() => []);
 let towers = [], enemies = [], shots = [], particles = [], spawnQueue = [], spawnCooldown = 0, selectedTower = null, fusionMode = false, isDrawing = false, drawTimer, drawSpinTimer, autoWave = false, autoWaveTimer;
-const baseUpgrades = {luck:0, fortify:0, power:0, roulette:0, slots:0};
+const baseUpgrades = {luck:0, fortify:0, power:0, roulette:0, slots:0, bossVitality:0};
 const overallStats = {kills:0, normalKills:0, eliteKills:0, bossKills:0, suppliesEarned:0, draws:0, wavesStarted:0, wavesCleared:0, highestWave:0, deaths:0};
 const camera = {x:W/2, y:H/2, zoom:1};
 const cameraKeys = new Set();
@@ -125,9 +125,9 @@ function renderStats() { if(!ui.statsPanel) return; const cards=[['TOTAL KILLS',
 function upgradeCost(tower) { return tower.level * 90; }
 function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === tower.type.grade); }
 function getNextGradeType(tower) { const currentGrade=grades.findIndex(grade=>grade.id===tower.type.grade), archetype=archetypes.find(entry=>entry.id===tower.type.id.slice(tower.type.grade.length+1)); return currentGrade<grades.length-1&&archetype?types[`${grades[currentGrade+1].id}-${archetype.id}`]:null; }
-function getStartingLives() { return 20 + baseUpgrades.fortify * 5; }
+function getStartingLives() { return 20 + baseUpgrades.fortify * 5 + baseUpgrades.bossVitality; }
 function getRouletteLevel() { return baseUpgrades.roulette + 1; }
-function getUpgradeMax(id) { return id==='roulette'?39:id==='slots'?Math.max(...maps.map(map=>map.pads.length-BASE_INSTALL_SLOTS)):10; }
+function getUpgradeMax(id) { return id==='roulette'?39:id==='slots'?Math.max(...maps.map(map=>map.pads.length-BASE_INSTALL_SLOTS)):id==='bossVitality'?Number.MAX_SAFE_INTEGER:10; }
 function getMapSlotUpgradeCap(mapIndex=currentMapIndex) { return maps[mapIndex].pads.length-BASE_INSTALL_SLOTS; }
 function getOpenBuildPadCount(mapIndex=currentMapIndex) { return Math.min(maps[mapIndex].pads.length,BASE_INSTALL_SLOTS+baseUpgrades.slots); }
 function getPadsForMap(mapIndex, layout=mapTowerStates[mapIndex]) { const savedPadCount=(layout||[]).reduce((count,tower)=>Math.max(count,Number.isInteger(tower.padIndex)&&tower.padIndex>=0?tower.padIndex+1:0),0); return maps[mapIndex].pads.slice(0,Math.max(getOpenBuildPadCount(mapIndex),savedPadCount)).map(point=>({...point})); }
@@ -202,7 +202,7 @@ ui.startButton.addEventListener('click', () => { if(gameOver) reset(); ui.baseUp
 window.addEventListener('keydown', e => { const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.key === ' '){ e.preventDefault(); startWave(); } if(['1','2','3'].includes(e.key)) choose(['common-spark-coil','common-root-cannon','common-thorn-garden'][+e.key-1]); });
 window.addEventListener('keyup', e => { cameraKeys.delete(e.key.toLowerCase()); });
 
-function hurt(enemy, amount, color) { enemy.hp -= amount; enemy.hit = .12; for(let i=0;i<5;i++) particles.push({x:enemy.x,y:enemy.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*90,life:.35,size:2+Math.random()*3,color}); if(enemy.hp <= 0){ gold += enemy.reward; recordStats({kills:1,normalKills:enemy.boss||enemy.elite?0:1,eliteKills:enemy.elite?1:0,bossKills:enemy.boss?1:0,suppliesEarned:enemy.reward}); particles.push({x:enemy.x,y:enemy.y,vx:0,vy:0,life:.55,size:enemy.r*2.6,color:'#ffe779',burst:true}); enemies.splice(enemies.indexOf(enemy),1); if(enemy.boss){const upgraded=baseUpgrades.roulette<getUpgradeMax('roulette')&&Math.random()<.5;if(upgraded){baseUpgrades.roulette++;persistPermanentProgress();}say(upgraded?`BOSS DEFEATED! +500 supplies. Roulette Mastery is now LV ${getRouletteLevel()}!`:`BOSS DEFEATED! +500 supplies. Roulette Mastery stayed at LV ${getRouletteLevel()}.`);} updateUI(); } }
+function hurt(enemy, amount, color) { enemy.hp -= amount; enemy.hit = .12; for(let i=0;i<5;i++) particles.push({x:enemy.x,y:enemy.y,vx:(Math.random()-.5)*90,vy:(Math.random()-.5)*90,life:.35,size:2+Math.random()*3,color}); if(enemy.hp <= 0){ gold += enemy.reward; recordStats({kills:1,normalKills:enemy.boss||enemy.elite?0:1,eliteKills:enemy.elite?1:0,bossKills:enemy.boss?1:0,suppliesEarned:enemy.reward}); particles.push({x:enemy.x,y:enemy.y,vx:0,vy:0,life:.55,size:enemy.r*2.6,color:'#ffe779',burst:true}); enemies.splice(enemies.indexOf(enemy),1); if(enemy.boss){baseUpgrades.bossVitality++;lives++;const upgraded=baseUpgrades.roulette<getUpgradeMax('roulette')&&Math.random()<.5;if(upgraded)baseUpgrades.roulette++;persistPermanentProgress();say(`${upgraded?'BOSS DEFEATED! Roulette Mastery +1.':'BOSS DEFEATED! Roulette Mastery stayed the same.'} Permanent keep health +1 (total bonus ${baseUpgrades.bossVitality}).`);} updateUI(); } }
 function applySlow(enemy, duration, factor) { enemy.slow=Math.max(enemy.slow||0,duration); enemy.slowFactor=Math.min(enemy.slowFactor||1,factor); }
 function applyDot(enemy, kind, duration, damage) { enemy[kind]=Math.max(enemy[kind]||0,duration); enemy[`${kind}Damage`]=Math.max(enemy[`${kind}Damage`]||0,damage); enemy.statusTick=0; }
 function nearbyEnemies(target, radius, count) { return enemies.filter(enemy=>enemy!==target&&distance(enemy,target)<radius).sort((a,b)=>b.progress-a.progress).slice(0,count); }

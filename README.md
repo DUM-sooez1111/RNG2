@@ -30,7 +30,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
 - Higher-grade towers now have escalating physical visuals as well as board effects: an aura at Uncommon, crystals at Rare, a crown at Epic, wings at Legendary, then increasingly elaborate arcs, runes, stars, halos, and a transcendent starburst through the highest grades. Higher grades also make the tower model itself slightly larger.
 - Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, and poison. The current ability is shown in the upgrade panel and index.
-- Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Defeating it has a 50% chance to increase permanent Roulette Mastery by one level (up to level 40); otherwise the roulette level stays the same.
+- Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Every defeat permanently adds 1 keep health (and restores 1 health immediately), plus a 50% chance to increase permanent Roulette Mastery by one level (up to level 40).
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
 - Use **Reset View** beside the wave button to return the camera to the default position and zoom.
