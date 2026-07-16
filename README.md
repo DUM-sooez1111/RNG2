@@ -17,7 +17,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Select an owned tower, then click a glowing hexagonal build zone to install it.
 - Click an installed tower to select it, then use **Upgrade**. Each level increases damage, range, and attack speed. Upgrade costs are 90 supplies per current level.
 - Higher grades have higher level caps: Common 3, Uncommon 4, Rare 5, Epic 6, and Legendary 7. The same cap applies to fusion.
-- Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost.
+- Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Legendary is the final rarity.
 - Waves continue infinitely and increase in difficulty. Every completed wave rewards exactly 50 supplies.
 - Every defeated regular invader rewards 10 supplies; elite invaders reward 25 supplies.
 - Six regular enemy types and three elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
