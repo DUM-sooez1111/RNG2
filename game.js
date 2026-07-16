@@ -168,7 +168,7 @@ let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false
 const unlockedMaps = [true, false, false, false, false];
 const mapTowerStates = maps.map(() => []);
 let towers = [], enemies = [], shots = [], particles = [], airstrikes = [], spawnQueue = [], spawnCooldown = 0, selectedTower = null, fusionMode = false, isDrawing = false, drawTimer, drawSpinTimer, autoWave = false, autoWaveTimer, autoDraw = false, autoDrawTimer, autoSaveTimer, collectAllArmed = false, activeSkill = null, airstrikeReadyAt = 0, bossIntro = null, tutorialStep = 0, tutorialActive = true;
-let lastUiActionKey = '', lastUiActionTime = 0;
+let lastUiActionKey = '', lastUiActionTime = 0, pressedUiControl = null, pressedUiTime = 0;
 const baseUpgrades = {luck:0, fortify:0, power:0, roulette:0, slots:0, bossVitality:0};
 const gemUpgrades = {power:0, vitality:0, bounty:0};
 const playerSkills = {airstrike:false};
@@ -397,7 +397,8 @@ if(ui.speedButton) ui.speedButton.addEventListener('click', () => { gameSpeed=ga
 if(ui.autoDrawButton) ui.autoDrawButton.addEventListener('click', () => { autoDraw=!autoDraw; updateAutoDrawButton(); say(`Auto draw ${autoDraw?'enabled':'disabled'}.`); if(autoDraw) queueAutoDraw(); else clearTimeout(autoDrawTimer); });
 ui.waveButton.addEventListener('click', startWave); ui.rollButton.addEventListener('click', drawTower);
 ui.startButton.addEventListener('click', () => { if(advanceTutorial()) return; if(gameOver) reset(); ui.baseUpgradeChoices.hidden=true; ui.modal.classList.remove('open'); });
-document.addEventListener('click', event => { const target=event.target.closest('button,[data-tower],[data-category],[data-grade]');if(!target)return;const key=target.id||Object.entries(target.dataset).map(([name,value])=>`${name}:${value}`).join('|')||target.textContent.trim(),now=performance.now();if(key===lastUiActionKey&&now-lastUiActionTime<220){event.preventDefault();event.stopImmediatePropagation();return;}lastUiActionKey=key;lastUiActionTime=now; },true);
+document.addEventListener('pointerdown', event => { pressedUiControl=event.target.closest('button,[data-tower],[data-category],[data-grade]');pressedUiTime=performance.now(); },true);
+document.addEventListener('click', event => { const target=event.target.closest('button,[data-tower],[data-category],[data-grade]');if(!target)return;const now=performance.now(),keyboardActivation=event.detail===0,validPointerPress=pressedUiControl===target&&now-pressedUiTime<900;if(!event.isTrusted||(!keyboardActivation&&!validPointerPress)){event.preventDefault();event.stopImmediatePropagation();return;}const key=target.id||Object.entries(target.dataset).map(([name,value])=>`${name}:${value}`).join('|')||target.textContent.trim();pressedUiControl=null;if(key===lastUiActionKey&&now-lastUiActionTime<220){event.preventDefault();event.stopImmediatePropagation();return;}lastUiActionKey=key;lastUiActionTime=now; },true);
 window.addEventListener('keydown', e => { const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.repeat)return; if(e.key === ' '){ e.preventDefault(); if(!ui.modal.classList.contains('open')) startWave(); } if(e.key==='1'&&!ui.modal.classList.contains('open')){e.preventDefault();if(playerSkills.airstrike)equipPlayerSkill('airstrike');else choose('common-spark-coil');} if(['2','3'].includes(e.key)&&!ui.modal.classList.contains('open')) choose(['common-root-cannon','common-thorn-garden'][+e.key-2]); });
 window.addEventListener('keyup', e => { cameraKeys.delete(e.key.toLowerCase()); });
 window.addEventListener('beforeunload', () => saveGame(true));
