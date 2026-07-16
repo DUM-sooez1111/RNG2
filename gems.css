@@ -52,6 +52,14 @@
 .gem-panel .player-skills .gem-upgrade-icon { grid-row: 1 / 4; display: grid; place-items: center; width: 34px; height: 34px; color: #4a1d1d; background: #ffcf73; border-radius: 50%; }
 .gem-panel .player-skills .airstrike-skill { background: linear-gradient(145deg, #7c403d, #3b2939); border-color: #ffb56e; }
 .gem-panel .player-skills .map-unlock-skill { background: linear-gradient(145deg, #386f62, #263f4b); border-color: #9ee9b5; }
+.gem-panel .playtime-rewards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.gem-panel .playtime-rewards button { min-height: 76px; grid-template-columns: 30px 1fr; grid-template-rows: auto auto auto; column-gap: 5px; padding: 6px; text-align: left; background: linear-gradient(145deg, #2c4b57, #202b42); border-color: #638fa6; }
+.gem-panel .playtime-rewards button.ready { background: linear-gradient(145deg, #5a7640, #304c35); border-color: #e4e982; box-shadow: 0 0 0 1px #e8f79155, 0 3px #1c1328; animation: playtime-reward-ready 1.15s ease-in-out infinite alternate; }
+.gem-panel .playtime-rewards .gem-upgrade-icon { grid-row: 1 / 4; display: grid; place-items: center; width: 28px; height: 28px; color: #21313e; font-size: 8px; background: #f3d576; border-radius: 50%; }
+.gem-panel .playtime-rewards .gem-upgrade-name { color: #e9f8ff; font-size: 9px; }
+.gem-panel .playtime-rewards .gem-upgrade-detail { color: #b9e6f1; font-size: 7px; }
+.gem-panel .playtime-rewards .gem-upgrade-level { font-size: 7px; }
+@keyframes playtime-reward-ready { to { filter: brightness(1.2); } }
 .reward-code-form { display: flex; gap: 6px; margin: 4px 0 12px; padding: 7px; background: #211c31; border: 1px solid #8264a2; border-radius: 8px; }
 .reward-code-form input { min-width: 0; flex: 1; padding: 8px 9px; color: #fff4cf; font: 800 10px inherit; letter-spacing: .06em; text-transform: uppercase; background: #101922; border: 1px solid #697b92; border-radius: 5px; outline: none; }
 .reward-code-form input:focus { border-color: #f3cb75; box-shadow: 0 0 0 2px #f3cb7533; }
