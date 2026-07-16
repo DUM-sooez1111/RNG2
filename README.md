@@ -23,6 +23,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Six regular enemy types and three elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Use **INDEX** on the board to browse every tower and enemy, including their core damage, range, speed, and keep-damage stats.
+- Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
 - Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 250-supply reward.
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
@@ -41,4 +42,4 @@ Open `index.html` in a browser. No installation or local server is required.
 - Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
 - Press `Space` or **Start Wave** to begin the next wave.
 - Use **Auto Wave** to automatically launch the next wave 1.2 seconds after the previous wave is defeated. It turns off after defeat or a fresh game.
-- Use **Save Game** between waves to store progress in the current browser. Saved maps, unlocks, base upgrades, tower layouts for every map, inventory, resources, and camera position are restored when the game is opened again.
+- Use **Save Game** at any time to store progress in the current browser. During a wave it also saves active monsters, their health and positions, pending portal spawns, and the wave state so the defense continues when reopened.
