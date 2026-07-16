@@ -19,6 +19,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - The roulette recovers automatically if its animation is interrupted, and clearly shows the current cost and any missing supplies.
 - Select an owned tower, then click a glowing hexagonal build zone to install it.
 - Click an installed tower to select it, then use **Upgrade**. Each level increases damage, range, and attack speed. Upgrade costs are 90 supplies per current level.
+- Use **All Upgrade** to raise every installed tower that is not at its level cap by one level at once. The button displays the tower count and total cost, and only activates when enough supplies are available.
 - Higher grades have higher level caps, from Common level 3 to Transcendent level 12. The same cap applies to fusion.
 - Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Transcendent is the final rarity.
 - While fusion is armed, use **Cancel Fusion** in the upgrade panel to return to normal play without consuming either tower or any supplies.
