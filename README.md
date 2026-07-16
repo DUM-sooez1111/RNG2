@@ -27,7 +27,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Every defeated regular invader rewards 10 supplies on wave 1 and gains 5 more supplies per wave; elite and boss rewards scale by the same +5-per-wave amount.
 - Twelve regular enemy types and six elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
-- Use **INDEX** on the board to browse every tower and enemy, including their core damage, range, speed, and keep-damage stats.
+- Use **INDEX** on the board to browse every tower and enemy. Click any card to open a detailed stat view: tower damage, range, rate, cap, and skill; or enemy health and speed multipliers, keep damage, rewards, and spawn behavior.
 - Use **STATS** to view persistent overall statistics: total, normal, elite, and boss kills; supplies earned; roulette draws; cleared and highest waves; and defeats. These totals save automatically in the browser.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
 - Higher-grade towers now have escalating physical visuals as well as board effects: an aura at Uncommon, crystals at Rare, a crown at Epic, wings at Legendary, then increasingly elaborate arcs, runes, stars, halos, and a transcendent starburst through the highest grades. Higher grades also make the tower model itself slightly larger.
