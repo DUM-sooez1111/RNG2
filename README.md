@@ -11,7 +11,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Towers live in the inventory, not in the build dock. The inventory scrolls through a 50-tower catalog.
 - The catalog has 10 unique tower models across 5 grades: Common, Uncommon, Rare, Epic, and Legendary.
 - Every new game starts with three Common starter towers in the inventory.
-- The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat, and resets for a fresh game.
+- The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat, while each new defense starts with enough supplies for at least one draw.
 - The draw button now spins a visible tower roulette through the complete tower catalog before revealing the selected tower and prevents duplicate clicks while the roulette is in progress.
 - The roulette recovers automatically if its animation is interrupted, and clearly shows the current cost and any missing supplies.
 - Select an owned tower, then click a glowing hexagonal build zone to install it.
