@@ -24,6 +24,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Use **INDEX** on the board to browse every tower and enemy, including their core damage, range, speed, and keep-damage stats.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
+- Higher-grade towers have escalating board effects: aura at Uncommon, orbiting motes at Rare, rotating magic circles at Epic, and radiant beams at Legendary.
 - Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 250-supply reward.
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
