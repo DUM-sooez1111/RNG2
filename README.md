@@ -36,7 +36,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - After defeat, placed towers remain in their current build locations, but all placed and stored tower levels reset to level 1 for the new defense.
 - The board now includes a shoreline, animated water, trees, and rock formations around the defensive field.
 - A monster portal sits near the beginning of every map path. Every enemy emerges directly from it and can only advance toward the keep; it glows, rotates, and emits particles while a wave is active.
-- Maps unlock strictly by stage through the defeat upgrade screen: Stage 1 Verdant Coast is available from the start, **Unlock Stage 2** opens Ember Canyon plus Mythic and Ancient grades, and **Unlock Stage 3** opens Frostwind Pass plus Celestial, Divine, and Transcendent grades. Each map keeps its own placed tower layout and tower levels when you switch away and return.
+- Maps unlock strictly by stage through the defeat upgrade screen: Stage 1 Verdant Coast is available from the start, **Unlock Stage 2** opens Ember Canyon plus Mythic and Ancient grades, and **Unlock Stage 3** opens Frostwind Pass plus Celestial, Divine, and Transcendent grades. Each map keeps its own placed tower layout and tower levels when you switch away and return. Permanent upgrades and map unlocks are also saved independently, so changing maps never removes them.
 - Use the **NEXT** and **PREV** map controls between waves to move through unlocked stages in either direction.
 - Higher stages use longer, more winding paths and add enemy difficulty: each stage raises enemy health by 40%, speed by 10%, and adds two enemies to every wave.
 - The HUD displays the current map difficulty: Stage 1 Normal, Stage 2 Hard, and Stage 3 Extreme.
