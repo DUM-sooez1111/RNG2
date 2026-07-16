@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fortune Bastion</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="hud" aria-label="Game status">
+        <div class="brand"><span class="brand-mark">FB</span><div><strong>FORTUNE</strong><small>BASTION</small></div></div>
+        <div class="stat-row">
+          <div class="stat coin"><span>CO</span><div><small>SUPPLIES</small><b id="gold">320</b></div></div>
+          <div class="stat heart"><span>HP</span><div><small>KEEP</small><b id="lives">20</b></div></div>
+          <div class="stat wave"><span>WV</span><div><small>WAVE</small><b id="wave">0</b></div></div>
+          <div class="stat difficulty"><span>!</span><div><small>DIFFICULTY</small><b id="difficulty">S1 NORMAL</b></div></div>
+        </div>
+      </section>
+
+      <section class="play-area" aria-label="Fortune Bastion game board">
+        <canvas id="game" width="1100" height="680"></canvas>
+        <div id="toast" class="toast">Draw a tower, then select it in your inventory.</div>
+        <button id="waveButton" class="wave-button">START WAVE <span>&gt;</span></button>
+        <button id="autoWaveButton" class="auto-wave-button" title="Automatically start the next wave">AUTO WAVE: OFF</button>
+        <button id="resetViewButton" class="reset-view-button" title="Reset camera zoom and position">RESET VIEW</button>
+        <button id="mapButton" class="map-button" title="Change map while no wave is active">MAP: VERDANT COAST</button>
+        <button id="saveButton" class="save-button" title="Save progress between waves">SAVE GAME</button>
+        <aside class="legend" aria-label="Map legend">
+          <span class="legend-item"><i class="dot enemy"></i>INVADERS</span>
+          <span class="legend-item"><i class="dot path"></i>PATH</span>
+          <span class="legend-item"><i class="dot pad"></i>BUILD ZONE</span>
+        </aside>
+      </section>
+
+      <section class="dock" aria-label="Tower inventory">
+        <div class="dock-copy"><strong>50 TOWER CATALOG</strong><span>Five grades and ten tower models. Draw a tower for 100 supplies, then select it to build.</span></div>
+        <div id="inventory" class="inventory" aria-label="Tower inventory" title="Use the mouse wheel here to browse towers"></div>
+        <div id="upgradePanel" class="upgrade-panel" aria-live="polite"></div>
+        <button id="rollButton" class="roll-button" title="Draw a random tower for 100 supplies"><b id="diceFace">D6</b><span>DRAW TOWER</span><small>100</small></button>
+      </section>
+    </main>
+
+    <div id="modal" class="modal open" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-card">
+        <div class="modal-die">D6</div>
+        <p class="eyebrow">KEEP DEFENSE OPERATION</p>
+        <h1 id="modalTitle">FORTUNE BASTION</h1>
+        <p id="modalText">Draw towers into your inventory, install them on glowing build zones, and protect the keep through eight waves.</p>
+        <div id="baseUpgradeChoices" class="base-upgrades" hidden></div>
+        <button id="startButton">BEGIN DEFENSE</button>
+        <small>Choose inventory: 1, 2, 3 | Start wave: Space | Wheel: Zoom | WASD: Move view</small>
+      </div>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
