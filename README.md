@@ -24,6 +24,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Twelve regular enemy types and six elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Use **INDEX** on the board to browse every tower and enemy, including their core damage, range, speed, and keep-damage stats.
+- Use **STATS** to view persistent overall statistics: total, normal, elite, and boss kills; supplies earned; roulette draws; cleared and highest waves; and defeats. These totals save automatically in the browser.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
 - Higher-grade towers have escalating board effects: aura at Uncommon, orbiting motes at Rare, rotating magic circles at Epic, and radiant beams at Legendary.
 - Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, and poison. The current ability is shown in the upgrade panel and index.
