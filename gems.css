@@ -51,6 +51,7 @@
 .gem-panel .player-skills button { min-height: 94px; grid-template-columns: 36px 1fr; grid-template-rows: auto auto auto; column-gap: 8px; text-align: left; }
 .gem-panel .player-skills .gem-upgrade-icon { grid-row: 1 / 4; display: grid; place-items: center; width: 34px; height: 34px; color: #4a1d1d; background: #ffcf73; border-radius: 50%; }
 .gem-panel .player-skills .airstrike-skill { background: linear-gradient(145deg, #7c403d, #3b2939); border-color: #ffb56e; }
+.gem-panel .player-skills .map-unlock-skill { background: linear-gradient(145deg, #386f62, #263f4b); border-color: #9ee9b5; }
 
 @media (max-width: 720px) {
   .gem-button { top: 120px; left: 8px; padding: 5px 6px; font-size: 8px; }
