@@ -11,3 +11,10 @@
   border-color: #b9f4c1;
   box-shadow: 0 2px 0 #1c4d40;
 }
+
+.upgrade-panel button.fuse-all {
+  color: #fff0bf;
+  background: linear-gradient(#c48742, #815026);
+  border-color: #ffe08c;
+  box-shadow: 0 2px 0 #563217;
+}
