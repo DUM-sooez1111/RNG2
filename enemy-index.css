@@ -1,0 +1,50 @@
+.index-enemy-avatar {
+  position: relative;
+  width: 25px;
+  height: 22px;
+  flex: 0 0 25px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #1b2c34;
+  font-size: 7px;
+  font-weight: 950;
+  letter-spacing: -.08em;
+  background: var(--enemy-body);
+  border: 2px solid #d6eeea;
+  border-radius: 8px 8px 5px 5px;
+  box-shadow: 0 0 0 2px #243b43;
+}
+
+.index-enemy-avatar::before {
+  position: absolute;
+  top: 0;
+  right: 3px;
+  left: 3px;
+  height: 6px;
+  content: '';
+  background: var(--enemy-top);
+  border-radius: 3px 3px 2px 2px;
+}
+
+.index-enemy-avatar i {
+  position: relative;
+  z-index: 1;
+  margin-top: 5px;
+  font-style: normal;
+  text-shadow: 0 1px #e8f8df;
+}
+
+.index-enemy-avatar.elite {
+  border-color: #ffe37b;
+  box-shadow: 0 0 0 2px #71553f, 0 0 8px #ffe17b90;
+}
+
+.index-enemy-avatar.boss {
+  width: 28px;
+  height: 25px;
+  flex-basis: 28px;
+  color: #5b372e;
+  border-color: #ffe59a;
+  box-shadow: 0 0 0 2px #8f6539, 0 0 9px #ffd86d;
+}
