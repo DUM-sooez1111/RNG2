@@ -27,8 +27,8 @@ Open `index.html` in a browser. No installation or local server is required.
 - Installed towers that can currently fuse with another installed tower of the same type and level glow with a rotating golden aura on the field.
 - Waves continue infinitely and increase in difficulty. A cleared wave rewards 50 supplies on wave 1, then the clear reward increases by 10 supplies every wave (wave 2: 60, wave 3: 70, and so on).
 - Every defeated regular invader rewards 10 supplies on wave 1 and gains 5 more supplies per wave; elite and boss rewards scale by the same +5-per-wave amount.
-- Twelve regular enemy types and six elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
-- Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
+- Twenty-six regular enemy types and twelve elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
+- Every enemy displays its name and level above the health bar. Enemy levels rise every three waves, gain extra levels from higher map stages, and give elites and bosses an additional boost to health and keep damage. Level 2 adds an aura, level 4 armor, level 6 spikes, and level 9 a crown.
 - Use **INDEX** on the board to browse every tower and enemy. Click any card to open a detailed stat view: tower damage, range, rate, cap, and skill; or enemy health and speed multipliers, keep damage, rewards, and spawn behavior.
 - Use **STATS** to view persistent overall statistics: total, normal, elite, and boss kills; supplies earned; roulette draws; cleared and highest waves; and defeats. These totals save automatically in the browser.
 - Each tower model has a distinct board silhouette, including Flame Thrower, Volcano Bastion, and Magma Thorn fire visuals.
@@ -51,7 +51,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Use the mouse wheel over the tower inventory to browse its 156 tower cards horizontally.
 - Click a placed tower to show its attack range as a colored circle; the circle updates when the tower is upgraded or fused.
 - A selected placed tower can be sent back to the inventory with **Store Tower**, or use **Collect All** to retrieve every installed tower on the current map. Their types and current levels are preserved when placed again. Collect All shows a persistent warning with **YES** and **NO** choices.
-- Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
+- Thorn-type towers (Thorn Garden, Frost Bramble, Venom Hedge, and Magma Thorn) must be installed directly on the enemy path instead of a glowing build zone.
 - Press `Space` or **Start Wave** to begin the next wave.
 - Use **Auto Wave** to automatically launch the next wave 1.2 seconds after the previous wave is defeated. It turns off after defeat or a fresh game.
 - The opening three-page Field Manual teaches building, rewards, tower growth, gems, and controls. Open **Guidebook** on the board any time to review the full rules.
