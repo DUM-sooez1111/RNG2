@@ -12,7 +12,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - The catalog has 10 unique tower models across 10 grades: Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, and Transcendent.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat, while each new defense starts with enough supplies for at least one draw.
-- **Roulette Mastery** is a permanent base upgrade chosen after defeat. Roulette levels 1–9 can draw only Common through Rare; Epic and higher grades enter the draw pool at permanent roulette level 10. Map-gated grades still require their stage to be unlocked.
+- **Roulette Mastery** is a permanent base upgrade chosen after defeat. Levels 1–9 can draw only Common through Rare; Epic and Legendary enter at level 10; Mythic, Ancient, Celestial, Divine, and Transcendent cannot enter the draw pool until level 20. Map-gated grades still require their stage to be unlocked.
 - **Expand Build Slots** is a permanent base upgrade chosen after defeat. Defenses begin with 5 build zones; its map-specific maximum is 9 slots on Stage 1, 11 on Stage 2, and 12 on Stage 3. Locked zones are visibly marked and cannot receive towers until expanded.
 - The draw button now spins a visible tower roulette through the complete tower catalog before revealing the selected tower and prevents duplicate clicks while the roulette is in progress.
 - The roulette recovers automatically if its animation is interrupted, and clearly shows the current cost and any missing supplies.
@@ -29,7 +29,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
 - Higher-grade towers now have escalating physical visuals as well as board effects: an aura at Uncommon, crystals at Rare, a crown at Epic, wings at Legendary, then increasingly elaborate arcs, runes, stars, halos, and a transcendent starburst through the highest grades. Higher grades also make the tower model itself slightly larger.
 - Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, and poison. The current ability is shown in the upgrade panel and index.
-- Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Defeating it has a 50% chance to increase permanent Roulette Mastery by one level (up to level 10); otherwise the roulette level stays the same.
+- Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Defeating it has a 50% chance to increase permanent Roulette Mastery by one level (up to level 20); otherwise the roulette level stays the same.
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
 - Use **Reset View** beside the wave button to return the camera to the default position and zoom.
