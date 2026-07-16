@@ -63,6 +63,10 @@ const moreUpgradePads = [
 ];
 maps.forEach((map,index)=>map.pads.push(...scalePoints(moreBasePads[index])));
 extraBuildPads.forEach((pads,index)=>pads.push(...scalePoints(moreUpgradePads[index])));
+const distanceToRoute = (point,route) => route.slice(0,-1).reduce((best,start,index)=>{const end=route[index+1],dx=end.x-start.x,dy=end.y-start.y,lengthSq=dx*dx+dy*dy,t=Math.max(0,Math.min(1,((point.x-start.x)*dx+(point.y-start.y)*dy)/lengthSq));return Math.min(best,Math.hypot(point.x-(start.x+dx*t),point.y-(start.y+dy*t)));},Infinity);
+const safeBuildPad = (point,route,used) => point.x>48&&point.x<W-48&&point.y>112&&point.y<H-55&&distanceToRoute(point,route)>74&&Math.hypot(point.x-route[0].x,point.y-route[0].y)>108&&Math.hypot(point.x-route.at(-1).x,point.y-route.at(-1).y)>120&&used.every(other=>Math.hypot(point.x-other.x,point.y-other.y)>76);
+const relocateBuildPad = (point,route,used) => { if(safeBuildPad(point,route,used)) return point; for(let radius=78;radius<=330;radius+=42)for(let step=0;step<20;step++){const angle=step*Math.PI*2/20+.18,candidate={x:point.x+Math.cos(angle)*radius,y:point.y+Math.sin(angle)*radius};if(safeBuildPad(candidate,route,used))return candidate;} return point; };
+maps.forEach((map,index)=>{const used=[];map.pads=map.pads.map(point=>{const safe=relocateBuildPad(point,map.path,used);used.push(safe);return safe;});extraBuildPads[index]=extraBuildPads[index].map(point=>{const safe=relocateBuildPad(point,map.path,used);used.push(safe);return safe;});});
 const mapUnlockGrades = ['', 'Mythic and Ancient grades.', 'Celestial, Divine, and Transcendent grades.', 'Eternal grade.', 'Apex grade.'];
 let currentMapIndex=0;
 let path=maps[0].path.map(point=>({...point}));
