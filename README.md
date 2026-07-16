@@ -8,9 +8,9 @@ Open `index.html` in a browser. No installation or local server is required.
 
 ## Current gameplay
 
-- Towers live in the inventory, not in the build dock. The inventory scrolls through a 100-tower catalog.
+- Towers live in the inventory, not in the build dock. The inventory scrolls through a 156-tower catalog.
 - Use the **ALL**, **ELECTRIC**, **CANNON**, **THORNS**, and **FUSABLE** category tabs above the inventory to filter the catalog and find a tower quickly. A second filter row lets you select any tower grade, and it combines with the first row; use the mouse wheel over that row to browse its grade buttons horizontally. **FUSABLE** gathers a tower whenever you have one or more copies in inventory and at least two total copies across inventory and the current field, even at different levels; it shows field count and every current level. Fusion itself still requires matching levels. A roulette result automatically opens its matching category and grade.
-- The catalog has 10 unique tower models across 12 grades (120 tower types): Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, Transcendent, Eternal, and Apex.
+- The catalog has 13 unique tower models across 12 grades (156 tower types): Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, Transcendent, Eternal, and Apex.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat. Supplies are retained on defeat; if the retained amount is below the new draw cost, it is raised to that cost for one guaranteed draw.
 - **Roulette Mastery** is a permanent base upgrade chosen after defeat. Levels 1–9 can draw only Common through Rare; Epic and Legendary enter at level 10; Mythic and Ancient enter at level 20; Celestial through Transcendent enter at level 40; Eternal enters at level 50; and Apex enters at level 60. Map-gated grades still require their stage to be unlocked.
@@ -31,9 +31,9 @@ Open `index.html` in a browser. No installation or local server is required.
 - Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Use **INDEX** on the board to browse every tower and enemy. Click any card to open a detailed stat view: tower damage, range, rate, cap, and skill; or enemy health and speed multipliers, keep damage, rewards, and spawn behavior.
 - Use **STATS** to view persistent overall statistics: total, normal, elite, and boss kills; supplies earned; roulette draws; cleared and highest waves; and defeats. These totals save automatically in the browser.
-- Each of the ten tower models now has a distinct board silhouette, including separate leaf, ice-bramble, and venom-vine visuals for thorn towers.
+- Each tower model has a distinct board silhouette, including Flame Thrower, Volcano Bastion, and Magma Thorn fire visuals.
 - Higher-grade towers now have escalating physical visuals as well as board effects: an aura at Uncommon, crystals at Rare, a crown at Epic, wings at Legendary, then increasingly elaborate arcs, runes, stars, halos, and a transcendent starburst through the highest grades. Higher grades also make the tower model itself slightly larger.
-- Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, and poison. The current ability is shown in the upgrade panel and index.
+- Every tower model has a unique combat ability that becomes stronger with rarity: chains, shock, prism splits, storm arcs, splash attacks, burning shots, roots, freeze, poison, flame bursts, volcanic blasts, and magma burns. The current ability is shown in the upgrade panel and index.
 - Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 500-supply reward. Every boss defeat permanently raises Permanent Keep Health by 1 level (+5 starting health) with no level cap, and immediately restores 5 keep health. It also has a 50% chance to increase permanent Roulette Mastery by one level (up to level 60).
 - Every boss also drops 1 gem, plus 1 more per Emerald Bounty level. Open **GEM FORGE** to spend gems on permanent Ruby Strike tower damage, Sapphire Keep starting health, and Emerald Bounty boss-gem upgrades. Gems and their upgrades are retained after defeat and map changes.
 - The Gem Forge also sells permanent player skills. **Airstrike** costs 5 gems once; press `1` (or its owned card) to arm it, then click a map position during a wave to call a high-damage area bombardment. It has a 12-second cooldown after use.
@@ -48,7 +48,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Use the **NEXT** and **PREV** map controls between waves to move through unlocked stages in either direction.
 - Higher stages use longer, more winding paths and add enemy difficulty: each stage raises enemy health by 40%, speed by 10%, and adds two enemies to every wave.
 - The HUD displays the current map difficulty: Stage 1 Normal, Stage 2 Hard, Stage 3 Extreme, Stage 4 Nightmare, and Stage 5 Apocalypse.
-- Use the mouse wheel over the tower inventory to browse its 100 tower cards horizontally.
+- Use the mouse wheel over the tower inventory to browse its 156 tower cards horizontally.
 - Click a placed tower to show its attack range as a colored circle; the circle updates when the tower is upgraded or fused.
 - A selected placed tower can be sent back to the inventory with **Store Tower**, or use **Collect All** to retrieve every installed tower on the current map. Their types and current levels are preserved when placed again.
 - Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
