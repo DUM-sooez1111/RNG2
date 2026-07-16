@@ -21,6 +21,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Waves continue infinitely and increase in difficulty. Every completed wave rewards exactly 50 supplies.
 - Every defeated regular invader rewards 10 supplies; elite invaders reward 25 supplies.
 - Six regular enemy types and three elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
+- Every enemy displays its name above the health bar, making normal, elite, and boss targets easy to identify.
 - Every 30th wave (30, 60, 90, and so on) introduces the Ancient Bastion boss with a scaling health pool and a 250-supply reward.
 - Use the mouse wheel over the game board to zoom between 70% and 220%; zoom stays centered on the pointer.
 - Hold `W`, `A`, `S`, or `D` to move the camera view; camera speed adjusts to the zoom level.
