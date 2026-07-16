@@ -14,7 +14,7 @@ Open `index.html` in a browser. No installation or local server is required.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat. Supplies are retained on defeat; if the retained amount is below the new draw cost, it is raised to that cost for one guaranteed draw.
 - **Roulette Mastery** is a permanent base upgrade chosen after defeat. Levels 1–9 can draw only Common through Rare; Epic and Legendary enter at level 10; Mythic and Ancient enter at level 20; Celestial, Divine, and Transcendent cannot enter the draw pool until level 40. Map-gated grades still require their stage to be unlocked.
-- **Expand Build Slots** is a permanent base upgrade chosen after defeat. Defenses begin with 5 visible build zones; each upgrade adds one new build zone. The map-specific maximum is 9 slots on Stage 1, 11 on Stage 2, and 12 on Stage 3, with no locked-zone placeholders.
+- **Expand Build Slots** is a permanent base upgrade chosen after defeat. Every map starts with all of its original build zones visible (9 on Stage 1, 11 on Stage 2, 12 on Stage 3). Each upgrade adds an extra build zone, up to 13 / 17 / 19 total zones respectively, with no locked-zone placeholders.
 - The draw button now spins a visible tower roulette through the complete tower catalog before revealing the selected tower and prevents duplicate clicks while the roulette is in progress.
 - The roulette recovers automatically if its animation is interrupted, and clearly shows the current cost and any missing supplies.
 - Select an owned tower, then click a glowing hexagonal build zone to install it.
