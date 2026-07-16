@@ -8,17 +8,17 @@ Open `index.html` in a browser. No installation or local server is required.
 
 ## Current gameplay
 
-- Towers live in the inventory, not in the build dock. The inventory scrolls through a 50-tower catalog.
-- The catalog has 10 unique tower models across 5 grades: Common, Uncommon, Rare, Epic, and Legendary.
+- Towers live in the inventory, not in the build dock. The inventory scrolls through a 100-tower catalog.
+- The catalog has 10 unique tower models across 10 grades: Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, and Transcendent.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat, while each new defense starts with enough supplies for at least one draw.
-- **Roulette Mastery** is a permanent base upgrade chosen after defeat. Roulette levels 1–9 can draw only Common through Rare; Epic and Legendary enter the draw pool at permanent roulette level 10.
+- **Roulette Mastery** is a permanent base upgrade chosen after defeat. Roulette levels 1–9 can draw only Common through Rare; Epic and higher grades enter the draw pool at permanent roulette level 10. Map-gated grades still require their stage to be unlocked.
 - The draw button now spins a visible tower roulette through the complete tower catalog before revealing the selected tower and prevents duplicate clicks while the roulette is in progress.
 - The roulette recovers automatically if its animation is interrupted, and clearly shows the current cost and any missing supplies.
 - Select an owned tower, then click a glowing hexagonal build zone to install it.
 - Click an installed tower to select it, then use **Upgrade**. Each level increases damage, range, and attack speed. Upgrade costs are 90 supplies per current level.
-- Higher grades have higher level caps: Common 3, Uncommon 4, Rare 5, Epic 6, and Legendary 7. The same cap applies to fusion.
-- Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Legendary is the final rarity.
+- Higher grades have higher level caps, from Common level 3 to Transcendent level 12. The same cap applies to fusion.
+- Use **Fuse Match** on a selected tower, then click another installed tower with the same type and level. The two towers merge into one level higher tower for no supply cost. Fusing two maximum-level towers promotes the result to level 1 of the next rarity; Transcendent is the final rarity.
 - Waves continue infinitely and increase in difficulty. Every completed wave rewards exactly 50 supplies.
 - Every defeated regular invader rewards 10 supplies; elite invaders reward 25 supplies.
 - Six regular enemy types and three elite types now rotate through the waves, with distinct health, speed, size, color, and keep-damage profiles. Their current `DMG` value is displayed above their health bar; higher stages add +1 keep damage.
@@ -35,11 +35,11 @@ Open `index.html` in a browser. No installation or local server is required.
 - After defeat, placed towers remain in their current build locations, but all placed and stored tower levels reset to level 1 for the new defense.
 - The board now includes a shoreline, animated water, trees, and rock formations around the defensive field.
 - A monster portal sits near the beginning of every map path. Every enemy emerges directly from it and can only advance toward the keep; it glows, rotates, and emits particles while a wave is active.
-- Maps unlock strictly by stage through the defeat upgrade screen: Stage 1 Verdant Coast is available from the start, then **Unlock Stage 2** opens Ember Canyon, followed by **Unlock Stage 3** for Frostwind Pass. Each map keeps its own placed tower layout and tower levels when you switch away and return.
+- Maps unlock strictly by stage through the defeat upgrade screen: Stage 1 Verdant Coast is available from the start, **Unlock Stage 2** opens Ember Canyon plus Mythic and Ancient grades, and **Unlock Stage 3** opens Frostwind Pass plus Celestial, Divine, and Transcendent grades. Each map keeps its own placed tower layout and tower levels when you switch away and return.
 - Use the **NEXT** and **PREV** map controls between waves to move through unlocked stages in either direction.
 - Higher stages use longer, more winding paths and add enemy difficulty: each stage raises enemy health by 40%, speed by 10%, and adds two enemies to every wave.
 - The HUD displays the current map difficulty: Stage 1 Normal, Stage 2 Hard, and Stage 3 Extreme.
-- Use the mouse wheel over the tower inventory to browse its 50 tower cards horizontally.
+- Use the mouse wheel over the tower inventory to browse its 100 tower cards horizontally.
 - Click a placed tower to show its attack range as a colored circle; the circle updates when the tower is upgraded or fused.
 - A selected placed tower can be sent back to the inventory with **Store Tower**. Its type and current level are preserved when it is placed again.
 - Thorn-type towers (Thorn Garden, Frost Bramble, and Venom Hedge) must be installed directly on the enemy path instead of a glowing build zone.
