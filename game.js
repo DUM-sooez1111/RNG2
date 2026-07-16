@@ -1,9 +1,9 @@
 const canvas = document.querySelector('#game');
 const ctx = canvas.getContext('2d');
 const ui = {
-  gold: document.querySelector('#gold'), lives: document.querySelector('#lives'), wave: document.querySelector('#wave'), difficulty: document.querySelector('#difficulty'),
+  gold: document.querySelector('#gold'), gems: document.querySelector('#gems'), lives: document.querySelector('#lives'), wave: document.querySelector('#wave'), difficulty: document.querySelector('#difficulty'),
   toast: document.querySelector('#toast'), waveButton: document.querySelector('#waveButton'), autoWaveButton: document.querySelector('#autoWaveButton'), speedButton: document.querySelector('#speedButton'), autoDrawButton: document.querySelector('#autoDrawButton'), rollButton: document.querySelector('#rollButton'), rouletteTower: document.querySelector('#rouletteTower') || document.querySelector('#diceFace'),
-  inventory: document.querySelector('#inventory'), towerCategories: document.querySelector('#towerCategories'), upgradePanel: document.querySelector('#upgradePanel'), resetViewButton: document.querySelector('#resetViewButton'), mapButton: document.querySelector('#mapButton'), previousMapButton: document.querySelector('#previousMapButton'), saveButton: document.querySelector('#saveButton'), indexButton: document.querySelector('#indexButton'), indexPanel: document.querySelector('#indexPanel'), statsButton: document.querySelector('#statsButton'), statsPanel: document.querySelector('#statsPanel'), drawCost: document.querySelector('#drawCost') || document.querySelector('#rollButton small'), rouletteLevel: document.querySelector('#rouletteLevel'), modal: document.querySelector('#modal'), modalTitle: document.querySelector('#modalTitle'), modalText: document.querySelector('#modalText'), baseUpgradeChoices: document.querySelector('#baseUpgradeChoices'), startButton: document.querySelector('#startButton')
+  inventory: document.querySelector('#inventory'), towerCategories: document.querySelector('#towerCategories'), upgradePanel: document.querySelector('#upgradePanel'), resetViewButton: document.querySelector('#resetViewButton'), mapButton: document.querySelector('#mapButton'), previousMapButton: document.querySelector('#previousMapButton'), saveButton: document.querySelector('#saveButton'), indexButton: document.querySelector('#indexButton'), indexPanel: document.querySelector('#indexPanel'), statsButton: document.querySelector('#statsButton'), statsPanel: document.querySelector('#statsPanel'), gemButton: document.querySelector('#gemButton'), gemPanel: document.querySelector('#gemPanel'), drawCost: document.querySelector('#drawCost') || document.querySelector('#rollButton small'), rouletteLevel: document.querySelector('#rouletteLevel'), modal: document.querySelector('#modal'), modalTitle: document.querySelector('#modalTitle'), modalText: document.querySelector('#modalText'), baseUpgradeChoices: document.querySelector('#baseUpgradeChoices'), startButton: document.querySelector('#startButton')
 };
 
 const W = canvas.width, H = canvas.height;
@@ -97,6 +97,8 @@ const unlockedMaps = [true, false, false, false, false];
 const mapTowerStates = maps.map(() => []);
 let towers = [], enemies = [], shots = [], particles = [], spawnQueue = [], spawnCooldown = 0, selectedTower = null, fusionMode = false, isDrawing = false, drawTimer, drawSpinTimer, autoWave = false, autoWaveTimer, autoDraw = false, autoDrawTimer;
 const baseUpgrades = {luck:0, fortify:0, power:0, roulette:0, slots:0, bossVitality:0};
+const gemUpgrades = {power:0, vitality:0, bounty:0};
+let gems = 0;
 const overallStats = {kills:0, normalKills:0, eliteKills:0, bossKills:0, suppliesEarned:0, draws:0, wavesStarted:0, wavesCleared:0, highestWave:0, deaths:0};
 const camera = {x:W/2, y:H/2, zoom:1};
 const cameraKeys = new Set();
@@ -105,8 +107,8 @@ function persistOverallStats() { try { localStorage.setItem(STATS_KEY,JSON.strin
 function loadOverallStats() { try { const saved=JSON.parse(localStorage.getItem(STATS_KEY)); Object.keys(overallStats).forEach(key=>{if(Number.isFinite(saved?.[key]))overallStats[key]=Math.max(0,Math.floor(saved[key]));}); } catch {} }
 function recordStats(changes) { Object.entries(changes).forEach(([key,value])=>{if(key in overallStats)overallStats[key]+=value;}); persistOverallStats(); }
 function recordWaveStats() { recordStats({wavesStarted:1}); if(wave>overallStats.highestWave){overallStats.highestWave=wave;persistOverallStats();} }
-function persistPermanentProgress() { try { localStorage.setItem(PROGRESS_KEY,JSON.stringify({unlockedMaps:[...unlockedMaps],baseUpgrades:{...baseUpgrades}})); } catch {} }
-function loadPermanentProgress() { try { const saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)); if(!saved) return false; if(Array.isArray(saved.unlockedMaps))saved.unlockedMaps.forEach((value,index)=>{if(index<unlockedMaps.length)unlockedMaps[index]=unlockedMaps[index]||!!value;}); Object.keys(baseUpgrades).forEach(id=>{if(Number.isFinite(saved.baseUpgrades?.[id]))baseUpgrades[id]=Math.max(baseUpgrades[id],Math.max(0,Math.min(getUpgradeMax(id),Math.floor(saved.baseUpgrades[id]))));}); return true; } catch { return false; } }
+function persistPermanentProgress() { try { localStorage.setItem(PROGRESS_KEY,JSON.stringify({unlockedMaps:[...unlockedMaps],baseUpgrades:{...baseUpgrades},gems,gemUpgrades:{...gemUpgrades}})); } catch {} }
+function loadPermanentProgress() { try { const saved=JSON.parse(localStorage.getItem(PROGRESS_KEY)); if(!saved) return false; if(Array.isArray(saved.unlockedMaps))saved.unlockedMaps.forEach((value,index)=>{if(index<unlockedMaps.length)unlockedMaps[index]=unlockedMaps[index]||!!value;}); Object.keys(baseUpgrades).forEach(id=>{if(Number.isFinite(saved.baseUpgrades?.[id]))baseUpgrades[id]=Math.max(baseUpgrades[id],Math.max(0,Math.min(getUpgradeMax(id),Math.floor(saved.baseUpgrades[id]))));}); gems=Math.max(0,Math.floor(saved.gems||0)); Object.keys(gemUpgrades).forEach(id=>{if(Number.isFinite(saved.gemUpgrades?.[id]))gemUpgrades[id]=Math.max(0,Math.min(getGemUpgradeMax(id),Math.floor(saved.gemUpgrades[id])));}); return true; } catch { return false; } }
 loadOverallStats();
 
 function resetView() { camera.x=W/2; camera.y=H/2; camera.zoom=1; }
@@ -158,10 +160,14 @@ function renderIndex() {
   ui.indexPanel.innerHTML=`<div class="index-head"><strong>GAME INDEX</strong><button data-close-index>CLOSE</button></div>${renderIndexDetail()}<div class="index-scroll"><h3>TOWERS · ${Object.keys(types).length}</h3><div class="index-grid">${towerCards}</div><h3>ENEMIES · ${enemyTypes.length+eliteTypes.length+1}</h3><div class="index-grid">${enemyCards}</div></div>`;
 }
 function renderStats() { if(!ui.statsPanel) return; const cards=[['TOTAL KILLS',overallStats.kills],['NORMAL KILLS',overallStats.normalKills],['ELITE KILLS',overallStats.eliteKills],['BOSS KILLS',overallStats.bossKills],['SUPPLIES EARNED',overallStats.suppliesEarned],['ROULETTE DRAWS',overallStats.draws],['WAVES CLEARED',overallStats.wavesCleared],['HIGHEST WAVE',overallStats.highestWave],['DEFEATS',overallStats.deaths]]; ui.statsPanel.innerHTML=`<div class="stats-head"><strong>OVERALL STATS</strong><button data-close-stats>CLOSE</button></div><div class="stats-grid">${cards.map(([label,value])=>`<article><small>${label}</small><b>${value.toLocaleString()}</b></article>`).join('')}</div><p>Saved automatically in this browser.</p>`; }
+function getGemUpgradeMax(id) { return id==='bounty'?5:10; }
+function getGemUpgradeCost(id) { return gemUpgrades[id]+1; }
+function renderGemPanel() { if(!ui.gemPanel) return; const cards=[{id:'power',icon:'DMG',name:'RUBY STRIKE',detail:'+5% all tower damage per level.'},{id:'vitality',icon:'HP',name:'SAPPHIRE KEEP',detail:'+3 starting keep health per level.'},{id:'bounty',icon:'GEM',name:'EMERALD BOUNTY',detail:'+1 gem from every boss per level.'}]; ui.gemPanel.innerHTML=`<div class="gem-head"><strong>GEM FORGE · ${gems}</strong><button data-close-gems>CLOSE</button></div><p>Bosses drop gems. Spend them on permanent upgrades.</p><div class="gem-upgrades">${cards.map(card=>{const level=gemUpgrades[card.id],max=getGemUpgradeMax(card.id),cost=getGemUpgradeCost(card.id),maxed=level>=max;return `<button data-gem-upgrade="${card.id}" ${maxed||gems<cost?'disabled':''}><span class="gem-upgrade-icon">${card.icon}</span><span class="gem-upgrade-name">${card.name}</span><span class="gem-upgrade-detail">${card.detail}</span><span class="gem-upgrade-level">${maxed?`LV ${level} MAX`:`LV ${level} → ${level+1} · ${cost} GEM`}</span></button>`;}).join('')}</div>`; }
+function buyGemUpgrade(id) { if(!(id in gemUpgrades)) return; const max=getGemUpgradeMax(id), cost=getGemUpgradeCost(id); if(gemUpgrades[id]>=max) return say('This gem upgrade is already at max level.'); if(gems<cost) return say(`You need ${cost-gems} more gems.`); gems-=cost; gemUpgrades[id]++; persistPermanentProgress(); updateUI(); renderGemPanel(); say(`${id.toUpperCase()} gem upgrade is now level ${gemUpgrades[id]}.`); }
 function upgradeCost(tower) { return tower.level * 90; }
 function getMaxLevel(tower) { return 3 + grades.findIndex(grade => grade.id === tower.type.grade); }
 function getNextGradeType(tower) { const currentGrade=grades.findIndex(grade=>grade.id===tower.type.grade), archetype=archetypes.find(entry=>entry.id===tower.type.id.slice(tower.type.grade.length+1)); return currentGrade<grades.length-1&&archetype?types[`${grades[currentGrade+1].id}-${archetype.id}`]:null; }
-function getStartingLives() { return 20 + baseUpgrades.fortify * 5 + baseUpgrades.bossVitality; }
+function getStartingLives() { return 20 + baseUpgrades.fortify * 5 + baseUpgrades.bossVitality + gemUpgrades.vitality * 3; }
 function getRouletteLevel() { return baseUpgrades.roulette + 1; }
 function getUpgradeMax(id) { return id==='roulette'?59:id==='slots'?Math.max(...extraBuildPads.map(pads=>pads.length)):id==='bossVitality'||id==='fortify'?Number.MAX_SAFE_INTEGER:10; }
 function getMapSlotUpgradeCap(mapIndex=currentMapIndex) { return extraBuildPads[mapIndex].length; }
@@ -173,7 +179,7 @@ function getStageDifficulty() { return maps[currentMapIndex].stage; }
 function getDifficultyLabel() { return ['NORMAL','HARD','EXTREME','NIGHTMARE','APOCALYPSE'][getStageDifficulty()-1]||'APOCALYPSE'; }
 function getGradeChance(grade) { const luck=baseUpgrades.luck; if(grade.id==='common') return Math.max(10,50-luck*4); if(grade.id==='uncommon') return Math.max(8,26-luck); if(grade.id==='rare') return 14+luck*2; if(grade.id==='epic') return 7+luck*2; if(grade.id==='legendary') return 3+luck; return grade.chance+luck*.12; }
 function getTowerRange(tower) { return tower.type.range + (tower.level - 1) * 18; }
-function getTowerDamage(tower) { return Math.round(tower.type.damage * (1 + (tower.level - 1) * .55) * (1 + baseUpgrades.power * .1)); }
+function getTowerDamage(tower) { return Math.round(tower.type.damage * (1 + (tower.level - 1) * .55) * (1 + baseUpgrades.power * .1 + gemUpgrades.power * .05)); }
 function getTowerFireRate(tower) { return tower.type.fireRate * Math.pow(.86, tower.level - 1); }
 function getGradeTier(tower) { return grades.findIndex(grade=>grade.id===tower.type.grade); }
 function getAbilityText(tower) { const tier=getGradeTier(tower), bonus=tier+1; switch(tower.type.ability){case'chain':return `CHAIN ×${bonus}`;case'shock':return `SHOCK SLOW ${Math.round((.45+tier*.12)*100)/100}s`;case'prism':return `PRISM SPLIT ×${bonus}`;case'storm':return `STORM CHAIN ×${bonus+1}`;case'splash':return `ROOT SPLASH ${42+tier*10}`;case'mortar':return `MORTAR SPLASH ${68+tier*12}`;case'burn':return `BURN ${2+tier*.4}s`;case'root':return `ROOT SLOW ${Math.round((.35+tier*.1)*100)/100}s`;case'freeze':return `FREEZE ${Math.round((.7+tier*.12)*100)/100}s`;case'poison':return `POISON ${2+tier*.35}s`;default:return 'TOWER SKILL';} }
@@ -190,13 +196,13 @@ function renderUpgradePanel() {
 }
 function updateUI() {
   const missingSupplies=Math.max(0,drawCost-gold), rouletteLevel=getRouletteLevel();
-  ui.gold.textContent=gold; ui.lives.textContent=lives; ui.wave.textContent=wave;
+  ui.gold.textContent=gold; if(ui.gems)ui.gems.textContent=gems; ui.lives.textContent=lives; ui.wave.textContent=wave;
   if(ui.drawCost) ui.drawCost.textContent=drawCost;
   if(ui.rouletteLevel) ui.rouletteLevel.textContent=`LV ${rouletteLevel}`;
   ui.rollButton.title=missingSupplies?`Tower roulette costs ${drawCost}. Need ${missingSupplies} more supplies.`:rouletteLevel<10?`Draw a random tower for ${drawCost} supplies. Epic and Legendary unlock at roulette level 10.`:rouletteLevel<20?`Draw a random tower for ${drawCost} supplies. Mythic and Ancient unlock at roulette level 20.`:rouletteLevel<40?`Draw a random tower for ${drawCost} supplies. Celestial through Transcendent unlock at roulette level 40.`:rouletteLevel<50?`Draw a random tower for ${drawCost} supplies. Eternal unlocks at roulette level 50.`:rouletteLevel<60?`Draw a random tower for ${drawCost} supplies. Apex unlocks at roulette level 60.`:`Draw a random tower for ${drawCost} supplies.`;
   ui.rollButton.classList.toggle('needs-supplies',!!missingSupplies&&!isDrawing);
   ui.difficulty.textContent=`S${getStageDifficulty()} ${getDifficultyLabel()}`;
-  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); updateSpeedButton(); updateAutoDrawButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats();
+  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); updateSpeedButton(); updateAutoDrawButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats(); if(ui.gemPanel&&!ui.gemPanel.hidden)renderGemPanel();
 }
 function say(message) { ui.toast.textContent = message; ui.toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => ui.toast.classList.remove('show'), 1800); }
 function distance(a,b) { return Math.hypot(a.x-b.x, a.y-b.y); }
@@ -260,10 +266,12 @@ ui.resetViewButton.addEventListener('click', () => { resetView(); say('View rese
 ui.mapButton.addEventListener('click', () => { setMap((currentMapIndex+1)%maps.length); });
 if(ui.previousMapButton) ui.previousMapButton.addEventListener('click', () => { setMap((currentMapIndex-1+maps.length)%maps.length); });
 ui.saveButton.addEventListener('click', saveGame);
-if(ui.indexButton) ui.indexButton.addEventListener('click', () => { const opening=ui.indexPanel.hidden; ui.indexPanel.hidden=!opening; if(opening) renderIndex(); });
+if(ui.indexButton) ui.indexButton.addEventListener('click', () => { const opening=ui.indexPanel.hidden; ui.indexPanel.hidden=!opening; if(opening){if(ui.gemPanel)ui.gemPanel.hidden=true;if(ui.statsPanel)ui.statsPanel.hidden=true;renderIndex();} });
 if(ui.indexPanel) ui.indexPanel.addEventListener('click', event => { if(event.target.closest('[data-close-index]')){ui.indexPanel.hidden=true;return;} const tower=event.target.closest('[data-index-tower]'); if(tower){indexSelection={kind:'tower',id:tower.dataset.indexTower};renderIndex();return;} const enemy=event.target.closest('[data-index-enemy]'); if(enemy){indexSelection={kind:'enemy',id:enemy.dataset.indexEnemy};renderIndex();} });
-if(ui.statsButton) ui.statsButton.addEventListener('click', () => { const opening=ui.statsPanel.hidden; ui.statsPanel.hidden=!opening; if(opening) renderStats(); });
+if(ui.statsButton) ui.statsButton.addEventListener('click', () => { const opening=ui.statsPanel.hidden; ui.statsPanel.hidden=!opening; if(opening){if(ui.gemPanel)ui.gemPanel.hidden=true;if(ui.indexPanel)ui.indexPanel.hidden=true;renderStats();} });
 if(ui.statsPanel) ui.statsPanel.addEventListener('click', event => { if(event.target.closest('[data-close-stats]')) ui.statsPanel.hidden=true; });
+if(ui.gemButton) ui.gemButton.addEventListener('click', () => { const opening=ui.gemPanel.hidden; ui.gemPanel.hidden=!opening; if(opening){if(ui.indexPanel)ui.indexPanel.hidden=true;if(ui.statsPanel)ui.statsPanel.hidden=true;renderGemPanel();} });
+if(ui.gemPanel) ui.gemPanel.addEventListener('click', event => { if(event.target.closest('[data-close-gems]')){ui.gemPanel.hidden=true;return;} const button=event.target.closest('[data-gem-upgrade]'); if(button) buyGemUpgrade(button.dataset.gemUpgrade); });
 ui.autoWaveButton.addEventListener('click', () => { autoWave=!autoWave; clearTimeout(autoWaveTimer); updateAutoWaveButton(); say(`Auto wave ${autoWave?'enabled':'disabled'}.`); if(autoWave&&!running&&!gameOver) startWave(); });
 if(ui.speedButton) ui.speedButton.addEventListener('click', () => { gameSpeed=gameSpeed===1?2:gameSpeed===2?3:1; updateSpeedButton(); say(`Game speed set to ${gameSpeed}×.`); });
 if(ui.autoDrawButton) ui.autoDrawButton.addEventListener('click', () => { autoDraw=!autoDraw; updateAutoDrawButton(); say(`Auto draw ${autoDraw?'enabled':'disabled'}.`); if(autoDraw) queueAutoDraw(); else clearTimeout(autoDrawTimer); });
@@ -282,12 +290,14 @@ function hurt(enemy, amount, color) {
   particles.push({x:enemy.x,y:enemy.y,vx:0,vy:0,life:.55,size:enemy.r*2.6,color:'#ffe779',burst:true});
   enemies.splice(enemies.indexOf(enemy),1);
   if(enemy.boss){
+    const gemGain=1+gemUpgrades.bounty;
+    gems+=gemGain;
     baseUpgrades.fortify++;
     lives+=5;
     const rouletteUpgraded=baseUpgrades.roulette<getUpgradeMax('roulette')&&Math.random()<.5;
     if(rouletteUpgraded) baseUpgrades.roulette++;
     persistPermanentProgress();
-    say(`${rouletteUpgraded?'BOSS DEFEATED! Roulette Mastery +1.':'BOSS DEFEATED! Roulette Mastery stayed the same.'} Permanent keep health LV ${baseUpgrades.fortify} (+${baseUpgrades.fortify*5} starting HP).`);
+    say(`${rouletteUpgraded?'BOSS DEFEATED! Roulette Mastery +1.':'BOSS DEFEATED! Roulette Mastery stayed the same.'} +${gemGain} GEM. Permanent keep health LV ${baseUpgrades.fortify} (+${baseUpgrades.fortify*5} starting HP).`);
   }
   updateUI();
 }

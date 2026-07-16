@@ -1,0 +1,48 @@
+.gem > span { color: #c887ff; }
+.gem b { color: #f3c7ff; }
+
+.gem-button {
+  position: absolute;
+  top: 164px;
+  left: 18px;
+  padding: 7px 10px;
+  color: #f4dcff;
+  font-size: 10px;
+  font-weight: 900;
+  background: #4d2d67df;
+  border: 1px solid #d295ff;
+  border-radius: 7px;
+  box-shadow: 0 3px 0 #271634;
+}
+
+.gem-button:hover { filter: brightness(1.18); }
+
+.gem-panel {
+  position: absolute;
+  z-index: 3;
+  top: 201px;
+  left: 18px;
+  width: min(360px, calc(100% - 36px));
+  padding: 9px;
+  background: #241936f5;
+  border: 2px solid #c783f1;
+  border-radius: 11px;
+  box-shadow: 0 9px 22px #02090cbb;
+}
+
+.gem-head { display: flex; align-items: center; justify-content: space-between; margin: -9px -9px 8px; padding: 9px 10px; color: #f5d9ff; font-size: 11px; letter-spacing: .08em; background: #513465; border-bottom: 1px solid #a76ed1; }
+.gem-head button { padding: 4px 6px; color: #f3e7ff; font-size: 8px; font-weight: 900; background: #704a87; border: 1px solid #d4a6ef; border-radius: 4px; }
+.gem-panel > p { margin: 5px 1px 9px; color: #d7c2df; font-size: 8px; }
+.gem-upgrades { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+.gem-upgrades button { min-height: 114px; display: grid; align-content: center; gap: 4px; padding: 7px 4px; color: #f7efff; text-align: center; background: linear-gradient(145deg, #54356a, #302241); border: 1px solid #aa72ca; border-radius: 7px; box-shadow: 0 3px #1c1328; }
+.gem-upgrades button:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.16); }
+.gem-upgrades button:disabled { cursor: not-allowed; filter: grayscale(.65); opacity: .55; }
+.gem-upgrade-icon { color: #ffdb83; font-size: 14px; font-weight: 950; }
+.gem-upgrade-name { color: #f6eaff; font-size: 8px; font-weight: 900; }
+.gem-upgrade-detail { color: #d8c1df; font-size: 7px; line-height: 1.25; }
+.gem-upgrade-level { color: #ffe58b; font-size: 8px; font-weight: 900; }
+
+@media (max-width: 720px) {
+  .gem-button { top: 120px; left: 8px; padding: 5px 6px; font-size: 8px; }
+  .gem-panel { top: 148px; left: 8px; width: min(340px, calc(100% - 16px)); }
+}
