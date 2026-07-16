@@ -205,7 +205,35 @@ function queueAutoDraw() { clearTimeout(autoDrawTimer); if(!autoDraw) return; if
 function serializeTower(tower) { return {typeId:tower.type.id,level:tower.level,x:tower.x,y:tower.y,padIndex:tower.pad?pads.indexOf(tower.pad):-1,pathTrap:!!tower.pathTrap}; }
 function captureCurrentMapLayout() { mapTowerStates[currentMapIndex]=towers.map(serializeTower); }
 function restoreTowerLayout(layout) { towers=[]; for(const saved of layout||[]){const type=types[saved.typeId],pad=saved.padIndex>=0?pads[saved.padIndex]:null;if(!type||!Number.isFinite(saved.x)||!Number.isFinite(saved.y)||(pad&&pad.tower))continue;const tower={x:pad?pad.x:saved.x,y:pad?pad.y:saved.y,type,level:Math.max(1,Math.min(saved.level||1,getMaxLevel({type}))),cooldown:0,angle:-Math.PI/2,pulse:0,pad,pathTrap:!!saved.pathTrap};if(pad)pad.tower=tower;towers.push(tower);} }
-function setMap(index) { if(running) return say('Finish the current wave before changing maps.'); const map=maps[index]; if(!isMapUnlocked(index)) return say(`Stage ${map.stage} is locked. Unlock it from the defeat upgrade screen.`); captureCurrentMapLayout(); selectedTower=null; fusionMode=false; currentMapIndex=index; path=map.path.map(point=>({...point})); pads=getPadsForMap(currentMapIndex); pathLength=calculatePathLength(); restoreTowerLayout(mapTowerStates[currentMapIndex]); persistPermanentProgress(); resetView(); updateUI(); say(`Stage ${map.stage}: ${map.name} selected. Permanent upgrades retained.`); }
+function setMap(index) {
+  if(running) return say('Finish the current wave before changing maps.');
+  const map=maps[index];
+  if(!isMapUnlocked(index)) return say(`Stage ${map.stage} is locked. Unlock it from the defeat upgrade screen.`);
+  captureCurrentMapLayout();
+  clearTimeout(autoWaveTimer);
+  selectedTower=null;
+  fusionMode=false;
+  currentMapIndex=index;
+  path=map.path.map(point=>({...point}));
+  pads=getPadsForMap(currentMapIndex);
+  pathLength=calculatePathLength();
+  restoreTowerLayout(mapTowerStates[currentMapIndex]);
+  // Each stage begins from wave 1 whenever the player moves to it.
+  wave=0;
+  drawCost=BASE_DRAW_COST;
+  enemies=[];
+  spawnQueue=[];
+  spawnCooldown=0;
+  shots=[];
+  particles=[];
+  airstrikes=[];
+  bossIntro=null;
+  persistPermanentProgress();
+  resetView();
+  updateUI();
+  scheduleAutoSave();
+  say(`Stage ${map.stage}: ${map.name} selected. Wave reset to 1. Permanent upgrades retained.`);
+}
 function serializeEnemy(enemy) { return {typeName:enemy.type.name,level:enemy.level,progress:enemy.progress,spawnProgress:enemy.spawnProgress,lane:enemy.lane,speed:enemy.speed,hp:enemy.hp,maxHp:enemy.maxHp,damage:enemy.damage,reward:enemy.reward,slow:enemy.slow,slowFactor:enemy.slowFactor,poison:enemy.poison,poisonDamage:enemy.poisonDamage,burn:enemy.burn,burnDamage:enemy.burnDamage,statusTick:enemy.statusTick,hit:enemy.hit}; }
 function restoreSavedEnemy(saved) { const type=[...enemyTypes,...eliteTypes,...bossTypes].find(entry=>entry.name===saved.typeName); if(!type||!Number.isFinite(saved.progress)||!Number.isFinite(saved.hp)) return null; const boss=bossTypes.includes(type),elite=eliteTypes.includes(type),progress=Math.max(PORTAL_PROGRESS,saved.progress),spawnProgress=Math.min(progress,Math.max(0,Number.isFinite(saved.spawnProgress)?saved.spawnProgress:PORTAL_PROGRESS)),lane=boss||elite?0:Number(saved.lane)||1,maxHp=Math.max(1,Math.floor(saved.maxHp||1)),enemy={progress,spawnProgress,lane,level:Math.max(1,Math.floor(saved.level||1)),speed:Math.max(1,Number(saved.speed)||1),hp:Math.max(1,Math.min(maxHp,Number(saved.hp))),maxHp,damage:Math.max(1,Math.floor(saved.damage||type.damage)),reward:Math.max(0,Math.floor(saved.reward||0)),r:type.r,elite,boss,type,slow:Math.max(0,Number(saved.slow)||0),slowFactor:Math.max(.25,Math.min(1,Number(saved.slowFactor)||1)),poison:Math.max(0,Number(saved.poison)||0),poisonDamage:Math.max(0,Number(saved.poisonDamage)||0),burn:Math.max(0,Number(saved.burn)||0),burnDamage:Math.max(0,Number(saved.burnDamage)||0),statusTick:Math.max(0,Number(saved.statusTick)||0),hit:Math.max(0,Number(saved.hit)||0)}; const pos=pointOnLane(progress,lane); return {...enemy,x:pos.x,y:pos.y,angle:pos.angle}; }
 function saveGame(silent=false) { try { captureCurrentMapLayout(); persistPermanentProgress(); const state={version:1,mapIndex:currentMapIndex,unlockedMaps:[...unlockedMaps],baseUpgrades:{...baseUpgrades},gold,lives,wave,drawCost,running,autoWave,spawnQueue:[...spawnQueue],spawnCooldown,enemies:enemies.map(serializeEnemy),inventory,mapTowerStates:mapTowerStates.map(layout=>layout.map(tower=>({...tower}))),towers:mapTowerStates[currentMapIndex],selected,camera:{...camera}}; localStorage.setItem(SAVE_KEY,JSON.stringify(state)); if(!silent)say(running?'Wave progress saved in this browser.':'Game saved in this browser.'); } catch { if(!silent)say('Unable to save in this browser.'); } }
