@@ -2,7 +2,7 @@ const canvas = document.querySelector('#game');
 const ctx = canvas.getContext('2d');
 const ui = {
   gold: document.querySelector('#gold'), lives: document.querySelector('#lives'), wave: document.querySelector('#wave'), difficulty: document.querySelector('#difficulty'),
-  toast: document.querySelector('#toast'), waveButton: document.querySelector('#waveButton'), autoWaveButton: document.querySelector('#autoWaveButton'), rollButton: document.querySelector('#rollButton'), rouletteTower: document.querySelector('#rouletteTower') || document.querySelector('#diceFace'),
+  toast: document.querySelector('#toast'), waveButton: document.querySelector('#waveButton'), autoWaveButton: document.querySelector('#autoWaveButton'), speedButton: document.querySelector('#speedButton'), rollButton: document.querySelector('#rollButton'), rouletteTower: document.querySelector('#rouletteTower') || document.querySelector('#diceFace'),
   inventory: document.querySelector('#inventory'), towerCategories: document.querySelector('#towerCategories'), upgradePanel: document.querySelector('#upgradePanel'), resetViewButton: document.querySelector('#resetViewButton'), mapButton: document.querySelector('#mapButton'), previousMapButton: document.querySelector('#previousMapButton'), saveButton: document.querySelector('#saveButton'), indexButton: document.querySelector('#indexButton'), indexPanel: document.querySelector('#indexPanel'), statsButton: document.querySelector('#statsButton'), statsPanel: document.querySelector('#statsPanel'), drawCost: document.querySelector('#drawCost') || document.querySelector('#rollButton small'), rouletteLevel: document.querySelector('#rouletteLevel'), modal: document.querySelector('#modal'), modalTitle: document.querySelector('#modalTitle'), modalText: document.querySelector('#modalText'), baseUpgradeChoices: document.querySelector('#baseUpgradeChoices'), startButton: document.querySelector('#startButton')
 };
 
@@ -92,7 +92,7 @@ function freshInventory() { return Object.fromEntries(Object.entries(startingInv
 let inventory = freshInventory();
 let selected = 'common-spark-coil';
 let towerCategory = 'all', towerGrade = 'all', indexSelection = null;
-let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false, gameOver = false, last = performance.now(), toastTimer;
+let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false, gameOver = false, gameSpeed = 1, last = performance.now(), toastTimer;
 const unlockedMaps = [true, false, false, false, false];
 const mapTowerStates = maps.map(() => []);
 let towers = [], enemies = [], shots = [], particles = [], spawnQueue = [], spawnCooldown = 0, selectedTower = null, fusionMode = false, isDrawing = false, drawTimer, drawSpinTimer, autoWave = false, autoWaveTimer;
@@ -113,6 +113,7 @@ function resetView() { camera.x=W/2; camera.y=H/2; camera.zoom=1; }
 function isMapUnlocked(index) { return unlockedMaps[index]; }
 function updateMapButton() { const next=(currentMapIndex+1)%maps.length, previous=(currentMapIndex-1+maps.length)%maps.length, nextMap=maps[next], previousMap=maps[previous]; ui.mapButton.textContent=`NEXT: ${isMapUnlocked(next) ? `S${nextMap.stage} ${nextMap.name}` : `S${nextMap.stage} LOCKED`}`; if(ui.previousMapButton) ui.previousMapButton.textContent=`PREV: ${isMapUnlocked(previous) ? `S${previousMap.stage} ${previousMap.name}` : `S${previousMap.stage} LOCKED`}`; }
 function updateAutoWaveButton() { ui.autoWaveButton.textContent=`AUTO WAVE: ${autoWave ? 'ON' : 'OFF'}`; ui.autoWaveButton.classList.toggle('on',autoWave); }
+function updateSpeedButton() { if(!ui.speedButton) return; ui.speedButton.textContent=`SPEED: ${gameSpeed}×`; ui.speedButton.classList.toggle('boosted',gameSpeed>1); }
 function serializeTower(tower) { return {typeId:tower.type.id,level:tower.level,x:tower.x,y:tower.y,padIndex:tower.pad?pads.indexOf(tower.pad):-1,pathTrap:!!tower.pathTrap}; }
 function captureCurrentMapLayout() { mapTowerStates[currentMapIndex]=towers.map(serializeTower); }
 function restoreTowerLayout(layout) { towers=[]; for(const saved of layout||[]){const type=types[saved.typeId],pad=saved.padIndex>=0?pads[saved.padIndex]:null;if(!type||!Number.isFinite(saved.x)||!Number.isFinite(saved.y)||(pad&&pad.tower))continue;const tower={x:saved.x,y:saved.y,type,level:Math.max(1,Math.min(saved.level||1,getMaxLevel({type}))),cooldown:0,angle:-Math.PI/2,pulse:0,pad,pathTrap:!!saved.pathTrap};if(pad)pad.tower=tower;towers.push(tower);} }
@@ -193,7 +194,7 @@ function updateUI() {
   ui.rollButton.title=missingSupplies?`Tower roulette costs ${drawCost}. Need ${missingSupplies} more supplies.`:rouletteLevel<10?`Draw a random tower for ${drawCost} supplies. Epic and Legendary unlock at roulette level 10.`:rouletteLevel<20?`Draw a random tower for ${drawCost} supplies. Mythic and Ancient unlock at roulette level 20.`:rouletteLevel<40?`Draw a random tower for ${drawCost} supplies. Celestial through Transcendent unlock at roulette level 40.`:rouletteLevel<50?`Draw a random tower for ${drawCost} supplies. Eternal unlocks at roulette level 50.`:rouletteLevel<60?`Draw a random tower for ${drawCost} supplies. Apex unlocks at roulette level 60.`:`Draw a random tower for ${drawCost} supplies.`;
   ui.rollButton.classList.toggle('needs-supplies',!!missingSupplies&&!isDrawing);
   ui.difficulty.textContent=`S${getStageDifficulty()} ${getDifficultyLabel()}`;
-  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats();
+  renderInventory(); renderUpgradePanel(); updateMapButton(); updateAutoWaveButton(); updateSpeedButton(); if(ui.statsPanel&&!ui.statsPanel.hidden)renderStats();
 }
 function say(message) { ui.toast.textContent = message; ui.toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => ui.toast.classList.remove('show'), 1800); }
 function distance(a,b) { return Math.hypot(a.x-b.x, a.y-b.y); }
@@ -205,7 +206,7 @@ let pathLength = calculatePathLength();
 function makeEnemy(index) { const stage=getStageDifficulty(), boss = wave > 0 && wave % 30 === 0 && index === 0, elite = !boss && wave % 4 === 0 && index === 0; const type=boss ? wave30Boss : elite ? eliteTypes[Math.floor(wave/4)%eliteTypes.length] : enemyTypes[(wave*3+index)%enemyTypes.length]; const baseHp=(boss ? 5400+wave*100 : elite ? 310+wave*50 : 58+wave*24)*(1+(stage-1)*.4), hp=Math.round(baseHp*type.hp), damage=type.damage+stage-1, reward=(boss ? 500 : elite ? 25 : 10)+Math.max(0,wave-1)*5; return {progress:PORTAL_PROGRESS, spawnProgress:PORTAL_PROGRESS, speed:(38+wave*3.4)*type.speed*(1+(stage-1)*.1), hp, maxHp:hp, damage, reward, r:type.r, elite, boss, type, slow:0, slowFactor:1, poison:0, poisonDamage:0, burn:0, burnDamage:0, statusTick:0, hit:0}; }
 function startWave() { if(running || gameOver) return; clearTimeout(autoWaveTimer); wave++; recordWaveStats(); running = true; const stage=getStageDifficulty(); spawnQueue = Array.from({length:6+wave*3+(stage-1)*2},(_,i)=>i); spawnCooldown = 0; ui.waveButton.disabled = true; ui.waveButton.textContent = 'DEFENDING'; updateUI(); say(wave % 30 === 0 ? `BOSS WAVE ${wave}: Ancient Bastion approaches!` : `Stage ${stage} - Wave ${wave} has begun!`); }
 function getWaveClearBonus() { return 50 + Math.max(0,wave-1)*10; }
-function endWave() { running = false; const bonus = getWaveClearBonus(); gold += bonus; recordStats({suppliesEarned:bonus,wavesCleared:1}); ui.waveButton.disabled = false; ui.waveButton.textContent = 'NEXT WAVE >'; updateUI(); say(`Wave ${wave} defended. Supplies +${bonus}`); if(autoWave){ui.waveButton.disabled=true;autoWaveTimer=setTimeout(()=>{if(autoWave&&!running&&!gameOver)startWave();},1200);} }
+function endWave() { running = false; const bonus = getWaveClearBonus(); gold += bonus; recordStats({suppliesEarned:bonus,wavesCleared:1}); ui.waveButton.disabled = false; ui.waveButton.textContent = 'NEXT WAVE >'; updateUI(); say(`Wave ${wave} defended. Supplies +${bonus}`); if(autoWave){ui.waveButton.disabled=true;autoWaveTimer=setTimeout(()=>{if(autoWave&&!running&&!gameOver)startWave();},1200/gameSpeed);} }
 function showEnd(title, text) { ui.modalTitle.textContent = title; ui.modalText.textContent = text; document.querySelector('#startButton').textContent = 'NEW GAME'; ui.modal.classList.add('open'); }
 function renderBaseUpgradeChoices() {
   const healthBonus=baseUpgrades.fortify*5;
@@ -262,6 +263,7 @@ if(ui.indexPanel) ui.indexPanel.addEventListener('click', event => { if(event.ta
 if(ui.statsButton) ui.statsButton.addEventListener('click', () => { const opening=ui.statsPanel.hidden; ui.statsPanel.hidden=!opening; if(opening) renderStats(); });
 if(ui.statsPanel) ui.statsPanel.addEventListener('click', event => { if(event.target.closest('[data-close-stats]')) ui.statsPanel.hidden=true; });
 ui.autoWaveButton.addEventListener('click', () => { autoWave=!autoWave; clearTimeout(autoWaveTimer); updateAutoWaveButton(); say(`Auto wave ${autoWave?'enabled':'disabled'}.`); if(autoWave&&!running&&!gameOver) startWave(); });
+if(ui.speedButton) ui.speedButton.addEventListener('click', () => { gameSpeed=gameSpeed===1?2:gameSpeed===2?3:1; updateSpeedButton(); say(`Game speed set to ${gameSpeed}×.`); });
 ui.waveButton.addEventListener('click', startWave); ui.rollButton.addEventListener('click', drawTower);
 ui.startButton.addEventListener('click', () => { if(gameOver) reset(); ui.baseUpgradeChoices.hidden=true; ui.modal.classList.remove('open'); });
 window.addEventListener('keydown', e => { const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.key === ' '){ e.preventDefault(); startWave(); } if(['1','2','3'].includes(e.key)) choose(['common-spark-coil','common-root-cannon','common-thorn-garden'][+e.key-1]); });
@@ -368,7 +370,7 @@ function drawPlacedTower(t) {
 }
 function drawEnemy(e) { ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.angle);ctx.fillStyle=e.hit?'#fff6ce':e.type.body;ctx.fillRect(-e.r,-e.r*.65,e.r*2,e.r*1.3);ctx.fillStyle=e.type.top;ctx.fillRect(-e.r*.65,-e.r*.88,e.r*1.2,e.r*.4);ctx.fillStyle='#2d2028';ctx.fillRect(-e.r*.25,-e.r*.43,e.r*.17,e.r*.16);ctx.fillRect(e.r*.17,-e.r*.43,e.r*.17,e.r*.16);if(e.elite || e.boss){ctx.strokeStyle='#fff0a8';ctx.lineWidth=e.boss?4:2;ctx.strokeRect(-e.r-3,-e.r*.82,e.r*2+6,e.r*1.62);}if(e.boss){ctx.fillStyle='#ffe28a';ctx.font='bold 14px system-ui';ctx.fillText('BOSS',-18,-e.r-11);}ctx.restore();const w=e.boss?92:e.elite?46:30,barY=e.y-e.r-17;ctx.fillStyle='#172b2f';ctx.fillRect(e.x-w/2,barY,w,e.boss?8:5);ctx.fillStyle=e.boss?'#ffcb52':e.elite?'#ffd16d':e.type.top;ctx.fillRect(e.x-w/2,barY,w*Math.max(0,e.hp/e.maxHp),e.boss?8:5);ctx.fillStyle=e.boss?'#ffe28a':e.elite?'#f7e5aa':'#eefbf1';ctx.font=`bold ${e.boss?10:8}px system-ui`;ctx.textAlign='center';ctx.fillText(e.type.name,e.x,barY-15);ctx.fillStyle='#fff4bb';ctx.font='bold 8px system-ui';ctx.fillText(`DMG ${e.damage}`,e.x,barY-5);ctx.textAlign='left'; }
 function draw() { ctx.clearRect(0,0,W,H);ctx.fillStyle='#0d2930';ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);ctx.scale(camera.zoom,camera.zoom);ctx.translate(-camera.x,-camera.y);drawMap();drawPortal();for(const t of towers)drawPlacedTower(t);for(const e of enemies)drawEnemy(e);for(const s of shots){ctx.strokeStyle=s.color;ctx.lineWidth=s.kind==='spark'?3:5;ctx.beginPath();ctx.arc(s.x,s.y,s.kind==='spark'?3:5,0,Math.PI*2);ctx.stroke();}for(const p of particles){ctx.globalAlpha=Math.min(1,p.life*3);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.burst?(1-p.life)*38:p.size,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}ctx.restore(); }
-function loop(now) { const dt=Math.min(.035,(now-last)/1000);last=now;updateCamera(dt);if(!gameOver||running)update(dt);draw();requestAnimationFrame(loop); }
+function loop(now) { const dt=Math.min(.035,(now-last)/1000);last=now;updateCamera(dt);if(!gameOver||running)update(dt*gameSpeed);draw();requestAnimationFrame(loop); }
 const restoredSave=loadGame();
 loadPermanentProgress();
 refreshBuildPads();
