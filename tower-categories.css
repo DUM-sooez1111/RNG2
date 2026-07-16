@@ -34,6 +34,8 @@
 .tower-categories button.active { color: #fff2a5; background: #4a7651; border-color: #d8ef88; }
 .tower-grade-categories button { flex: 0 0 auto; padding: 3px 6px; font-size: 7px; }
 .tower-grade-categories button.active { color: #ffffff; background: #5b4a8f; border-color: #e2d5ff; }
+.grade-eternal { color: #a98cff; text-shadow: 0 0 7px #a98cff; }
+.grade-apex { color: #ff8be7; text-shadow: 0 0 8px #ff8be7; }
 .tower-browser .inventory { width: 100%; }
 
 .inventory-slot.fusion-ready { border-color: #ffd97e; background: linear-gradient(145deg, #5b4a2c, #2d382f); }
