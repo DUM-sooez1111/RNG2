@@ -227,11 +227,26 @@ function drawGradeEffect(t) {
   if(tier>=4){ctx.globalAlpha=.55;ctx.lineWidth=2;for(let i=0;i<8;i++){const a=time*1.6+i*Math.PI/4;ctx.beginPath();ctx.moveTo(Math.cos(a)*25,Math.sin(a)*25);ctx.lineTo(Math.cos(a)*42,Math.sin(a)*42);ctx.stroke();}ctx.globalAlpha=.25+.15*Math.sin(time*5);ctx.fillStyle='#fff6ad';ctx.beginPath();ctx.arc(0,0,38,0,Math.PI*2);ctx.fill();}
   ctx.restore();
 }
+function drawGradeCrest(t) {
+  const tier=getGradeTier(t), color=t.type.color, time=performance.now()/1000, diamond=(x,y,size)=>{ctx.beginPath();ctx.moveTo(x,y-size);ctx.lineTo(x+size,y);ctx.lineTo(x,y+size);ctx.lineTo(x-size,y);ctx.closePath();ctx.fill();};
+  if(tier<1) return;
+  ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle=color;ctx.strokeStyle=color;
+  if(tier>=1){ctx.globalAlpha=.7;ctx.fillRect(-14,-27,28,4);}
+  if(tier>=2){ctx.globalAlpha=.85;diamond(-22,0,5);diamond(22,0,5);}
+  if(tier>=3){ctx.globalAlpha=.9;ctx.beginPath();ctx.moveTo(-13,-24);ctx.lineTo(-6,-37);ctx.lineTo(0,-27);ctx.lineTo(7,-39);ctx.lineTo(15,-24);ctx.closePath();ctx.fill();}
+  if(tier>=4){ctx.globalAlpha=.75;ctx.beginPath();ctx.moveTo(-20,-7);ctx.lineTo(-43,-20);ctx.lineTo(-31,2);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(20,-7);ctx.lineTo(43,-20);ctx.lineTo(31,2);ctx.closePath();ctx.fill();}
+  if(tier>=5){ctx.globalAlpha=.8;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,31,-.9,.9);ctx.stroke();diamond(0,-37,5);}
+  if(tier>=6){ctx.globalAlpha=.7;ctx.lineWidth=2;ctx.setLineDash([3,4]);ctx.rotate(time*.45);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3, x=Math.cos(a)*40,y=Math.sin(a)*40;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.closePath();ctx.stroke();ctx.setLineDash([]);}
+  if(tier>=7){ctx.globalAlpha=.92;for(let i=0;i<5;i++){const a=time*.8+i*Math.PI*2/5;diamond(Math.cos(a)*42,Math.sin(a)*42,4);}}
+  if(tier>=8){ctx.globalAlpha=.75;ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,46,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(-50,0);ctx.lineTo(50,0);ctx.moveTo(0,-50);ctx.lineTo(0,50);ctx.stroke();}
+  if(tier>=9){ctx.globalAlpha=.9;ctx.lineWidth=3;for(let i=0;i<12;i++){const a=time*1.2+i*Math.PI/6;ctx.beginPath();ctx.moveTo(Math.cos(a)*36,Math.sin(a)*36);ctx.lineTo(Math.cos(a)*58,Math.sin(a)*58);ctx.stroke();}}
+  ctx.restore();
+}
 function drawPlacedTower(t) {
   ctx.save(); ctx.translate(t.x,t.y);
   drawGradeEffect(t);
   if(t===selectedTower){const range=getTowerRange(t);ctx.globalAlpha=.14;ctx.fillStyle=t.type.color;ctx.beginPath();ctx.arc(0,0,range,0,Math.PI*2);ctx.fill();ctx.globalAlpha=.72;ctx.strokeStyle=t.type.color;ctx.lineWidth=2;ctx.setLineDash([8,7]);ctx.beginPath();ctx.arc(0,0,range,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;ctx.strokeStyle='#ffe96b';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,30,0,Math.PI*2);ctx.stroke();}
-  const model=t.type.modelId||t.type.id.slice(t.type.grade.length+1);
+  const tier=getGradeTier(t), model=t.type.modelId||t.type.id.slice(t.type.grade.length+1); drawGradeCrest(t); ctx.scale(1+tier*.028,1+tier*.028);
   if(t.type.kind==='thorns'){
     if(model==='thorn-garden'){
       ctx.fillStyle='#385d2f';ctx.beginPath();for(let i=0;i<7;i++){const a=i*Math.PI*2/7;ctx.lineTo(Math.cos(a)*19,Math.sin(a)*19);}ctx.fill();ctx.fillStyle='#c9ff82';for(let i=0;i<6;i++){ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(i*Math.PI/3)*23,Math.sin(i*Math.PI/3)*23);ctx.lineTo(Math.cos(i*Math.PI/3+.32)*10,Math.sin(i*Math.PI/3+.32)*10);ctx.fill();}
