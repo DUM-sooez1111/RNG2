@@ -4,9 +4,18 @@
 }
 
 .tower-categories {
+  display: grid;
+  gap: 4px;
+  margin: 0 4px 6px;
+}
+
+.tower-kind-categories,
+.tower-grade-categories {
   display: flex;
   gap: 5px;
-  margin: 0 4px 6px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .tower-categories button {
@@ -23,6 +32,8 @@
 
 .tower-categories button:hover { filter: brightness(1.18); }
 .tower-categories button.active { color: #fff2a5; background: #4a7651; border-color: #d8ef88; }
+.tower-grade-categories button { flex: 0 0 auto; padding: 3px 6px; font-size: 7px; }
+.tower-grade-categories button.active { color: #ffffff; background: #5b4a8f; border-color: #e2d5ff; }
 .tower-browser .inventory { width: 100%; }
 
 .inventory-slot.fusion-ready { border-color: #ffd97e; background: linear-gradient(145deg, #5b4a2c, #2d382f); }
@@ -31,5 +42,6 @@
 
 @media (max-width: 720px) {
   .tower-categories { gap: 3px; margin: 0 1px 4px; }
+  .tower-kind-categories, .tower-grade-categories { gap: 3px; }
   .tower-categories button { padding: 3px 4px; font-size: 6px; }
 }
