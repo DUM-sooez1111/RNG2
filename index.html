@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="enemy-index.css" />
     <link rel="stylesheet" href="stats.css" />
+    <link rel="stylesheet" href="tower-categories.css" />
   </head>
   <body>
     <main class="game-shell">
@@ -42,7 +43,10 @@
 
       <section class="dock" aria-label="Tower inventory">
         <div class="dock-copy"><strong>100 TOWER CATALOG</strong><span>Ten grades and ten tower models. Draw a tower, then select it to build.</span></div>
-        <div id="inventory" class="inventory" aria-label="Tower inventory" title="Use the mouse wheel here to browse towers"></div>
+        <div class="tower-browser">
+          <div id="towerCategories" class="tower-categories" aria-label="Tower categories"></div>
+          <div id="inventory" class="inventory" aria-label="Tower inventory" title="Use the mouse wheel here to browse towers"></div>
+        </div>
         <div id="upgradePanel" class="upgrade-panel" aria-live="polite"></div>
         <button id="rollButton" class="roll-button" title="Draw a random tower for 100 supplies"><b id="rouletteTower" class="roulette-tower">TWR</b><span>TOWER ROULETTE</span><small id="drawCost">100</small><i id="rouletteLevel">LV 1</i></button>
       </section>
@@ -59,6 +63,6 @@
         <small>Choose inventory: 1, 2, 3 | Start wave: Space | Wheel: Zoom | WASD: Move view</small>
       </div>
     </div>
-    <script src="game.js?v=20260717-roulette-level-40-gate"></script>
+    <script src="game.js?v=20260717-tower-categories"></script>
   </body>
 </html>

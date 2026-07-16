@@ -9,6 +9,7 @@ Open `index.html` in a browser. No installation or local server is required.
 ## Current gameplay
 
 - Towers live in the inventory, not in the build dock. The inventory scrolls through a 100-tower catalog.
+- Use the **ALL**, **ELECTRIC**, **CANNON**, and **THORNS** category tabs above the inventory to filter the catalog and find a tower quickly. A roulette result automatically opens its matching category.
 - The catalog has 10 unique tower models across 10 grades: Common, Uncommon, Rare, Epic, Legendary, Mythic, Ancient, Celestial, Divine, and Transcendent.
 - Every new game starts with three Common starter towers in the inventory.
 - The **Draw Tower** button begins at **100 supplies** and adds one random tower to the inventory. Its cost rises by 50 supplies after every defeat, while each new defense starts with enough supplies for at least one draw.
