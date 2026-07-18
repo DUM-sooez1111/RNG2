@@ -30,12 +30,28 @@
       <section class="play-area" aria-label="Fortune Bastion game board">
         <canvas id="game" width="1320" height="816"></canvas>
         <div id="toast" class="toast">Draw a tower, then select it in your inventory.</div>
+        <section id="rouletteScene" class="roulette-scene" hidden aria-live="polite">
+          <div class="roulette-scene-glow"></div>
+          <div class="roulette-scene-card side left"><span id="rouletteLeftIcon">?</span></div>
+          <article id="rouletteReveal" class="roulette-scene-card reveal">
+            <span id="rouletteRevealGrade" class="roulette-reveal-grade">일반</span>
+            <b id="rouletteRevealIcon" class="roulette-reveal-icon">TWR</b>
+            <strong id="rouletteRevealName">타워 탐색 중</strong>
+            <small>타워 룰렛</small>
+          </article>
+          <div class="roulette-scene-card side right"><span id="rouletteRightIcon">?</span></div>
+          <div class="roulette-scene-controls">
+            <button id="rouletteAutoButton" type="button">자동 뽑기: 끔</button>
+            <button id="rouletteHideButton" type="button">숨기기</button>
+          </div>
+        </section>
         <button id="waveButton" class="wave-button">웨이브 시작 <span>&gt;</span></button>
         <button id="autoWaveButton" class="auto-wave-button" title="다음 웨이브를 자동으로 시작합니다">자동 웨이브: 끔</button>
         <button id="resetViewButton" class="reset-view-button" title="화면 위치와 배율을 초기화합니다">화면 초기화</button>
         <button id="speedButton" class="speed-button" title="Cycle game speed between 1×, 2×, and 3×">SPEED: 1×</button>
         <button id="autoDrawButton" class="auto-draw-button" title="코인이 있는 동안 타워를 자동으로 뽑습니다">자동 뽑기: 끔</button>
         <button id="mapButton" class="map-button" title="웨이브가 없을 때 다음 맵으로 이동합니다">다음 맵</button>
+        <aside id="mapPanel" class="map-panel" hidden aria-label="맵 순간이동"></aside>
         <button id="saveButton" class="save-button" title="게임 진행 상황을 저장합니다">게임 저장</button>
         <button id="indexButton" class="index-button" title="타워와 적 도감을 봅니다">도감</button>
         <button id="gemButton" class="gem-button" title="보스 젬으로 영구 업그레이드를 구매합니다">젬 포지</button>
@@ -74,6 +90,6 @@
         <small>인벤토리 선택: 1, 2, 3 | 웨이브 시작: Space | 휠: 확대/축소 | WASD: 화면 이동</small>
       </div>
     </div>
-    <script src="game.js?v=20260717-repeat-playtime-rewards"></script>
+<script src="game.js?v=20260718-map-teleport"></script>
   </body>
 </html>
