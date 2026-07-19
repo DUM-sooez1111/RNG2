@@ -255,15 +255,20 @@ function loadGame() { try { const state=JSON.parse(localStorage.getItem(SAVE_KEY
 function updateCamera(dt) { const left=cameraKeys.has('a'), right=cameraKeys.has('d'), up=cameraKeys.has('w'), down=cameraKeys.has('s'); if(!left&&!right&&!up&&!down) return; const length=Math.hypot((right?1:0)-(left?1:0),(down?1:0)-(up?1:0))||1, speed=460/camera.zoom; camera.x+=((right?1:0)-(left?1:0))/length*speed*dt; camera.y+=((down?1:0)-(up?1:0))/length*speed*dt; camera.x=Math.max(0,Math.min(W,camera.x)); camera.y=Math.max(0,Math.min(H,camera.y)); }
 
 function renderInventory() {
+  const kindScrollLeft=ui.towerCategories?.querySelector('.tower-kind-categories')?.scrollLeft||0;
+  const gradeScrollLeft=ui.towerCategories?.querySelector('.tower-grade-categories')?.scrollLeft||0;
+  const inventoryScrollLeft=ui.inventory?.scrollLeft||0;
   const fusableTypes=getFusableInventoryTypes(), categories=[['all','전체'],['spark','전기'],['cannon','포격'],['thorns','가시'],['fusable',`합성 가능 ${fusableTypes.size||''}`.trim()]];
   if(ui.towerCategories)ui.towerCategories.innerHTML=`<div class="tower-kind-categories">${categories.map(([id,label])=>`<button data-category="${id}" class="${towerCategory===id?'active':''}" title="${label} 타워 보기">${label}</button>`).join('')}</div><div class="tower-grade-categories" title="마우스 휠로 등급을 둘러보세요"><button data-grade="all" class="${towerGrade==='all'?'active':''}">모든 등급</button>${grades.map(grade=>`<button data-grade="${grade.id}" class="grade-${grade.id} ${towerGrade===grade.id?'active':''}">${grade.label}</button>`).join('')}</div>`;
+  if(ui.towerCategories){const kindList=ui.towerCategories.querySelector('.tower-kind-categories'),gradeList=ui.towerCategories.querySelector('.tower-grade-categories');if(kindList)kindList.scrollLeft=kindScrollLeft;if(gradeList)gradeList.scrollLeft=gradeScrollLeft;}
   const entries=Object.entries(types).filter(([id,type])=>(towerCategory==='all'||(towerCategory==='fusable'?fusableTypes.has(id):type.kind===towerCategory))&&(towerGrade==='all'||type.grade===towerGrade));
-  if(!entries.length&&towerCategory==='fusable') { ui.inventory.innerHTML='<div class="inventory-empty">합성 가능한 타워 없음<br><small>같은 타워를 전장 또는 인벤토리에서 하나 더 찾으세요.</small></div>'; return; }
+  if(!entries.length&&towerCategory==='fusable') { ui.inventory.innerHTML='<div class="inventory-empty">합성 가능한 타워 없음<br><small>같은 타워를 전장 또는 인벤토리에서 하나 더 찾으세요.</small></div>'; ui.inventory.scrollLeft=inventoryScrollLeft; return; }
   ui.inventory.innerHTML = entries.map(([id, type]) => {
     const levels = inventory[id], amount = levels.length, highest = amount ? Math.max(...levels) : 0;
     const fusionInfo=fusableTypes.get(id), fusionDetail=fusionInfo?` | 전장 ${fusionInfo.fieldCount} | 레벨 ${fusionInfo.levels.join('/')}`:(highest > 1 ? ` | 최대 L${highest}` : '');
     return `<button class="inventory-slot ${selected === id ? 'selected' : ''} ${fusionInfo?'fusion-ready':''}" data-tower="${id}" ${amount ? '' : 'disabled'}><span class="inventory-icon ${type.kind}">${type.icon}</span><span class="inventory-name">${type.name}</span><span class="inventory-grade grade-${type.grade}">${fusionInfo?'합성 후보':type.gradeLabel}</span><span class="inventory-count">보유 <b>${amount}</b>${fusionDetail}</span></button>`;
   }).join('');
+  ui.inventory.scrollLeft=inventoryScrollLeft;
 }
 function getIndexEnemies() { return [...enemyTypes.map((type,index)=>({...type,group:'NORMAL',id:`normal-${index}`})),...eliteTypes.map((type,index)=>({...type,group:'ELITE',id:`elite-${index}`})),...bossTypes.map((type,index)=>({...type,group:'BOSS',id:`boss-${index}`}))]; }
 function renderIndexDetail() {
