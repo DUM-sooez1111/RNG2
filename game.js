@@ -447,10 +447,41 @@ function eventToWorld(event) { const rect=canvas.getBoundingClientRect(), screen
 function nearestWithin(items, point, radius) { let nearest=null,best=radius; for(const item of items){const itemDistance=distance(point,item);if(itemDistance<=best){nearest=item;best=itemDistance;}} return nearest; }
 function getClickRadius(visibleRadius, forgivingScreenPixels=42) { return Math.max(visibleRadius,forgivingScreenPixels/camera.zoom); }
 function activateCanvasAt(event) { if(gameOver) return; const point=eventToWorld(event); if(activeSkill)return useActiveSkill(point.x,point.y); const pad=nearestWithin(pads,point,getClickRadius(28)), selectedType=selected&&types[selected]; if(pad){if(pad.tower) return fusionMode ? fuseWith(pad.tower) : selectTower(pad.tower); if(fusionMode) return say('Fusion needs a matching installed tower.'); return buildAt(pad);} const pathTower=nearestWithin(towers.filter(t=>t.pathTrap),point,getClickRadius(24,38)); if(pathTower) return fusionMode ? fuseWith(pathTower) : selectTower(pathTower); if(fusionMode) return say('Fusion needs a matching installed tower.'); if(selectedType&&selectedType.kind==='thorns') return deployThornsOnPath(point.x,point.y); say('Click a glowing hexagonal build zone.'); }
-let canvasPointerStart=null;
-canvas.addEventListener('pointerdown', event => { if(event.button!==0 || !event.isPrimary) return; canvasPointerStart={id:event.pointerId,x:event.clientX,y:event.clientY}; canvas.setPointerCapture?.(event.pointerId); });
-canvas.addEventListener('pointerup', event => { const start=canvasPointerStart; if(!start || start.id!==event.pointerId || !event.isPrimary) return; canvasPointerStart=null; canvas.releasePointerCapture?.(event.pointerId); if(Math.hypot(event.clientX-start.x,event.clientY-start.y)>14) return; event.preventDefault(); activateCanvasAt(event); });
-canvas.addEventListener('pointercancel', () => { canvasPointerStart=null; });
+const canvasPointers=new Map();
+let canvasPinch=null;
+function clampMapCamera() { camera.x=Math.max(0,Math.min(W,camera.x));camera.y=Math.max(0,Math.min(H,camera.y)); }
+function getCanvasPinch() { const [a,b]=[...canvasPointers.values()];return a&&b?{clientX:(a.x+b.x)/2,clientY:(a.y+b.y)/2,distance:Math.max(1,Math.hypot(a.x-b.x,a.y-b.y))}:null; }
+canvas.addEventListener('pointerdown', event => {
+  if(event.button!==0 || (event.pointerType!=='touch'&&!event.isPrimary)) return;
+  event.preventDefault();
+  canvasPointers.set(event.pointerId,{x:event.clientX,y:event.clientY,startX:event.clientX,startY:event.clientY,moved:false});
+  canvas.setPointerCapture(event.pointerId);
+  if(canvasPointers.size>1){canvasPointers.forEach(pointer=>pointer.moved=true);canvasPinch=getCanvasPinch();}
+});
+canvas.addEventListener('pointermove', event => {
+  const pointer=canvasPointers.get(event.pointerId);if(!pointer)return;
+  const previous={clientX:pointer.x,clientY:pointer.y};pointer.x=event.clientX;pointer.y=event.clientY;
+  if(canvasPointers.size>1){
+    const next=getCanvasPinch();
+    if(canvasPinch&&next){const before=eventToWorld(canvasPinch);camera.zoom=Math.max(.45,Math.min(2.4,camera.zoom*next.distance/canvasPinch.distance));const after=eventToWorld(next);camera.x+=before.x-after.x;camera.y+=before.y-after.y;clampMapCamera();}
+    canvasPinch=next;
+  }else{
+    if(Math.hypot(pointer.x-pointer.startX,pointer.y-pointer.startY)>8)pointer.moved=true;
+    if(pointer.moved){const before=eventToWorld(previous),after=eventToWorld(event);camera.x+=before.x-after.x;camera.y+=before.y-after.y;clampMapCamera();}
+  }
+});
+function finishCanvasPointer(event) {
+  const pointer=canvasPointers.get(event.pointerId);if(!pointer)return;
+  canvasPointers.delete(event.pointerId);canvasPinch=null;
+  canvasPointers.forEach(remaining=>remaining.moved=true);
+  if(canvas.hasPointerCapture(event.pointerId))canvas.releasePointerCapture(event.pointerId);
+  if(event.type==='pointerup'&&!pointer.moved&&Math.hypot(event.clientX-pointer.startX,event.clientY-pointer.startY)<=8){event.preventDefault();activateCanvasAt(event);}
+}
+canvas.addEventListener('pointerup',finishCanvasPointer);
+canvas.addEventListener('pointercancel',finishCanvasPointer);
+canvas.addEventListener('lostpointercapture',finishCanvasPointer);
+function clearCanvasInput(){cameraKeys.clear();canvasPointers.clear();canvasPinch=null;}
+window.addEventListener('blur',clearCanvasInput);
 canvas.addEventListener('wheel', event => { event.preventDefault(); const before=eventToWorld(event), nextZoom=Math.max(.45,Math.min(2.4,camera.zoom*(event.deltaY>0?.9:1.1))); if(nextZoom===camera.zoom) return; camera.zoom=nextZoom; const after=eventToWorld(event); camera.x+=before.x-after.x; camera.y+=before.y-after.y; }, {passive:false});
 ui.inventory.addEventListener('click', event => { const slot = event.target.closest('button[data-tower]'); if(slot) choose(slot.dataset.tower); });
 if(ui.towerCategories) ui.towerCategories.addEventListener('click', event => { const categoryButton=event.target.closest('[data-category]'); if(categoryButton){towerCategory=categoryButton.dataset.category;renderInventory();say(`${categoryButton.textContent} tower category selected.`);return;} const gradeButton=event.target.closest('[data-grade]'); if(gradeButton){towerGrade=gradeButton.dataset.grade;renderInventory();say(`${gradeButton.textContent} grade filter selected.`);} });
@@ -487,7 +518,7 @@ document.addEventListener('click', event => { const target=event.target.closest(
 window.addEventListener('keydown', e => { if(e.target.matches('input,textarea,[contenteditable="true"]'))return;const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.repeat)return; if(e.key === ' '){ e.preventDefault(); if(!ui.modal.classList.contains('open')) startWave(); } if(e.key==='1'&&!ui.modal.classList.contains('open')){e.preventDefault();if(playerSkills.airstrike)equipPlayerSkill('airstrike');else choose('common-spark-coil');} if(['2','3'].includes(e.key)&&!ui.modal.classList.contains('open')) choose(['common-root-cannon','common-thorn-garden'][+e.key-2]); });
 window.addEventListener('keyup', e => { cameraKeys.delete(e.key.toLowerCase()); });
 window.addEventListener('beforeunload', () => saveGame(true));
-document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden')saveGame(true); });
+document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden'){clearCanvasInput();saveGame(true);} });
 setInterval(() => saveGame(true), 15000);
 
 function hurt(enemy, amount, color) {
