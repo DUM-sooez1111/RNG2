@@ -173,7 +173,7 @@ function freshInventory() { return Object.fromEntries(Object.entries(startingInv
 let inventory = freshInventory();
 let selected = 'common-spark-coil';
 let towerCategory = 'all', towerGrade = 'all', indexSelection = null;
-let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false, gameOver = false, gameSpeed = 1, last = performance.now(), toastTimer;
+let gold = 320, lives = 20, wave = 0, drawCost = BASE_DRAW_COST, running = false, gameOver = false, gameSpeed = 1, last = performance.now(), toastTimer, backgroundTickTimer, backgroundLast = 0, pendingBackgroundSeconds = 0;
 const unlockedMaps = [true, false, false, false, false];
 const mapTowerStates = maps.map(() => []);
 let towers = [], enemies = [], shots = [], particles = [], airstrikes = [], spawnQueue = [], spawnCooldown = 0, selectedTower = null, fusionMode = false, isDrawing = false, drawTimer, drawSpinTimer, rouletteHideTimer, rouletteHiddenByPlayer = false, autoWave = false, autoWaveTimer, autoDraw = false, autoDrawTimer, autoEquip = false, autoSaveTimer, collectAllArmed = false, activeSkill = null, airstrikeReadyAt = 0, bossIntro = null, tutorialStep = 0, tutorialActive = true;
@@ -215,7 +215,7 @@ const tutorialPages = [
   {title:'전투 매뉴얼 3 / 3', text:'같은 타워를 강화하고 합성해 더 높은 등급으로 키우세요. 보스는 젬을 떨어뜨립니다. 젬 포지에서 다음 맵과 영구 강화를 구매할 수 있습니다. 공습은 젬 5개로 구매하며 1번 키 후 맵을 클릭해 사용합니다.'}
 ];
 function renderTutorial() { const page=tutorialPages[tutorialStep]; if(!page) return; ui.modalTitle.textContent=page.title; ui.modalText.textContent=page.text; ui.baseUpgradeChoices.hidden=true; ui.startButton.hidden=false; ui.startButton.textContent=tutorialStep===tutorialPages.length-1?'방어 시작':'다음 페이지'; ui.modal.classList.add('open'); }
-function advanceTutorial() { if(!tutorialActive) return false; if(tutorialStep<tutorialPages.length-1){tutorialStep++;renderTutorial();return true;} tutorialActive=false;ui.modal.classList.remove('open');return true; }
+function advanceTutorial() { if(!tutorialActive) return false; if(tutorialStep<tutorialPages.length-1){tutorialStep++;renderTutorial();return true;} tutorialActive=false;ui.modal.classList.remove('open');applyPendingBackgroundProgress();return true; }
 function isMapUnlocked(index) { return unlockedMaps[index]; }
 function updateMapButton() { if(ui.mapButton)ui.mapButton.textContent='맵 순간이동'; }
 function updateAutoWaveButton() { ui.autoWaveButton.textContent=`자동 웨이브: ${autoWave ? '켬' : '끔'}`; ui.autoWaveButton.classList.toggle('on',autoWave); }
@@ -261,9 +261,9 @@ function toggleMapTeleport() { if(running)return say('웨이브가 끝난 뒤 �
 function serializeEnemy(enemy) { return {typeName:enemy.type.name,level:enemy.level,progress:enemy.progress,spawnProgress:enemy.spawnProgress,lane:enemy.lane,speed:enemy.speed,hp:enemy.hp,maxHp:enemy.maxHp,damage:enemy.damage,reward:enemy.reward,slow:enemy.slow,slowFactor:enemy.slowFactor,poison:enemy.poison,poisonDamage:enemy.poisonDamage,burn:enemy.burn,burnDamage:enemy.burnDamage,statusTick:enemy.statusTick,hit:enemy.hit}; }
 function restoreSavedEnemy(saved) { const type=[...enemyTypes,...eliteTypes,...bossTypes].find(entry=>entry.name===saved.typeName); if(!type||!Number.isFinite(saved.progress)||!Number.isFinite(saved.hp)) return null; const boss=bossTypes.includes(type),elite=eliteTypes.includes(type),progress=Math.max(PORTAL_PROGRESS,saved.progress),spawnProgress=Math.min(progress,Math.max(0,Number.isFinite(saved.spawnProgress)?saved.spawnProgress:PORTAL_PROGRESS)),lane=boss||elite?0:Number(saved.lane)||1,maxHp=Math.max(1,Math.floor(saved.maxHp||1)),enemy={progress,spawnProgress,lane,level:Math.max(1,Math.floor(saved.level||1)),speed:Math.max(1,Number(saved.speed)||1),hp:Math.max(1,Math.min(maxHp,Number(saved.hp))),maxHp,damage:Math.max(1,Math.floor(saved.damage||type.damage)),reward:Math.max(0,Math.floor(saved.reward||0)),r:type.r,elite,boss,type,slow:Math.max(0,Number(saved.slow)||0),slowFactor:Math.max(.25,Math.min(1,Number(saved.slowFactor)||1)),poison:Math.max(0,Number(saved.poison)||0),poisonDamage:Math.max(0,Number(saved.poisonDamage)||0),burn:Math.max(0,Number(saved.burn)||0),burnDamage:Math.max(0,Number(saved.burnDamage)||0),statusTick:Math.max(0,Number(saved.statusTick)||0),hit:Math.max(0,Number(saved.hit)||0)}; const pos=pointOnLane(progress,lane); return {...enemy,x:pos.x,y:pos.y,angle:pos.angle}; }
 function updateAutoSaveStatus() { if(!ui.autoSaveStatus)return;const now=new Date(),time=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;ui.autoSaveStatus.textContent=`자동 저장됨 · ${time}`; }
-function saveGame(silent=false) { try { captureCurrentMapLayout(); persistPermanentProgress();persistPlaytimeRewards(); const state={version:1,mapIndex:currentMapIndex,unlockedMaps:[...unlockedMaps],baseUpgrades:{...baseUpgrades},gold,lives,wave,drawCost,running,autoWave,autoEquip,spawnQueue:[...spawnQueue],spawnCooldown,enemies:enemies.map(serializeEnemy),inventory,mapTowerStates:mapTowerStates.map(layout=>layout.map(tower=>({...tower}))),towers:mapTowerStates[currentMapIndex],selected,camera:{...camera}}; localStorage.setItem(SAVE_KEY,JSON.stringify(state)); updateAutoSaveStatus();if(!silent)say(running?'현재 웨이브 진행 상황을 이 브라우저에 저장했습니다.':'게임을 이 브라우저에 저장했습니다.'); } catch { if(ui.autoSaveStatus)ui.autoSaveStatus.textContent='자동 저장 실패';if(!silent)say('이 브라우저에서는 저장할 수 없습니다.'); } }
+function saveGame(silent=false) { try { captureCurrentMapLayout(); persistPermanentProgress();persistPlaytimeRewards(); const state={version:1,savedAt:Date.now(),mapIndex:currentMapIndex,unlockedMaps:[...unlockedMaps],baseUpgrades:{...baseUpgrades},gold,lives,wave,drawCost,running,autoWave,autoEquip,spawnQueue:[...spawnQueue],spawnCooldown,enemies:enemies.map(serializeEnemy),inventory,mapTowerStates:mapTowerStates.map(layout=>layout.map(tower=>({...tower}))),towers:mapTowerStates[currentMapIndex],selected,camera:{...camera}}; localStorage.setItem(SAVE_KEY,JSON.stringify(state)); updateAutoSaveStatus();if(!silent)say(running?'현재 웨이브 진행 상황을 이 브라우저에 저장했습니다.':'게임을 이 브라우저에 저장했습니다.'); } catch { if(ui.autoSaveStatus)ui.autoSaveStatus.textContent='자동 저장 실패';if(!silent)say('이 브라우저에서는 저장할 수 없습니다.'); } }
 function scheduleAutoSave() { clearTimeout(autoSaveTimer); autoSaveTimer=setTimeout(()=>saveGame(true),700); }
-function loadGame() { try { const state=JSON.parse(localStorage.getItem(SAVE_KEY)); if(!state||state.version!==1||!Number.isInteger(state.mapIndex)||!maps[state.mapIndex]) return false; currentMapIndex=state.mapIndex; path=maps[currentMapIndex].path.map(point=>({...point})); pads=maps[currentMapIndex].pads.map(point=>({...point})); pathLength=calculatePathLength(); if(Array.isArray(state.unlockedMaps)) state.unlockedMaps.forEach((value,index)=>{if(index<unlockedMaps.length)unlockedMaps[index]=!!value;}); Object.keys(baseUpgrades).forEach(id=>{if(Number.isFinite(state.baseUpgrades?.[id]))baseUpgrades[id]=Math.max(0,Math.min(getUpgradeMax(id),Math.floor(state.baseUpgrades[id])));}); inventory=freshInventory(); Object.entries(state.inventory||{}).forEach(([id,levels])=>{if(inventory[id]&&Array.isArray(levels))inventory[id]=levels.filter(level=>Number.isInteger(level)&&level>0).map(level=>Math.min(level,getMaxLevel({type:types[id]})));}); const savedLayouts=Array.isArray(state.mapTowerStates)?state.mapTowerStates:null; mapTowerStates.forEach((_,index)=>{mapTowerStates[index]=Array.isArray(savedLayouts?.[index])?savedLayouts[index]:index===currentMapIndex?(state.towers||[]):[];}); pads=getPadsForMap(currentMapIndex,mapTowerStates[currentMapIndex]); restoreTowerLayout(mapTowerStates[currentMapIndex]); gold=Math.max(0,Math.floor(state.gold||0)); lives=Math.max(1,Math.floor(state.lives||getStartingLives())); wave=Math.max(0,Math.floor(state.wave||0)); drawCost=Math.max(BASE_DRAW_COST,Math.floor(state.drawCost||BASE_DRAW_COST)); enemies=Array.isArray(state.enemies)?state.enemies.map(restoreSavedEnemy).filter(Boolean):[]; spawnQueue=Array.isArray(state.spawnQueue)?state.spawnQueue.filter(Number.isInteger):[]; spawnCooldown=Math.max(0,Number(state.spawnCooldown)||0); running=!!state.running&&(enemies.length>0||spawnQueue.length>0); autoWave=!!state.autoWave;autoEquip=!!state.autoEquip; selected=inventory[state.selected]?.length?state.selected:Object.keys(inventory).find(id=>inventory[id].length)||null; camera.x=Math.max(0,Math.min(W,state.camera?.x||W/2));camera.y=Math.max(0,Math.min(H,state.camera?.y||H/2));camera.zoom=Math.max(.7,Math.min(2.2,state.camera?.zoom||1));gameOver=false;ui.waveButton.disabled=running;ui.waveButton.textContent=running?'DEFENDING':wave?'NEXT WAVE >':'START WAVE >';return true; } catch { return false; } }
+function loadGame() { try { const state=JSON.parse(localStorage.getItem(SAVE_KEY)); if(!state||state.version!==1||!Number.isInteger(state.mapIndex)||!maps[state.mapIndex]) return false; pendingBackgroundSeconds=Math.max(0,Math.min(86400,(Date.now()-(Number(state.savedAt)||Date.now()))/1000)); currentMapIndex=state.mapIndex; path=maps[currentMapIndex].path.map(point=>({...point})); pads=maps[currentMapIndex].pads.map(point=>({...point})); pathLength=calculatePathLength(); if(Array.isArray(state.unlockedMaps)) state.unlockedMaps.forEach((value,index)=>{if(index<unlockedMaps.length)unlockedMaps[index]=!!value;}); Object.keys(baseUpgrades).forEach(id=>{if(Number.isFinite(state.baseUpgrades?.[id]))baseUpgrades[id]=Math.max(0,Math.min(getUpgradeMax(id),Math.floor(state.baseUpgrades[id])));}); inventory=freshInventory(); Object.entries(state.inventory||{}).forEach(([id,levels])=>{if(inventory[id]&&Array.isArray(levels))inventory[id]=levels.filter(level=>Number.isInteger(level)&&level>0).map(level=>Math.min(level,getMaxLevel({type:types[id]})));}); const savedLayouts=Array.isArray(state.mapTowerStates)?state.mapTowerStates:null; mapTowerStates.forEach((_,index)=>{mapTowerStates[index]=Array.isArray(savedLayouts?.[index])?savedLayouts[index]:index===currentMapIndex?(state.towers||[]):[];}); pads=getPadsForMap(currentMapIndex,mapTowerStates[currentMapIndex]); restoreTowerLayout(mapTowerStates[currentMapIndex]); gold=Math.max(0,Math.floor(state.gold||0)); lives=Math.max(1,Math.floor(state.lives||getStartingLives())); wave=Math.max(0,Math.floor(state.wave||0)); drawCost=Math.max(BASE_DRAW_COST,Math.floor(state.drawCost||BASE_DRAW_COST)); enemies=Array.isArray(state.enemies)?state.enemies.map(restoreSavedEnemy).filter(Boolean):[]; spawnQueue=Array.isArray(state.spawnQueue)?state.spawnQueue.filter(Number.isInteger):[]; spawnCooldown=Math.max(0,Number(state.spawnCooldown)||0); running=!!state.running&&(enemies.length>0||spawnQueue.length>0); autoWave=!!state.autoWave;autoEquip=!!state.autoEquip; selected=inventory[state.selected]?.length?state.selected:Object.keys(inventory).find(id=>inventory[id].length)||null; camera.x=Math.max(0,Math.min(W,state.camera?.x||W/2));camera.y=Math.max(0,Math.min(H,state.camera?.y||H/2));camera.zoom=Math.max(.7,Math.min(2.2,state.camera?.zoom||1));gameOver=false;ui.waveButton.disabled=running;ui.waveButton.textContent=running?'DEFENDING':wave?'NEXT WAVE >':'START WAVE >';return true; } catch { return false; } }
 function updateCamera(dt) { const left=cameraKeys.has('a'), right=cameraKeys.has('d'), up=cameraKeys.has('w'), down=cameraKeys.has('s'); if(!left&&!right&&!up&&!down) return; const length=Math.hypot((right?1:0)-(left?1:0),(down?1:0)-(up?1:0))||1, speed=460/camera.zoom; camera.x+=((right?1:0)-(left?1:0))/length*speed*dt; camera.y+=((down?1:0)-(up?1:0))/length*speed*dt; camera.x=Math.max(0,Math.min(W,camera.x)); camera.y=Math.max(0,Math.min(H,camera.y)); }
 
 function renderInventory() {
@@ -564,7 +564,17 @@ document.addEventListener('click', event => { const target=event.target.closest(
 window.addEventListener('keydown', e => { if(e.target.matches('input,textarea,[contenteditable="true"]'))return;const key=e.key.toLowerCase(); if(['w','a','s','d'].includes(key)){cameraKeys.add(key);e.preventDefault();} if(e.repeat)return; if(e.key === ' '){ e.preventDefault(); if(!ui.modal.classList.contains('open')) startWave(); } if(e.key==='1'&&!ui.modal.classList.contains('open')){e.preventDefault();if(playerSkills.airstrike)equipPlayerSkill('airstrike');else choose('common-spark-coil');} if(['2','3'].includes(e.key)&&!ui.modal.classList.contains('open')) choose(['common-root-cannon','common-thorn-garden'][+e.key-2]); });
 window.addEventListener('keyup', e => { cameraKeys.delete(e.key.toLowerCase()); });
 window.addEventListener('beforeunload', () => saveGame(true));
-document.addEventListener('visibilitychange', () => { if(document.visibilityState==='hidden'){clearCanvasInput();saveGame(true);} });
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState==='hidden'){
+    clearCanvasInput();
+    saveGame(true);
+    startBackgroundSimulation();
+  } else {
+    stopBackgroundSimulation();
+    last=performance.now();
+    updateUI();
+  }
+});
 setInterval(() => saveGame(true), 15000);
 
 function hurt(enemy, amount, color) {
@@ -706,7 +716,7 @@ function drawAirstrikeTarget(strike) { const pulse=1+Math.sin(performance.now()/
 function drawBossCutscene() { if(!bossIntro)return; const boss=bossIntro.type, progress=1-bossIntro.time/bossIntro.duration, pulse=1+Math.sin(performance.now()/95)*.05;ctx.save();ctx.fillStyle='#08101ddd';ctx.fillRect(0,0,W,H);ctx.translate(W/2,H/2);ctx.scale(pulse,pulse);ctx.globalAlpha=Math.min(1,progress*4);ctx.fillStyle=boss.body;ctx.beginPath();ctx.arc(0,4,106,0,Math.PI*2);ctx.fill();ctx.fillStyle=boss.top;ctx.beginPath();ctx.arc(0,-38,78,Math.PI,0);ctx.fill();ctx.strokeStyle='#fff1ac';ctx.lineWidth=6;ctx.beginPath();ctx.arc(0,4,112,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#271d2a';ctx.fillRect(-52,-10,22,14);ctx.fillRect(30,-10,22,14);ctx.fillStyle='#ffe36a';ctx.font='900 20px system-ui';ctx.textAlign='center';ctx.fillText('BOSS APPROACHES',0,-156);ctx.fillStyle='#fff4c8';ctx.font='900 32px system-ui';ctx.fillText(boss.name,0,154);ctx.fillStyle='#f8b7a6';ctx.font='bold 14px system-ui';ctx.fillText(`WAVE ${wave} - PREPARE THE DEFENSE`,0,181);ctx.restore(); }
 function draw() { ctx.clearRect(0,0,W,H);ctx.fillStyle='#0d2930';ctx.fillRect(0,0,W,H);ctx.save();ctx.translate(W/2,H/2);ctx.scale(camera.zoom,camera.zoom);ctx.translate(-camera.x,-camera.y);drawMap();drawPortal();for(const strike of airstrikes)drawAirstrikeTarget(strike);for(const t of towers)drawPlacedTower(t);const enemyNamePositions=getEnemyNamePositions();for(const e of enemies){drawEnemy(e,enemyNamePositions.get(e));drawEnemyLevelEffect(e);}for(const s of shots){const size=s.kind==='spark'?3:5,trail=12;ctx.globalAlpha=s.hit?.72:1;ctx.strokeStyle=s.color;ctx.lineWidth=size;ctx.beginPath();ctx.moveTo(s.x-s.vx/s.speed*trail,s.y-s.vy/s.speed*trail);ctx.lineTo(s.x,s.y);ctx.stroke();ctx.fillStyle='#fff5c5';ctx.beginPath();ctx.arc(s.x,s.y,size,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}for(const p of particles){ctx.globalAlpha=Math.min(1,p.life*3);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.burst?(1-p.life)*38:p.size,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;}ctx.restore();drawBossCutscene(); }
 function updatePlaytime(dt) {
-  if(tutorialActive||document.hidden) return;
+  if(tutorialActive) return;
   playSeconds+=dt;
   const wholeSeconds=Math.floor(playSeconds);
   if(wholeSeconds-lastPlaytimeSaveSecond>=15){lastPlaytimeSaveSecond=wholeSeconds;persistPlaytimeRewards();}
@@ -716,7 +726,49 @@ function updatePlaytime(dt) {
   if(ui.gemPanel&&!ui.gemPanel.hidden) renderGemPanel();
   say(`Playtime reward ready: ${newlyReady.at(-1).label}. Open Gem Forge to claim it.`);
 }
-function loop(now) { const dt=Math.min(.035,(now-last)/1000);last=now;updateCamera(dt);updatePlaytime(dt);if(!gameOver||running)update(dt*gameSpeed);draw();requestAnimationFrame(loop); }
+function advanceGameTime(dt, includeCamera=false) {
+  if(includeCamera) updateCamera(dt);
+  updatePlaytime(dt);
+  if(!gameOver||running) update(dt*gameSpeed);
+}
+function advanceBackgroundTime(seconds) {
+  if(tutorialActive||seconds<=0) return 0;
+  let remaining=Math.min(seconds,86400),processed=0;
+  while(remaining>.0001&&!gameOver){
+    const step=Math.min(.05,remaining);
+    advanceGameTime(step);
+    remaining-=step;
+    processed+=step;
+  }
+  if(processed) updateUI();
+  return processed;
+}
+function runBackgroundTick() {
+  if(!document.hidden) return;
+  const now=performance.now(),elapsed=Math.max(0,(now-backgroundLast)/1000);
+  backgroundLast=now;
+  advanceBackgroundTime(elapsed);
+}
+function startBackgroundSimulation() {
+  clearInterval(backgroundTickTimer);
+  backgroundLast=performance.now();
+  backgroundTickTimer=setInterval(runBackgroundTick,250);
+}
+function stopBackgroundSimulation() {
+  if(!backgroundTickTimer) return;
+  clearInterval(backgroundTickTimer);
+  backgroundTickTimer=undefined;
+  const elapsed=Math.max(0,(performance.now()-backgroundLast)/1000);
+  advanceBackgroundTime(elapsed);
+}
+function applyPendingBackgroundProgress() {
+  const elapsed=pendingBackgroundSeconds;
+  pendingBackgroundSeconds=0;
+  if(elapsed<1) return;
+  const processed=advanceBackgroundTime(elapsed);
+  if(processed>=1) say(`다른 페이지에 있는 동안 ${Math.floor(processed)}초의 게임 진행을 반영했습니다.`);
+}
+function loop(now) { const dt=Math.min(.035,(now-last)/1000);last=now;if(!document.hidden)advanceGameTime(dt,true);draw();requestAnimationFrame(loop); }
 const restoredSave=loadGame();
 if(restoredSave) camera.zoom=Math.max(.45,Math.min(.82,camera.zoom));
 loadPermanentProgress();
