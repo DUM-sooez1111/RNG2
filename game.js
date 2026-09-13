@@ -143,12 +143,20 @@ const archetypes = [
   {id:'arc-beacon', name:'아크 비콘', icon:'ARC', kind:'spark', ability:'shock', range:150, fireRate:.48, damage:18},
   {id:'volt-prism', name:'볼트 프리즘', icon:'VLT', kind:'spark', ability:'prism', range:120, fireRate:.3, damage:12},
   {id:'storm-pylon', name:'폭풍 파일런', icon:'STM', kind:'spark', ability:'storm', range:160, fireRate:.58, damage:24},
+  {id:'plasma-reactor', name:'플라즈마 반응로', icon:'PLS', kind:'spark', ability:'chain', range:178, fireRate:.46, damage:31},
+  {id:'thunder-rail', name:'천둥 레일', icon:'RAY', kind:'spark', ability:'shock', range:218, fireRate:.72, damage:52},
+  {id:'void-repeater', name:'공허 연사기', icon:'VOD', kind:'spark', ability:'prism', range:158, fireRate:.18, damage:18},
+  {id:'oracle-tesla', name:'오라클 테슬라', icon:'ORA', kind:'spark', ability:'storm', range:190, fireRate:.52, damage:38},
   {id:'root-cannon', name:'루트 캐논', icon:'CAN', kind:'cannon', ability:'splash', range:172, fireRate:1.08, damage:48},
   {id:'bastion-mortar', name:'바스티온 박격포', icon:'MOR', kind:'cannon', ability:'mortar', range:205, fireRate:1.44, damage:68},
   {id:'ember-howitzer', name:'잿불 곡사포', icon:'EMB', kind:'cannon', ability:'burn', range:148, fireRate:.82, damage:42},
   {id:'flame-thrower', name:'화염방사기', icon:'FLM', kind:'cannon', ability:'flame', range:124, fireRate:.24, damage:20},
   {id:'volcano-bastion', name:'화산 바스티온', icon:'VLC', kind:'cannon', ability:'volcano', range:194, fireRate:1.72, damage:116},
   {id:'barricade', name:'바리케이드', icon:'WALL', kind:'cannon', ability:'barricade', range:82, fireRate:1.3, damage:82},
+  {id:'siege-ballista', name:'공성 발리스타', icon:'BAL', kind:'cannon', ability:'splash', range:240, fireRate:1.36, damage:92},
+  {id:'sunfire-cannon', name:'태양불 대포', icon:'SUN', kind:'cannon', ability:'burn', range:178, fireRate:.68, damage:64},
+  {id:'rift-launcher', name:'균열 발사기', icon:'RFT', kind:'cannon', ability:'mortar', range:230, fireRate:1.18, damage:86},
+  {id:'dragon-turret', name:'용염 포탑', icon:'DRG', kind:'cannon', ability:'flame', range:142, fireRate:.3, damage:29},
   {id:'thorn-garden', name:'가시 정원', icon:'THN', kind:'thorns', ability:'root', range:42, fireRate:.42, damage:10},
   {id:'frost-bramble', name:'서리 덤불', icon:'FRS', kind:'thorns', ability:'freeze', range:55, fireRate:.58, damage:15},
   {id:'venom-hedge', name:'맹독 울타리', icon:'VNM', kind:'thorns', ability:'poison', range:48, fireRate:.34, damage:9},
@@ -680,6 +688,14 @@ function drawPlacedTower(t) {
       ctx.fillStyle='#bd9bff';ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(22,-15);ctx.lineTo(32,0);ctx.lineTo(22,15);ctx.closePath();ctx.fill();ctx.strokeStyle='#fff4ff';ctx.lineWidth=2;ctx.stroke();
     } else if(model==='storm-pylon'){
       ctx.strokeStyle='#f3e779';ctx.lineWidth=4;for(let y=-11;y<=11;y+=11){ctx.beginPath();ctx.moveTo(3,y);ctx.lineTo(29,y-8);ctx.stroke();}ctx.fillStyle='#8ae8ff';ctx.fillRect(4,-5,14,10);
+    } else if(model==='plasma-reactor'){
+      ctx.fillStyle='#2d315e';ctx.beginPath();ctx.arc(5,0,18,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ff6ee7';ctx.lineWidth=3;ctx.beginPath();ctx.arc(5,0,15,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#f8dbff';ctx.beginPath();ctx.arc(5,0,7,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#88f8ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(17,-10);ctx.lineTo(34,-18);ctx.lineTo(39,0);ctx.lineTo(34,18);ctx.lineTo(17,10);ctx.stroke();
+    } else if(model==='thunder-rail'){
+      ctx.fillStyle='#35455a';ctx.fillRect(-7,-13,22,26);ctx.fillStyle='#93dbff';ctx.fillRect(11,-5,43,10);ctx.strokeStyle='#eaffff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(16,-5);ctx.lineTo(53,0);ctx.lineTo(16,5);ctx.stroke();ctx.fillStyle='#ffe36a';ctx.beginPath();ctx.arc(4,0,7,0,Math.PI*2);ctx.fill();
+    } else if(model==='void-repeater'){
+      ctx.fillStyle='#332856';ctx.beginPath();ctx.moveTo(-5,0);ctx.lineTo(10,-18);ctx.lineTo(30,-11);ctx.lineTo(37,0);ctx.lineTo(30,11);ctx.lineTo(10,18);ctx.closePath();ctx.fill();ctx.strokeStyle='#c28bff';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#f2d9ff';for(let y=-9;y<=9;y+=9){ctx.beginPath();ctx.arc(31,y,4,0,Math.PI*2);ctx.fill();}
+    } else if(model==='oracle-tesla'){
+      ctx.fillStyle='#29434d';ctx.beginPath();ctx.moveTo(0,16);ctx.lineTo(8,-22);ctx.lineTo(17,16);ctx.closePath();ctx.fill();ctx.strokeStyle='#9dfff0';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#f6ffb0';ctx.beginPath();ctx.arc(8,-24,7,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#84c8ff';ctx.lineWidth=2;for(let i=0;i<3;i++){ctx.beginPath();ctx.arc(8,-24,13+i*5,-1.1,1.1);ctx.stroke();}
     } else if(model==='root-cannon'){
       ctx.fillStyle='#8b6b42';ctx.fillRect(1,-8,31,16);ctx.fillStyle='#c3a36d';ctx.fillRect(22,-5,15,10);ctx.strokeStyle='#4b3526';ctx.lineWidth=3;ctx.strokeRect(1,-8,31,16);
     } else if(model==='bastion-mortar'){
@@ -690,6 +706,14 @@ function drawPlacedTower(t) {
       ctx.fillStyle='#4d3439';ctx.beginPath();ctx.moveTo(-2,14);ctx.lineTo(8,-18);ctx.lineTo(31,-18);ctx.lineTo(42,14);ctx.closePath();ctx.fill();ctx.strokeStyle='#261e29';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#ff813f';ctx.beginPath();ctx.moveTo(16,-14);ctx.lineTo(23,-31);ctx.lineTo(31,-14);ctx.closePath();ctx.fill();ctx.fillStyle='#ffd65e';ctx.beginPath();ctx.arc(22,-9,5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ff9b47';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(14,4);ctx.lineTo(24,10);ctx.lineTo(34,3);ctx.stroke();
     } else if(model==='barricade'){
       ctx.fillStyle='#6a5d47';ctx.fillRect(-5,-17,34,34);ctx.fillStyle='#b49a63';ctx.fillRect(-1,-13,26,26);ctx.strokeStyle='#e7d393';ctx.lineWidth=2;for(let y=-8;y<=8;y+=8){ctx.beginPath();ctx.moveTo(-1,y);ctx.lineTo(25,y);ctx.stroke();}ctx.fillStyle='#92d8e1';ctx.fillRect(25,-6,14,12);ctx.strokeStyle='#34525d';ctx.lineWidth=3;ctx.strokeRect(-5,-17,34,34);
+    } else if(model==='siege-ballista'){
+      ctx.fillStyle='#634b37';ctx.beginPath();ctx.moveTo(-8,15);ctx.lineTo(5,-16);ctx.lineTo(22,15);ctx.closePath();ctx.fill();ctx.strokeStyle='#e0b878';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(5,-8);ctx.lineTo(48,-22);ctx.lineTo(48,22);ctx.closePath();ctx.stroke();ctx.fillStyle='#f4d68a';ctx.beginPath();ctx.moveTo(43,0);ctx.lineTo(59,-5);ctx.lineTo(59,5);ctx.closePath();ctx.fill();
+    } else if(model==='sunfire-cannon'){
+      ctx.fillStyle='#874338';ctx.beginPath();ctx.arc(5,0,18,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffb44e';ctx.fillRect(13,-8,34,16);ctx.fillStyle='#fff3a2';ctx.beginPath();ctx.arc(48,0,9,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#ff7351';ctx.lineWidth=3;for(let i=0;i<6;i++){const angle=i*Math.PI/3;ctx.beginPath();ctx.moveTo(48+Math.cos(angle)*12,Math.sin(angle)*12);ctx.lineTo(48+Math.cos(angle)*20,Math.sin(angle)*20);ctx.stroke();}
+    } else if(model==='rift-launcher'){
+      ctx.fillStyle='#3d3658';ctx.beginPath();ctx.arc(4,0,18,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#b98cff';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#745ad3';ctx.beginPath();ctx.moveTo(12,-11);ctx.lineTo(43,-15);ctx.lineTo(50,0);ctx.lineTo(43,15);ctx.lineTo(12,11);ctx.closePath();ctx.fill();ctx.fillStyle='#e2c5ff';ctx.beginPath();ctx.arc(43,0,7,0,Math.PI*2);ctx.fill();
+    } else if(model==='dragon-turret'){
+      ctx.fillStyle='#713c35';ctx.beginPath();ctx.arc(2,0,18,0,Math.PI*2);ctx.fill();ctx.fillStyle='#c55a40';ctx.beginPath();ctx.moveTo(11,-10);ctx.lineTo(42,-14);ctx.lineTo(52,0);ctx.lineTo(42,14);ctx.lineTo(11,10);ctx.closePath();ctx.fill();ctx.fillStyle='#ffe06b';ctx.beginPath();ctx.moveTo(47,0);ctx.lineTo(65,-9);ctx.lineTo(60,0);ctx.lineTo(65,9);ctx.closePath();ctx.fill();ctx.fillStyle='#2b2028';ctx.beginPath();ctx.arc(35,-4,3,0,Math.PI*2);ctx.fill();
     } else {
       ctx.fillStyle='#ad4d35';ctx.fillRect(0,-9,34,18);ctx.fillStyle='#ffbb57';ctx.fillRect(25,-5,18,10);ctx.fillStyle='#ffed8b';ctx.beginPath();ctx.moveTo(41,0);ctx.lineTo(51,-8);ctx.lineTo(49,8);ctx.closePath();ctx.fill();ctx.strokeStyle='#562b2d';ctx.lineWidth=3;ctx.strokeRect(0,-9,34,18);
     }
